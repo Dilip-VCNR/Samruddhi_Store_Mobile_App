@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:samruddhi_store/utils/routes.dart';
 
 import 'auth/view/login_screen.dart';
+import 'auth/view/mark_location.dart';
 import 'auth/view/otp_screen.dart';
 import 'auth/view/register_screen.dart';
 
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         Routes.loginRoute: (context) => const LoginScreen(),
         Routes.otpScreenRoute: (context) => const OtpScreen(),
         Routes.registerRoute: (context) => const RegisterScreen(),
+        Routes.markLocationRoute: (context) => const MarkLocation(),
       }
     );
   }
