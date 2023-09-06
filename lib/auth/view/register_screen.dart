@@ -93,6 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           Expanded(
                             child: TextFormField(
+                              textInputAction: TextInputAction.next,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please enter valid store name';
@@ -135,6 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           Expanded(
                             child: TextFormField(
+                              textInputAction: TextInputAction.next,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please enter valid email';
@@ -177,6 +179,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           Expanded(
                             child: TextFormField(
+                              textInputAction: TextInputAction.next,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please enter Store display name';
@@ -219,6 +222,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           Expanded(
                             child: TextFormField(
+                              textInputAction: TextInputAction.done,
                               validator: (value) {
                                 if (value!.isEmpty) {
                                   return 'Please enter valid gst';

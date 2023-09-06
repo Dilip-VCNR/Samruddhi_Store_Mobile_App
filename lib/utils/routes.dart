@@ -7,4 +7,7 @@ class Routes {
   static const String webViewRoute = "/webView";
   static const String faqRoute = "/faq";
   static const String markLocationRoute = "/markLocation";
+  static const String viewOrderDetailRoute = "/viewOrderDetail";
+  static const String addProductRoute = "/addProduct";
+  static const String editProductRoute = "/editProduct";
 }

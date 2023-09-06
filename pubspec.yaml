@@ -45,6 +45,10 @@ dependencies:
   flutter_google_maps_webservices: ^1.1.1
   toastification: ^0.0.3
   lottie: ^2.6.0
+  flutter_snake_navigationbar: ^0.6.1
+  firebase_core: ^2.15.1
+  url_launcher: ^6.1.12
+
 
 
 dev_dependencies:
@@ -71,6 +75,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/lottie/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

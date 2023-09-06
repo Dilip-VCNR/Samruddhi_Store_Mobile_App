@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
 
 import '../../utils/app_colors.dart';
-import '../../utils/app_widgets.dart';
+import '../../utils/routes.dart';
 import '../../utils/url_constants.dart';
 import '../controller/location_controller.dart';
 
@@ -84,7 +84,7 @@ class _MarkLocationState extends State<MarkLocation> {
             zoomGesturesEnabled: true,
             initialCameraPosition: CameraPosition(
               target:
-              LatLng(currentLocation.latitude, currentLocation.longitude),
+                  LatLng(currentLocation.latitude, currentLocation.longitude),
               zoom: 14.0,
             ),
             mapType: MapType.normal,
@@ -124,7 +124,7 @@ class _MarkLocationState extends State<MarkLocation> {
                         borderSide: BorderSide.none,
                       ),
                       contentPadding:
-                      const EdgeInsets.symmetric(vertical: 16.0),
+                          const EdgeInsets.symmetric(vertical: 16.0),
                     ),
                     textEditingController: searchController,
                     googleAPIKey: UrlConstant.googleApiKey,
@@ -164,7 +164,7 @@ class _MarkLocationState extends State<MarkLocation> {
       builder: (context, cameraPosition, _) {
         return FutureBuilder<Map<String, dynamic>>(
           future:
-          locationController.getAddressFromLatLong(cameraPosition.target),
+              locationController.getAddressFromLatLong(cameraPosition.target),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Container(
@@ -273,9 +273,6 @@ class _MarkLocationState extends State<MarkLocation> {
       Map<dynamic, dynamic> arguments) {
     final formKey = GlobalKey<FormState>();
 
-    List<String> addressType = ['Home', 'Office', 'Others'];
-    String selectedAddressType = '';
-
     TextEditingController addressController = TextEditingController();
     TextEditingController stateController = TextEditingController();
     TextEditingController cityController = TextEditingController();
@@ -326,38 +323,6 @@ class _MarkLocationState extends State<MarkLocation> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      children: [
-                        for (int i = 0; i < addressType.length; i++)
-                          GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                selectedAddressType = addressType[i];
-                              });
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: addressType[i] == selectedAddressType
-                                      ? AppColors.secondaryColor
-                                      : Colors.grey,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(20))),
-                              margin:
-                              const EdgeInsets.symmetric(horizontal: 10),
-                              padding: const EdgeInsets.all(10),
-                              child: Center(
-                                child: Text(
-                                  addressType[i],
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
                     TextFormField(
                       controller: addressController,
                       validator: (value) {
@@ -378,7 +343,7 @@ class _MarkLocationState extends State<MarkLocation> {
                           borderSide: BorderSide.none,
                         ),
                         contentPadding:
-                        const EdgeInsets.symmetric(vertical: 16.0),
+                            const EdgeInsets.symmetric(vertical: 16.0),
                       ),
                       textAlignVertical: TextAlignVertical.center,
                     ),
@@ -405,7 +370,7 @@ class _MarkLocationState extends State<MarkLocation> {
                           borderSide: BorderSide.none,
                         ),
                         contentPadding:
-                        const EdgeInsets.symmetric(vertical: 16.0),
+                            const EdgeInsets.symmetric(vertical: 16.0),
                       ),
                       textAlignVertical: TextAlignVertical.center,
                     ),
@@ -432,7 +397,7 @@ class _MarkLocationState extends State<MarkLocation> {
                           borderSide: BorderSide.none,
                         ),
                         contentPadding:
-                        const EdgeInsets.symmetric(vertical: 16.0),
+                            const EdgeInsets.symmetric(vertical: 16.0),
                       ),
                       textAlignVertical: TextAlignVertical.center,
                     ),
@@ -459,7 +424,7 @@ class _MarkLocationState extends State<MarkLocation> {
                           borderSide: BorderSide.none,
                         ),
                         contentPadding:
-                        const EdgeInsets.symmetric(vertical: 16.0),
+                            const EdgeInsets.symmetric(vertical: 16.0),
                       ),
                       textAlignVertical: TextAlignVertical.center,
                     ),
@@ -469,7 +434,10 @@ class _MarkLocationState extends State<MarkLocation> {
                     GestureDetector(
                       onTap: () async {
                         if (formKey.currentState!.validate()) {
-                          showLoaderDialog(context);
+                          print("hello");
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, Routes.dashboardRoute, (route) => false);
+                          // showLoaderDialog(context);
                           // await locationController.addNewAddress(context, {
                           //   "type": selectedAddressType,
                           //   "address": addressController.text,
@@ -498,7 +466,7 @@ class _MarkLocationState extends State<MarkLocation> {
                             Text(
                               'Save address',
                               style:
-                              TextStyle(color: Colors.white, fontSize: 17),
+                                  TextStyle(color: Colors.white, fontSize: 17),
                             ),
                           ],
                         ),

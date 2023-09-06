@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:samruddhi_store/dashboard/my_products/view/edit_product.dart';
+import 'package:samruddhi_store/dashboard/orders/view/view_order_detail.dart';
 import 'package:samruddhi_store/splash/view/splash_screen.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,6 +11,8 @@ import 'auth/view/login_screen.dart';
 import 'auth/view/mark_location.dart';
 import 'auth/view/otp_screen.dart';
 import 'auth/view/register_screen.dart';
+import 'dashboard/dashboard_screen.dart';
+import 'dashboard/my_products/view/add_product.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +43,10 @@ class MyApp extends StatelessWidget {
         Routes.otpScreenRoute: (context) => const OtpScreen(),
         Routes.registerRoute: (context) => const RegisterScreen(),
         Routes.markLocationRoute: (context) => const MarkLocation(),
+        Routes.dashboardRoute: (context) => const DashboardScreen(),
+        Routes.viewOrderDetailRoute: (context) => const ViewOrderDetail(),
+        Routes.addProductRoute: (context) => const AddProduct(),
+        Routes.editProductRoute: (context) => const EditProduct(),
       }
     );
   }
