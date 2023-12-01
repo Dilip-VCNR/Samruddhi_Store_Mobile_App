@@ -6,7 +6,8 @@ import 'package:google_places_autocomplete_text_field/google_places_autocomplete
 import '../../utils/app_colors.dart';
 import '../../utils/routes.dart';
 import '../../utils/url_constants.dart';
-import '../controller/location_controller.dart';
+import '../provider/location_provider.dart';
+
 
 class MarkLocation extends StatefulWidget {
   const MarkLocation({Key? key}) : super(key: key);
