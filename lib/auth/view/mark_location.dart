@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_autocomplete_text_field/google_places_autocomplete_text_field.dart';
-
+import 'package:provider/provider.dart';
+import 'package:samruddhi_store/auth/provider/auth_provider.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/routes.dart';
 import '../../utils/url_constants.dart';
-import '../provider/location_provider.dart';
 
 
 class MarkLocation extends StatefulWidget {
@@ -17,14 +17,8 @@ class MarkLocation extends StatefulWidget {
 }
 
 class _MarkLocationState extends State<MarkLocation> {
-  GoogleMapController? mapController;
+
   ValueNotifier<CameraPosition>? cameraPositionNotifier;
-  String location = "Search location";
-
-  LocationController locationController = LocationController();
-
-  TextEditingController searchController = TextEditingController();
-
   @override
   void dispose() {
     cameraPositionNotifier!.dispose();
@@ -42,227 +36,237 @@ class _MarkLocationState extends State<MarkLocation> {
         zoom: 14.0));
     var screenSize = MediaQuery.of(context).size;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Add new address',
-          style: TextStyle(
-            color: AppColors.fontColor,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
+    return Consumer<AuthProvider>(
+      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'Add new address',
+              style: TextStyle(
+                color: AppColors.fontColor,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
-        ),
-      ),
-      floatingActionButton: Align(
-          alignment: Alignment.bottomCenter,
-          child: FloatingActionButton.extended(
-            backgroundColor: Colors.white,
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              searchController.clear();
-              mapController?.animateCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                      target: LatLng(
-                          currentLocation.latitude, currentLocation.longitude),
-                      zoom: 17.0),
-                ),
-              );
-            },
-            label: const Text(
-              "Use current location",
-              style: TextStyle(color: Colors.black),
-            ),
-            icon: const Icon(
-              Icons.my_location,
-              color: Colors.black,
-            ),
-          )),
-      body: Stack(
-        children: [
-          GoogleMap(
-            myLocationButtonEnabled: true,
-            zoomGesturesEnabled: true,
-            initialCameraPosition: CameraPosition(
-              target:
-                  LatLng(currentLocation.latitude, currentLocation.longitude),
-              zoom: 14.0,
-            ),
-            mapType: MapType.normal,
-            onMapCreated: (controller) {
-              setState(() {
-                mapController = controller;
-              });
-            },
-            onCameraMove: (position) {
-              cameraPositionNotifier!.value = position;
-            },
-          ),
-          const Center(
-              child: Icon(Icons.location_pin,
-                  color: AppColors.primaryColor, size: 50)),
-          Positioned(
-              top: 10,
-              child: Container(
-                width: screenSize.width,
-                padding: const EdgeInsets.all(20),
-                child: GooglePlacesAutoCompleteTextFormField(
-                    textAlignVertical: TextAlignVertical.center,
-                    inputDecoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.search),
-                      suffixIcon: InkWell(
-                          onTap: () {
-                            searchController.clear();
-                          },
-                          child: const Icon(Icons.clear)),
-                      hintText: 'Search a place',
-                      counterText: "",
-                      isCollapsed: true,
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding:
-                          const EdgeInsets.symmetric(vertical: 16.0),
+          floatingActionButton: Align(
+              alignment: Alignment.bottomCenter,
+              child: FloatingActionButton.extended(
+                backgroundColor: Colors.white,
+                onPressed: () {
+                  FocusScope.of(context).unfocus();
+                  authProvider.searchController.clear();
+                  authProvider.mapController?.animateCamera(
+                    CameraUpdate.newCameraPosition(
+                      CameraPosition(
+                          target: LatLng(
+                              currentLocation.latitude, currentLocation.longitude),
+                          zoom: 17.0),
                     ),
-                    textEditingController: searchController,
-                    googleAPIKey: UrlConstant.googleApiKey,
-                    debounceTime: 400,
-                    countries: const ["In"],
-                    isLatLngRequired: true,
-                    getPlaceDetailWithLatLng: (prediction) async {
-                      FocusScope.of(context).unfocus();
-                      setState(() {
-                        location = prediction.description ?? "Search location";
-                      });
-                      var newLatLng = LatLng(double.parse(prediction.lat!),
-                          double.parse(prediction.lng!));
-
-                      mapController?.animateCamera(
-                        CameraUpdate.newCameraPosition(
-                          CameraPosition(target: newLatLng, zoom: 17),
+                  );
+                },
+                label: const Text(
+                  "Use current location",
+                  style: TextStyle(color: Colors.black),
+                ),
+                icon: const Icon(
+                  Icons.my_location,
+                  color: Colors.black,
+                ),
+              )),
+          body: Stack(
+            children: [
+              GoogleMap(
+                myLocationButtonEnabled: true,
+                zoomGesturesEnabled: true,
+                initialCameraPosition: CameraPosition(
+                  target:
+                  LatLng(currentLocation.latitude, currentLocation.longitude),
+                  zoom: 14.0,
+                ),
+                mapType: MapType.normal,
+                onMapCreated: (controller) {
+                  setState(() {
+                    authProvider.mapController = controller;
+                  });
+                },
+                onCameraMove: (position) {
+                  cameraPositionNotifier!.value = position;
+                },
+              ),
+              const Center(
+                  child: Icon(Icons.location_pin,
+                      color: AppColors.primaryColor, size: 50)),
+              Positioned(
+                  top: 10,
+                  child: Container(
+                    width: screenSize.width,
+                    padding: const EdgeInsets.all(20),
+                    child: GooglePlacesAutoCompleteTextFormField(
+                        textAlignVertical: TextAlignVertical.center,
+                        inputDecoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: InkWell(
+                              onTap: () {
+                                authProvider.searchController.clear();
+                              },
+                              child: const Icon(Icons.clear)),
+                          hintText: 'Search a place',
+                          counterText: "",
+                          isCollapsed: true,
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding:
+                          const EdgeInsets.symmetric(vertical: 16.0),
                         ),
-                      );
-                    },
-                    itmClick: (prediction) async {
-                      searchController.text = prediction.description!;
-                      searchController.selection = TextSelection.fromPosition(
-                          TextPosition(offset: prediction.description!.length));
-                    }),
-              ))
-        ],
-      ),
-      bottomNavigationBar: _buildMapConfirmationBar(screenSize, arguments),
+                        textEditingController: authProvider.searchController,
+                        googleAPIKey: UrlConstant.googleApiKey,
+                        debounceTime: 400,
+                        countries: const ["In"],
+                        isLatLngRequired: true,
+                        getPlaceDetailWithLatLng: (prediction) async {
+                          FocusScope.of(context).unfocus();
+                          setState(() {
+                            authProvider.location = prediction.description ?? "Search location";
+                          });
+                          var newLatLng = LatLng(double.parse(prediction.lat!),
+                              double.parse(prediction.lng!));
+
+                          authProvider.mapController?.animateCamera(
+                            CameraUpdate.newCameraPosition(
+                              CameraPosition(target: newLatLng, zoom: 17),
+                            ),
+                          );
+                        },
+                        itmClick: (prediction) async {
+                          authProvider.searchController.text = prediction.description!;
+                          authProvider.searchController.selection = TextSelection.fromPosition(
+                              TextPosition(offset: prediction.description!.length));
+                        }),
+                  ))
+            ],
+          ),
+          bottomNavigationBar: _buildMapConfirmationBar(screenSize, arguments),
+        );
+
+      },
     );
   }
 
   Widget _buildMapConfirmationBar(
       Size screenSize, Map<dynamic, dynamic> arguments) {
-    return ValueListenableBuilder<CameraPosition>(
-      valueListenable: cameraPositionNotifier!,
-      builder: (context, cameraPosition, _) {
-        return FutureBuilder<Map<String, dynamic>>(
-          future:
-              locationController.getAddressFromLatLong(cameraPosition.target),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                height: screenSize.height / 6,
-                width: screenSize.width,
-                color: Colors.white,
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            } else if (snapshot.hasData) {
-              return Container(
-                  padding: const EdgeInsets.all(20),
-                  width: screenSize.width,
-                  color: Colors.white,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
+    return Consumer<AuthProvider>(
+      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        return ValueListenableBuilder<CameraPosition>(
+          valueListenable: cameraPositionNotifier!,
+          builder: (context, cameraPosition, _) {
+            return FutureBuilder<Map<String, dynamic>>(
+              future:
+              authProvider.getAddressFromLatLong(cameraPosition.target),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Container(
+                    height: screenSize.height / 6,
+                    width: screenSize.width,
+                    color: Colors.white,
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  return Container(
+                      padding: const EdgeInsets.all(20),
+                      width: screenSize.width,
+                      color: Colors.white,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Icon(
-                            Icons.location_on_rounded,
-                            size: 40,
-                            color: AppColors.primaryColor,
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              Text(
-                                snapshot.data!['subLocality'] != ""
-                                    ? snapshot.data!['subLocality']
-                                    : snapshot.data!['name'].toString(),
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              const Icon(
+                                Icons.location_on_rounded,
+                                size: 40,
+                                color: AppColors.primaryColor,
                               ),
-                              SizedBox(
-                                  width: screenSize.width / 2,
-                                  child: Text(
-                                    snapshot.data!['locality'],
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    snapshot.data!['subLocality'] != ""
+                                        ? snapshot.data!['subLocality']
+                                        : snapshot.data!['name'].toString(),
                                     style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.normal),
-                                  )),
+                                        fontSize: 20, fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                      width: screenSize.width / 2,
+                                      child: Text(
+                                        snapshot.data!['locality'],
+                                        style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal),
+                                      )),
+                                ],
+                              )
                             ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              showInputCompleteAddressModal(context, snapshot.data!,
+                                  cameraPosition.target, arguments,authProvider);
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(vertical: 13.0),
+                              decoration: const BoxDecoration(
+                                color: AppColors.secondaryColor,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.0),
+                                ),
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Enter full address',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 17),
+                                  ),
+                                ],
+                              ),
+                            ),
                           )
                         ],
+                      ));
+                } else {
+                  return Container(
+                    width: screenSize.width,
+                    height: screenSize.height / 4,
+                    color: Colors.white,
+                    child: const Center(
+                      child: Text(
+                        'Error retrieving location',
+                        style: TextStyle(fontSize: 16),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          showInputCompleteAddressModal(context, snapshot.data!,
-                              cameraPosition.target, arguments);
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 13.0),
-                          decoration: const BoxDecoration(
-                            color: AppColors.secondaryColor,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'Enter full address',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 17),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ));
-            } else {
-              return Container(
-                width: screenSize.width,
-                height: screenSize.height / 4,
-                color: Colors.white,
-                child: const Center(
-                  child: Text(
-                    'Error retrieving location',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              );
-            }
+                    ),
+                  );
+                }
+              },
+            );
           },
         );
+
       },
     );
   }
@@ -271,7 +275,7 @@ class _MarkLocationState extends State<MarkLocation> {
       BuildContext context,
       Map<String, dynamic> locationData,
       LatLng target,
-      Map<dynamic, dynamic> arguments) {
+      Map<dynamic, dynamic> arguments, AuthProvider authProvider) {
     final formKey = GlobalKey<FormState>();
 
     TextEditingController addressController = TextEditingController();
@@ -435,19 +439,10 @@ class _MarkLocationState extends State<MarkLocation> {
                     GestureDetector(
                       onTap: () async {
                         if (formKey.currentState!.validate()) {
+                          authProvider.registerNewStore(context);
                           print("hello");
                           Navigator.pushNamedAndRemoveUntil(
                               context, Routes.dashboardRoute, (route) => false);
-                          // showLoaderDialog(context);
-                          // await locationController.addNewAddress(context, {
-                          //   "type": selectedAddressType,
-                          //   "address": addressController.text,
-                          //   "city": cityController.text,
-                          //   "state": stateController.text,
-                          //   "zipCode": postalCodeController.text,
-                          //   "lat": target.latitude,
-                          //   "lng": target.longitude,
-                          // });
                         }
                         return;
                       },

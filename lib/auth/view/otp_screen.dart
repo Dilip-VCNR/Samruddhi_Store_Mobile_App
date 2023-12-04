@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:otp_text_field/otp_field.dart';
-import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
 import '../../utils/app_colors.dart';
-import '../../utils/routes.dart';
 import '../provider/auth_provider.dart';
 
 class OtpScreen extends StatefulWidget {

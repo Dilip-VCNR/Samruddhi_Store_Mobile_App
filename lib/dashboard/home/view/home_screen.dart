@@ -77,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.only(right: 10),
                   width: screenSize.width/3-25,
-                  height: screenSize.width/3-25,
+                  height: screenSize.width/2.7-25,
                   decoration: ShapeDecoration(
                     color: AppColors.primaryColor,
                     shape: RoundedRectangleBorder(
@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.only(right: 10),
                   width: screenSize.width/3-25,
-                  height: screenSize.width/3-25,
+                  height: screenSize.width/2.7-25,
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -163,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(10),
                   margin: const EdgeInsets.only(right: 10),
                   width: screenSize.width/3-25,
-                  height: screenSize.width/3-25,
+                  height: screenSize.width/2.7-25,
                   decoration: ShapeDecoration(
                     color: AppColors.secondaryColor,
                     shape: RoundedRectangleBorder(
@@ -186,7 +186,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         "Orders\nDelivered",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -230,7 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        width: 100,
+                        width: 95,
                         height: 100,
                         decoration: ShapeDecoration(
                           image: const DecorationImage(

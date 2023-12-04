@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:samruddhi_store/auth/model/register_store_request_model.dart';
 import 'package:samruddhi_store/auth/provider/auth_provider.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
 import 'package:samruddhi_store/utils/app_widgets.dart';
@@ -239,7 +240,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         InkWell(
                           onTap: () {
                             List<String> categories = [
-                              "Grocery",
+                              "Grocery"
                               "Dairy",
                               "Stationary",
                               "Meat",
@@ -505,15 +506,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               }
                               if(context.mounted){
                                 Navigator.pop(context);
+                                RegisterStoreRequestModel reqData = RegisterStoreRequestModel();
+                                reqData.storeName = authProvider.storeNameController.text;
+                                reqData.displayName = authProvider.storeDisplayNameController.text;
+                                reqData.lat = currentPosition.latitude;
+                                reqData.lng = currentPosition.longitude;
+                                reqData.emailId = authProvider.storeMailController.text;
+                                reqData.gstNo = authProvider.gstController.text;
                                 Navigator.pushNamed(context, Routes.markLocationRoute,
                                     arguments: {
                                       "currentLocation":currentPosition,
-                                      "storeName": authProvider.storeNameController.text,
-                                      "storeMail":authProvider.storeMailController.text,
-                                      "storeDisplayName":authProvider.storeDisplayNameController.text,
-                                      "gst":authProvider.gstController.text,
-                                      "categoryType":authProvider.categoryController.text,
-                                      "deliveryType":authProvider.deliveryTypeController.text,
+                                      "reqData":reqData
                                     });
                               }
                             }

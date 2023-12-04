@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   errorStyle: const TextStyle(
                                       color: AppColors.secondaryColor),
                                   border: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                         color: Colors.black, width: 2),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -175,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       InkWell(
                         onTap: () {
                           if (authProvider.loginFormKey.currentState!.validate()) {
-                            authProvider.loginWithPhone(context,authProvider.phoneNumberController.text,authProvider.selectedCountryCode);
+                            authProvider.sendOtp(context);
                           }
                         },
                         child: Container(

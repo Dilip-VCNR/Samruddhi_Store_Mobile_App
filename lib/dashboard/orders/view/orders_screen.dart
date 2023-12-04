@@ -145,7 +145,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                       ),
                       Container(
                         width: screenSize.width / 4,
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(11),
                         decoration: ShapeDecoration(
                           color: Colors.green.shade600,
                           shape: RoundedRectangleBorder(
@@ -166,7 +166,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 14,
+                              fontSize: 12,
                               fontWeight: FontWeight.w400,
                             ),
                           ),

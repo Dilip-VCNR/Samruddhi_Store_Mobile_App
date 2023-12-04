@@ -34,7 +34,7 @@ class _OrdersListState extends State<OrdersList> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      width: 100,
+                      width: 95,
                       height: 100,
                       decoration: ShapeDecoration(
                         image: const DecorationImage(

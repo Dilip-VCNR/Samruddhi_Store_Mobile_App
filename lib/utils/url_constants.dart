@@ -8,5 +8,7 @@ class UrlConstant {
   //v2 api
   static const String apiBaseUrl = "http://103.74.138.223:8018/api/";
   static const String checkForUserApi = "${apiBaseUrl}customer/getCustomerById";
+  static const String registerStore = "${apiBaseUrl}customer/registerStore";
+
 
 }
