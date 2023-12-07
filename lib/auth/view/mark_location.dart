@@ -5,7 +5,6 @@ import 'package:google_places_autocomplete_text_field/google_places_autocomplete
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/auth/provider/auth_provider.dart';
 import '../../utils/app_colors.dart';
-import '../../utils/routes.dart';
 import '../../utils/url_constants.dart';
 
 
@@ -27,17 +26,15 @@ class _MarkLocationState extends State<MarkLocation> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    Position currentLocation = arguments['currentLocation'];
-    cameraPositionNotifier = ValueNotifier<CameraPosition>(CameraPosition(
-        target: LatLng(arguments['currentLocation'].latitude,
-            arguments['currentLocation'].longitude),
-        zoom: 14.0));
+
     var screenSize = MediaQuery.of(context).size;
 
     return Consumer<AuthProvider>(
       builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        cameraPositionNotifier = ValueNotifier<CameraPosition>(CameraPosition(
+            target: LatLng(authProvider.currentPosition!.latitude,
+                authProvider.currentPosition!.longitude),
+            zoom: 14.0));
         return Scaffold(
           appBar: AppBar(
             title: const Text(
@@ -60,7 +57,7 @@ class _MarkLocationState extends State<MarkLocation> {
                     CameraUpdate.newCameraPosition(
                       CameraPosition(
                           target: LatLng(
-                              currentLocation.latitude, currentLocation.longitude),
+                             authProvider.currentPosition!.latitude, authProvider.currentPosition!.longitude),
                           zoom: 17.0),
                     ),
                   );
@@ -81,7 +78,7 @@ class _MarkLocationState extends State<MarkLocation> {
                 zoomGesturesEnabled: true,
                 initialCameraPosition: CameraPosition(
                   target:
-                  LatLng(currentLocation.latitude, currentLocation.longitude),
+                  LatLng(authProvider.currentPosition!.latitude, authProvider.currentPosition!.longitude),
                   zoom: 14.0,
                 ),
                 mapType: MapType.normal,
@@ -125,7 +122,7 @@ class _MarkLocationState extends State<MarkLocation> {
                         ),
                         textEditingController: authProvider.searchController,
                         googleAPIKey: UrlConstant.googleApiKey,
-                        debounceTime: 400,
+                        debounceTime: 100,
                         countries: const ["In"],
                         isLatLngRequired: true,
                         getPlaceDetailWithLatLng: (prediction) async {
@@ -150,7 +147,7 @@ class _MarkLocationState extends State<MarkLocation> {
                   ))
             ],
           ),
-          bottomNavigationBar: _buildMapConfirmationBar(screenSize, arguments),
+          bottomNavigationBar: _buildMapConfirmationBar(screenSize),
         );
 
       },
@@ -158,7 +155,7 @@ class _MarkLocationState extends State<MarkLocation> {
   }
 
   Widget _buildMapConfirmationBar(
-      Size screenSize, Map<dynamic, dynamic> arguments) {
+      Size screenSize) {
     return Consumer<AuthProvider>(
       builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
         return ValueListenableBuilder<CameraPosition>(
@@ -224,7 +221,7 @@ class _MarkLocationState extends State<MarkLocation> {
                           InkWell(
                             onTap: () {
                               showInputCompleteAddressModal(context, snapshot.data!,
-                                  cameraPosition.target, arguments,authProvider);
+                                  cameraPosition.target,authProvider);
                             },
                             child: Container(
                               width: double.infinity,
@@ -275,16 +272,13 @@ class _MarkLocationState extends State<MarkLocation> {
       BuildContext context,
       Map<String, dynamic> locationData,
       LatLng target,
-      Map<dynamic, dynamic> arguments, AuthProvider authProvider) {
+       AuthProvider authProvider) {
     final formKey = GlobalKey<FormState>();
 
-    TextEditingController addressController = TextEditingController();
-    TextEditingController stateController = TextEditingController();
-    TextEditingController cityController = TextEditingController();
-    TextEditingController postalCodeController = TextEditingController();
-    postalCodeController.text = locationData['postalCode'].toString();
-    stateController.text = locationData['administrativeArea'].toString();
-    cityController.text = locationData['subAdministrativeArea'].toString();
+
+    authProvider.postalCodeController.text = locationData['postalCode'].toString();
+    authProvider.stateController.text = locationData['administrativeArea'].toString();
+    authProvider.cityController.text = locationData['subAdministrativeArea'].toString();
     return showModalBottomSheet(
       isScrollControlled: true,
       backgroundColor: Colors.white,
@@ -329,7 +323,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: addressController,
+                      controller:  authProvider.addressController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter complete address';
@@ -356,7 +350,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: stateController,
+                      controller:  authProvider.stateController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your state';
@@ -383,7 +377,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: cityController,
+                      controller:  authProvider.cityController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your city';
@@ -410,7 +404,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
-                      controller: postalCodeController,
+                      controller:  authProvider.postalCodeController,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Please enter your postal code';
@@ -441,8 +435,6 @@ class _MarkLocationState extends State<MarkLocation> {
                         if (formKey.currentState!.validate()) {
                           authProvider.registerNewStore(context);
                           print("hello");
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, Routes.dashboardRoute, (route) => false);
                         }
                         return;
                       },

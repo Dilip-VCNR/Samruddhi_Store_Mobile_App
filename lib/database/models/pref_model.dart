@@ -1,12 +1,13 @@
 import '../../auth/model/check_store_response_model.dart';
 
 class PrefModel {
-  StoreInfo?  userdata;
+  StoreInfo? userdata;
   String? email;
   String? phone;
   String? name;
   String? fcmToken;
   String? authToken;
+  // String? storeAuthToken;
 
   PrefModel({
     this.userdata,
@@ -15,16 +16,19 @@ class PrefModel {
     this.name,
     this.fcmToken,
     this.authToken,
+    // this.storeAuthToken
   });
 
   factory PrefModel.fromJson(Map<String, dynamic> parsedJson) {
     return PrefModel(
-        userdata: parsedJson['userData'] ?? "",
+        userdata: parsedJson['userData'],
         email: parsedJson['email'] ?? "",
         phone: parsedJson['phone'] ?? "",
         name: parsedJson['name'] ?? "",
         fcmToken: parsedJson['fcmToken'] ?? "",
-        authToken: parsedJson['authToken'] ?? "");
+        authToken: parsedJson['authToken'] ?? "",
+        // storeAuthToken: parsedJson['storeAuthToken'] ?? "storeTokenInfo"
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +39,7 @@ class PrefModel {
       "name": name,
       "fcmToken": fcmToken,
       "authToken": authToken,
+      // "storeAuthToken": storeAuthToken
     };
   }
 }

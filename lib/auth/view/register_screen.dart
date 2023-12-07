@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/auth/model/register_store_request_model.dart';
 import 'package:samruddhi_store/auth/provider/auth_provider.dart';
@@ -16,6 +19,17 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  File? _selectedImage;
+
+  Future<void> getImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,27 +55,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Stack(
-                  children: [
-                    const CircleAvatar(
-                      radius: 50,
-                    ),
-                    Positioned(
-                        bottom: 2,
-                        right: 2,
-                        child: CircleAvatar(
-                            radius: 15,
-                            backgroundColor: Colors.grey,
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                color: Colors.black)))
-                  ],
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 10),
+                  child:  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                          onTap: getImageFromGallery,
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                radius: 60,
+                                backgroundColor: Colors.purple.shade50,
+                                backgroundImage: _selectedImage != null
+                                    ? FileImage(_selectedImage!)
+                                    : null,
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Positioned(
+                                  bottom: 2,
+                                  right: 3,
+                                  child: CircleAvatar(
+                                      radius: 15,
+                                      backgroundColor: Colors.grey.shade400,
+                                      child: IconButton(
+                                          onPressed: () {
+                                            getImageFromGallery();
+                                          },
+                                          icon: const Icon(
+                                            Icons.file_upload_outlined,
+                                            size: 15,
+                                          ),
+                                          color: Colors.black)))
+                            ], ))
+                    ],
+                  ),
                 ),
-                Form(
+              Form(
                     key:authProvider.registerFormKey,
                     child: Column(
                       children: [
@@ -489,11 +526,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (authProvider.registerFormKey.currentState!.validate()) {
                               showLoaderDialog(context);
 
-                              Position currentPosition;
                               try {
-                                currentPosition = await authProvider.getCurrentLocation();
+                                authProvider.currentPosition = await authProvider.getCurrentLocation();
                               } catch (e) {
-                                currentPosition = const Position(
+                                authProvider.currentPosition = const Position(
                                   latitude: 10.1632,
                                   longitude: 76.6413,
                                   timestamp: null,
@@ -506,18 +542,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               }
                               if(context.mounted){
                                 Navigator.pop(context);
-                                RegisterStoreRequestModel reqData = RegisterStoreRequestModel();
-                                reqData.storeName = authProvider.storeNameController.text;
-                                reqData.displayName = authProvider.storeDisplayNameController.text;
-                                reqData.lat = currentPosition.latitude;
-                                reqData.lng = currentPosition.longitude;
-                                reqData.emailId = authProvider.storeMailController.text;
-                                reqData.gstNo = authProvider.gstController.text;
                                 Navigator.pushNamed(context, Routes.markLocationRoute,
-                                    arguments: {
-                                      "currentLocation":currentPosition,
-                                      "reqData":reqData
-                                    });
+                                    // arguments: {
+                                    //   // "currentLocation":currentPosition,
+                                    //   // "reqData":reqData
+                                    // }
+                                    );
                               }
                             }
                           },

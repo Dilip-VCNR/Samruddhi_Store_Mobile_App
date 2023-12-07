@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:samruddhi_store/auth/model/check_store_response_model.dart';
+
 List<RegisterStoreResponseModel> registerStoreResponseModelFromJson(String str) => List<RegisterStoreResponseModel>.from(json.decode(str).map((x) => RegisterStoreResponseModel.fromJson(x)));
 
 String registerStoreResponseModelToJson(List<RegisterStoreResponseModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -12,7 +14,7 @@ class RegisterStoreResponseModel {
   bool? status;
   int? statusCode;
   String? message;
-  RegisterStore? result;
+  StoreInfo? result;
 
   RegisterStoreResponseModel({
     this.status,
@@ -25,7 +27,7 @@ class RegisterStoreResponseModel {
     status: json["status"],
     statusCode: json["statusCode"],
     message: json["message"],
-    result: json["result"] == null ? null : RegisterStore.fromJson(json["result"]),
+    result: json["result"] == null ? null : StoreInfo.fromJson(json["result"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -33,130 +35,6 @@ class RegisterStoreResponseModel {
     "statusCode": statusCode,
     "message": message,
     "result": result?.toJson(),
-  };
-}
-
-class RegisterStore {
-  String? createdAt;
-  bool? isHeadquarters;
-  String? storeUid;
-  String? storeUuid;
-  String? storeName;
-  String? displayName;
-  String? gstNo;
-  String? referralcode;
-  int? mobile;
-  String? emailId;
-  String? password;
-  List<ImgArray>? documentImgArray;
-  List<AddressArray>? addressArray;
-  List<ImgArray>? storeImgArray;
-  dynamic storeFcmToken;
-  String? storeAuthToken;
-  dynamic zone;
-  dynamic deliveryType;
-  int? deliveryFee;
-  dynamic hubUuid;
-  int? storeOffer;
-  bool? isApproved;
-  bool? isDeleted;
-  bool? isHomeDelivery;
-  dynamic productName;
-  dynamic operatorUuid;
-  String? id;
-  int? v;
-
-  RegisterStore({
-    this.createdAt,
-    this.isHeadquarters,
-    this.storeUid,
-    this.storeUuid,
-    this.storeName,
-    this.displayName,
-    this.gstNo,
-    this.referralcode,
-    this.mobile,
-    this.emailId,
-    this.password,
-    this.documentImgArray,
-    this.addressArray,
-    this.storeImgArray,
-    this.storeFcmToken,
-    this.storeAuthToken,
-    this.zone,
-    this.deliveryType,
-    this.deliveryFee,
-    this.hubUuid,
-    this.storeOffer,
-    this.isApproved,
-    this.isDeleted,
-    this.isHomeDelivery,
-    this.productName,
-    this.operatorUuid,
-    this.id,
-    this.v,
-  });
-
-  factory RegisterStore.fromJson(Map<String, dynamic> json) => RegisterStore(
-    createdAt: json["createdAt"],
-    isHeadquarters: json["isHeadquarters"],
-    storeUid: json["storeUID"],
-    storeUuid: json["storeUuid"],
-    storeName: json["storeName"],
-    displayName: json["displayName"],
-    gstNo: json["gstNo"],
-    referralcode: json["referralcode"],
-    mobile: json["mobile"],
-    emailId: json["emailId"],
-    password: json["password"],
-    documentImgArray: json["documentImgArray"] == null ? [] : List<ImgArray>.from(json["documentImgArray"]!.map((x) => ImgArray.fromJson(x))),
-    addressArray: json["addressArray"] == null ? [] : List<AddressArray>.from(json["addressArray"]!.map((x) => AddressArray.fromJson(x))),
-    storeImgArray: json["storeImgArray"] == null ? [] : List<ImgArray>.from(json["storeImgArray"]!.map((x) => ImgArray.fromJson(x))),
-    storeFcmToken: json["storeFcmToken"],
-    storeAuthToken: json["storeAuthToken"],
-    zone: json["zone"],
-    deliveryType: json["deliveryType"],
-    deliveryFee: json["deliveryFee"],
-    hubUuid: json["hubUuid"],
-    storeOffer: json["storeOffer"],
-    isApproved: json["isApproved"],
-    isDeleted: json["isDeleted"],
-    isHomeDelivery: json["isHomeDelivery"],
-    productName: json["productName"],
-    operatorUuid: json["operatorUuid"],
-    id: json["_id"],
-    v: json["__v"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "createdAt": createdAt,
-    "isHeadquarters": isHeadquarters,
-    "storeUID": storeUid,
-    "storeUuid": storeUuid,
-    "storeName": storeName,
-    "displayName": displayName,
-    "gstNo": gstNo,
-    "referralcode": referralcode,
-    "mobile": mobile,
-    "emailId": emailId,
-    "password": password,
-    "documentImgArray": documentImgArray == null ? [] : List<dynamic>.from(documentImgArray!.map((x) => x.toJson())),
-    "addressArray": addressArray == null ? [] : List<dynamic>.from(addressArray!.map((x) => x.toJson())),
-    "storeImgArray": storeImgArray == null ? [] : List<dynamic>.from(storeImgArray!.map((x) => x.toJson())),
-    "storeFcmToken": storeFcmToken,
-    "storeAuthToken": storeAuthToken,
-    "zone": zone,
-    "deliveryType": deliveryType,
-    "deliveryFee": deliveryFee,
-    "hubUuid": hubUuid,
-    "storeOffer": storeOffer,
-    "isApproved": isApproved,
-    "isDeleted": isDeleted,
-    "isHomeDelivery": isHomeDelivery,
-    "productName": productName,
-    "operatorUuid": operatorUuid,
-    "_id": id,
-    "__v": v,
   };
 }
 

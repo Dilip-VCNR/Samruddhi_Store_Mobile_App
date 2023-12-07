@@ -22,7 +22,7 @@ class AuthProvider extends ChangeNotifier {
   String? lastVerificationId;
   int? lastResendToken;
   Position? currentPosition;
-  User? lastAuthUserData;
+  User? lastAuthStoreData;
 
   String otpCode = "";
 
@@ -54,8 +54,7 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController cityController = TextEditingController();
   TextEditingController stateController = TextEditingController();
   TextEditingController postalCodeController = TextEditingController();
-  TextEditingController imageController = TextEditingController();
-  TextEditingController documentController = TextEditingController();
+
 
   CountdownController controller = CountdownController(autoStart: true);
   int seconds = 30;
@@ -68,7 +67,6 @@ class AuthProvider extends ChangeNotifier {
       return false;
     }
   }
-
 
   bool? serviceEnabled;
   LocationPermission? permission;
@@ -94,6 +92,7 @@ class AuthProvider extends ChangeNotifier {
     );
     return position;
   }
+
 
   Future<void> sendOtp(BuildContext context) async {
     showLoaderDialog(context);
@@ -151,7 +150,7 @@ class AuthProvider extends ChangeNotifier {
     } else {
       if (userData.statusCode == 400 &&
           userData.message == "record not found") {
-        lastAuthUserData = user;
+        lastAuthStoreData = user;
         Navigator.pop(context);
         Navigator.pushNamed(context, Routes.registerRoute);
       } else {
@@ -160,7 +159,6 @@ class AuthProvider extends ChangeNotifier {
       }
     }
   }
-
 
   Future<Map<String, dynamic>> getAddressFromLatLong(
       LatLng selectedLocation) async {
@@ -174,30 +172,28 @@ class AuthProvider extends ChangeNotifier {
     showLoaderDialog(context);
     String? fcmToken = await FirebaseMessaging.instance.getToken();
     RegisterStoreRequestModel reqObj = RegisterStoreRequestModel();
-    reqObj.storeUuid = lastAuthUserData!.uid;
+    reqObj.isHeadquarters=true;
+    reqObj.storeUuid = lastAuthStoreData!.uid;
     reqObj.storeName = storeNameController.text;
     reqObj.emailId = storeMailController.text;
     reqObj.password = "xyz";
-    reqObj.mobile = phoneNumberController.text as int?;
+    reqObj.mobile = int.parse(phoneNumberController.text);
     reqObj.gstNo = gstController.text;
     reqObj.displayName = storeDisplayNameController.text;
     reqObj.addressType = "Primary";
     reqObj.completeAddress = addressController.text;
     reqObj.city = cityController.text;
     reqObj.state = stateController.text;
-    reqObj.lat = currentPosition!.latitude as double?;
-    reqObj.lng = currentPosition!.longitude as double?;
-    reqObj.zipCode = postalCodeController.text as int?;
-    reqObj.image = imageController.text;
-    reqObj.document = documentController.text;
-    // reqObj.fcmToken = fcmToken;
+    reqObj.lat = currentPosition!.latitude;
+    reqObj.lng = currentPosition!.longitude;
+    reqObj.zipCode = int.parse(postalCodeController.text);
 
     RegisterStoreResponseModel response =
     await apiCalls.registerNewStore(context, reqObj.toJson());
 
     if (response.statusCode == 200) {
       PrefModel prefModel = AppPref.getPref();
-      prefModel.userdata = response.result as StoreInfo?;
+      prefModel.userdata = response.result;
       await AppPref.setPref(prefModel);
       Navigator.pop(context);
       Navigator.of(context).pushNamedAndRemoveUntil(
@@ -205,14 +201,13 @@ class AuthProvider extends ChangeNotifier {
     } else {
       Navigator.pop(context);
       if (response.statusCode == 400 &&
-          response.message == "customer already exists") {
+          response.message == "Store already exists") {
         showErrorToast(context, response.message!);
       } else {
         showErrorToast(context, response.message!);
       }
     }
   }
-
 
   bool isNumeric(String? str) {
     if (str == null) {

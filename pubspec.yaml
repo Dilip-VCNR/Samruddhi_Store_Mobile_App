@@ -56,6 +56,7 @@ dependencies:
   firebase_messaging: ^14.7.5
   sms_autofill: ^2.3.0
   provider: ^6.1.1
+  image_picker: ^1.0.4
 
 
 dev_dependencies:

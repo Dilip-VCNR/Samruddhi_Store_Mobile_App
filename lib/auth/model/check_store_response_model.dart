@@ -1,6 +1,6 @@
 // To parse this JSON data, do
 //
-//     final checkStoreResponseModel = checkStoreResponseModelFromJson(jsonString);
+// final checkStoreResponseModel = checkStoreResponseModelFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -13,12 +13,14 @@ class CheckStoreResponseModel {
   int? statusCode;
   String? message;
   StoreInfo? result;
+  String? storeAuthToken;
 
   CheckStoreResponseModel({
     this.status,
     this.statusCode,
     this.message,
     this.result,
+    this.storeAuthToken
   });
 
   factory CheckStoreResponseModel.fromJson(Map<String, dynamic> json) => CheckStoreResponseModel(
@@ -26,6 +28,7 @@ class CheckStoreResponseModel {
     statusCode: json["statusCode"],
     message: json["message"],
     result: json["result"] == null ? null : StoreInfo.fromJson(json["result"]),
+    storeAuthToken : json["storeAuthToken"] ?? "storedetails",
   );
 
   Map<String, dynamic> toJson() => {
@@ -112,7 +115,7 @@ class StoreInfo {
     password: json["password"],
     addressArray: json["addressArray"] == null ? [] : List<AddressArray>.from(json["addressArray"]!.map((x) => AddressArray.fromJson(x))),
     storeFcmToken: json["storeFcmToken"],
-    storeAuthToken: json["storeAuthToken"],
+    storeAuthToken: json["storeAuthToken"] ?? "abc",
     zone: json["zone"],
     deliveryType: json["deliveryType"],
     deliveryFee: json["deliveryFee"],
