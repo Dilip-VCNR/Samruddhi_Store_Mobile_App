@@ -5,7 +5,9 @@ import 'package:toastification/toastification.dart';
 import 'app_colors.dart';
 
 showErrorToast(BuildContext context, String message) {
-  toastification.showError(
+  toastification.show(
+    style: ToastificationStyle.fillColored,
+    type: ToastificationType.error,
     context: context,
     closeOnClick: true,
     title: message,
@@ -14,7 +16,9 @@ showErrorToast(BuildContext context, String message) {
 }
 
 showSuccessToast(BuildContext context, String message) {
-  toastification.showSuccess(
+  toastification.show(
+    style: ToastificationStyle.fillColored,
+    type: ToastificationType.success,
     closeOnClick: true,
     context: context,
     title: message,
@@ -27,24 +31,24 @@ showLoaderDialog(BuildContext context) {
       barrierDismissible: false,
       context: context,
       builder: (_) => AlertDialog(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            backgroundColor: Colors.white,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Lottie.asset('assets/lottie/loading_delivery_boy.json',
-                    height: 150),
-                const Text(
-                  "Loading...",
-                  style: TextStyle(
-                      color: AppColors.secondaryColor,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                )
-              ],
-            ),
-          ));
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        backgroundColor: Colors.white,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Lottie.asset('assets/lottie/loading_delivery_boy.json', height: 150),
+            const Text(
+              "Loading...",
+              style: TextStyle(
+                  color: AppColors.primaryColor,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold),
+            )
+          ],
+        ),
+      ));
 }
+

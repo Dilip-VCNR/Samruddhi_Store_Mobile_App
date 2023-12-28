@@ -1,13 +1,21 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
-
+import 'package:flutter/material.dart';
+import '../../api_calls.dart';
 import '../../utils/routes.dart';
 
+
 class SplashController {
-  moveToCorrespondingPage(BuildContext context) {
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, Routes.loginRoute);
+  moveToCorrespondingPage(BuildContext context) async {
+    await Future.delayed(const Duration(seconds: 2), () async {
+      if (prefModel.userData == null) {
+        if (context.mounted) {
+          Navigator.pushReplacementNamed(context, Routes.loginRoute);
+        }
+      } else {
+        if (context.mounted) {
+          Navigator.pushReplacementNamed(context, Routes.dashboardRoute);
+        }
+      }
     });
   }
 }

@@ -43,11 +43,20 @@ dependencies:
   google_maps_flutter: ^2.4.0
   google_places_autocomplete_text_field: ^0.1.1
   flutter_google_maps_webservices: ^1.1.1
-  toastification: ^0.0.3
+  toastification: ^1.1.0
   lottie: ^2.6.0
   flutter_snake_navigationbar: ^0.6.1
   firebase_core: ^2.15.1
   url_launcher: ^6.1.12
+  provider: ^6.1.1
+  shared_preferences: ^2.2.2
+  firebase_auth: ^4.15.3
+  sms_autofill: ^2.3.0
+  timer_count_down: ^2.2.2
+  firebase_messaging: ^14.7.9
+  http: ^1.1.0
+  http_parser: ^4.0.2
+  image_picker: ^1.0.5
 
 
 
