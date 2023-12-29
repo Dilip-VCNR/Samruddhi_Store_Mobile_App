@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:samruddhi_store/dashboard/my_products/provider/products_provider.dart';
 import 'package:samruddhi_store/dashboard/my_products/view/edit_product.dart';
 import 'package:samruddhi_store/dashboard/orders/view/view_order_detail.dart';
 import 'package:samruddhi_store/splash/view/splash_screen.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => ProductsProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

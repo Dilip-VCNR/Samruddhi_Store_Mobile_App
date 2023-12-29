@@ -1,10 +1,15 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:samruddhi_store/auth/models/store_category_list_model.dart';
 import 'package:samruddhi_store/auth/models/store_zone_list_model.dart';
+import 'package:samruddhi_store/dashboard/my_products/models/add_product_response_model.dart';
+import 'package:samruddhi_store/dashboard/my_products/models/all_product_response_model.dart';
+import 'package:samruddhi_store/dashboard/my_products/models/product_category_list_model.dart';
+import 'package:samruddhi_store/dashboard/my_products/models/product_sub_category_list_model.dart';
 import 'package:samruddhi_store/utils/url_constants.dart';
 
 import 'auth/models/login_response_model.dart';
@@ -66,9 +71,11 @@ class ApiCalls {
       String postalCode,
       String fcmToken,
       File? selectedImage) async {
-    var request = http.MultipartRequest('POST', Uri.parse(UrlConstant.registerStore));
+    var request =
+        http.MultipartRequest('POST', Uri.parse(UrlConstant.registerStore));
     // Add form fields
-    request.fields['isHeadquarters'] = isHeadquarters=="Yes"?"true":"false";
+    request.fields['isHeadquarters'] =
+        isHeadquarters == "Yes" ? "true" : "false";
     request.fields['storeUuid'] = latestUid;
     request.fields['storeName'] = storeName!;
     request.fields['storeCategoryName'] = storeCategory!;
@@ -76,7 +83,8 @@ class ApiCalls {
     request.fields['gstNo'] = gst;
     request.fields['mobile'] = phoneNumber!;
     request.fields['emailId'] = storeEmail;
-    request.fields['isHomeDelivery'] = isHomeDelivery=="Yes"?"true":"false";
+    request.fields['isHomeDelivery'] =
+        isHomeDelivery == "Yes" ? "true" : "false";
     request.fields['deliveryType'] = deliveryType;
     request.fields['hubUuid'] = hubUuid;
     request.fields['addressType'] = addressType;
@@ -101,15 +109,9 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
-    print(Uri.parse(UrlConstant.registerStore));
-    print(request.fields);
     var response = await request.send();
-    print(response);
-    print(response.statusCode);
     var responseData = await response.stream.toBytes();
-    print(responseData);
     var responseJson = json.decode(utf8.decode(responseData));
-    print(responseJson);
     return RegisterResponseModel.fromJson(responseJson);
   }
 
@@ -121,6 +123,24 @@ class ApiCalls {
     return StoreCategoryListModel.fromJson(json.decode(response.body));
   }
 
+  Future<ProductCategoryListModel> getProductCategoryList() async {
+    http.Response response = await http.get(
+      Uri.parse(UrlConstant.productCategoryList),
+      headers: getHeaders(true),
+    );
+    // print("lol");
+    // print(response.body);
+    return ProductCategoryListModel.fromJson(json.decode(response.body));
+  }
+
+  Future<ProductSubCategoryListModel> getProductSubCategoryList() async {
+    http.Response response = await http.get(
+      Uri.parse(UrlConstant.productSubCategoryList),
+      headers: getHeaders(true),
+    );
+    return ProductSubCategoryListModel.fromJson(json.decode(response.body));
+  }
+
   Future<StoreZoneListModel> getStoreZonesList() async {
     http.Response response = await http.get(
       Uri.parse(UrlConstant.storeZoneList),
@@ -129,20 +149,81 @@ class ApiCalls {
     return StoreZoneListModel.fromJson(json.decode(response.body));
   }
 
-  // Future<HomeDataModel>fetchHomeData(double latitude, double longitude) async {
-  //   http.Response response = await hitApi(
-  //       true,
-  //       UrlConstant.userHomePage,
-  //       jsonEncode({
-  //         "customerUuid": prefModel.userData!.customerUuid,
-  //         "lat": latitude,
-  //         "lng": longitude
-  //       }));
-  //   print(response.body);
-  //   if(response.statusCode==201){
-  //     return HomeDataModel.fromJson(json.decode(response.body));
-  //   }else{
-  //     throw "err loading";
-  //   }
-  // }
+  Future<AddProductResponseModel> addNewProduct({
+    String? productSku,
+    String? productName,
+    String? productQuantity,
+    String? productCategoryName,
+    String? description,
+    String? sellingPrice,
+    String? color,
+    String? size,
+    String? quality,
+    String? productTax,
+    String? productUom,
+    String? productDiscount,
+    String? productOffer,
+    String? purchaseMinQuantity,
+    String? manufacturer,
+    String? productHsnCode,
+    String? productModel,
+    String? productSubCategoryName,
+    File? selectedImage,
+  }) async {
+    var request =
+        http.MultipartRequest('POST', Uri.parse(UrlConstant.createProduct));
+    print("case1");
+    // Add form fields
+    request.fields['productSku'] = productSku!;
+    request.fields['productName'] = productName!;
+    request.fields['storeUuid'] = prefModel.userData!.storeUuid!;
+    request.fields['storeName'] = prefModel.userData!.storeName!;
+    request.fields['productQuantity'] = productQuantity!;
+    request.fields['isAvailable'] = "true";
+    request.fields['productCategoryName'] = productCategoryName!;
+    request.fields['description'] = description!;
+    request.fields['isMrp'] = "true";
+    request.fields['sellingPrice'] = sellingPrice!;
+    request.fields['color'] = color!;
+    request.fields['size'] = size!;
+    request.fields['quality'] = quality!;
+    request.fields['productTax'] = productTax!;
+    request.fields['productUom'] = productUom!;
+    request.fields['productDiscount'] = productDiscount!;
+    request.fields['productOffer'] = productOffer!;
+    request.fields['purchaseMinQuantity'] = purchaseMinQuantity!;
+    request.fields['manufacturer'] = manufacturer!;
+    request.fields['productHsnCode'] = productHsnCode!;
+    request.fields['productModel'] = productModel!;
+    request.fields['productSubCategoryName'] = productSubCategoryName!;
+    if (selectedImage != null) {
+      var picStream = http.ByteStream(selectedImage.openRead());
+      var length = await selectedImage.length();
+      var multipartFile = http.MultipartFile(
+        'image',
+        picStream,
+        length,
+        filename: selectedImage.path.split('/').last,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      request.files.add(multipartFile);
+    }
+
+    request.headers.addAll({
+      "x-access-token": "${prefModel.userData!.storeAuthToken}",
+    });
+    var response = await request.send();
+    var responseData = await response.stream.toBytes();
+    var responseJson = json.decode(utf8.decode(responseData));
+    return AddProductResponseModel.fromJson(responseJson);
+  }
+
+  getStoreProducts() async {
+    http.Response response = await hitApi(true, UrlConstant.getAvailableProducts, jsonEncode({
+      "storeUuid":prefModel.userData!.storeUuid
+    }));
+    log(response.body);
+    return AllProductResponseModel.fromJson(json.decode(response.body));
+  }
+
 }

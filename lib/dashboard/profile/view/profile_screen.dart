@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:samruddhi_store/api_calls.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/app_colors.dart';
@@ -74,12 +75,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
+              Row(
                 children: [
                   CircleAvatar(
                     radius: 50,
                     backgroundImage:
-                    NetworkImage("https://via.placeholder.com/50x50"),
+                    NetworkImage('${UrlConstant.imageBaseUrl}${prefModel.userData!.storeImgArray![0].imageUrl!}'),
                   ),
                   SizedBox(
                     width: 20,
