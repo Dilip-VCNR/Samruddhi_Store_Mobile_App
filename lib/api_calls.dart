@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:intl/intl.dart';
 import 'package:samruddhi_store/auth/models/hub_list_response_model.dart';
 import 'package:samruddhi_store/auth/models/store_category_list_model.dart';
 import 'package:samruddhi_store/auth/models/store_zone_list_model.dart';
@@ -15,6 +16,7 @@ import 'package:samruddhi_store/utils/url_constants.dart';
 
 import 'auth/models/login_response_model.dart';
 import 'auth/models/register_response_model.dart';
+import 'dashboard/home/models/home_data_model.dart';
 import 'database/app_pref.dart';
 import 'database/models/pref_model.dart';
 
@@ -113,7 +115,6 @@ class ApiCalls {
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
-    log(responseJson.toString());
     return RegisterResponseModel.fromJson(responseJson);
   }
 
@@ -218,19 +219,30 @@ class ApiCalls {
   }
 
   getStoreProducts() async {
-    http.Response response = await hitApi(true, UrlConstant.getAvailableProducts, jsonEncode({
-      "storeUuid":prefModel.userData!.storeUuid
-    }));
-    log(response.body);
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.getAvailableProducts,
+        jsonEncode({"storeUuid": prefModel.userData!.storeUuid}));
     return AllProductResponseModel.fromJson(json.decode(response.body));
   }
 
   getHubOnZone(String selectedZone) async {
-    http.Response response = await hitApi(false, UrlConstant.getHubOnZone, jsonEncode({
-      "zone":selectedZone
-    }));
-    log(response.body);
+    http.Response response = await hitApi(
+        false, UrlConstant.getHubOnZone, jsonEncode({"zone": selectedZone}));
     return HubListResponseModel.fromJson(json.decode(response.body));
   }
 
+  Future<HomeDataModel> getHomeData() async {
+    DateTime today = DateTime.now();
+
+    String formattedDate = DateFormat('yyyy-MM-dd').format(today);
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.storeDashBoard,
+        jsonEncode({
+          "storeUuid": prefModel.userData!.storeUuid!,
+          "orderDate": formattedDate
+        }));
+    return HomeDataModel.fromJson(json.decode(response.body));
+  }
 }
