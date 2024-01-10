@@ -437,19 +437,6 @@ class _MarkLocationState extends State<MarkLocation> {
                       onTap: () async {
                         if (authProvider.primaryAddressFormKey.currentState!.validate()) {
                           await authProvider.registerNewStore();
-                          // print("hello");
-                          // Navigator.pushNamedAndRemoveUntil(
-                          //     context, Routes.dashboardRoute, (route) => false);
-                          // showLoaderDialog(context);
-                          // await locationController.addNewAddress(context, {
-                          //   "type": selectedAddressType,
-                          //   "address": addressController.text,
-                          //   "city": cityController.text,
-                          //   "state": stateController.text,
-                          //   "zipCode": postalCodeController.text,
-                          //   "lat": target.latitude,
-                          //   "lng": target.longitude,
-                          // });
                         }
                         return;
                       },

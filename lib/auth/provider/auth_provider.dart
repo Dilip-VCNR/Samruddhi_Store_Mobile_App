@@ -210,7 +210,6 @@ class AuthProvider extends ChangeNotifier {
   }
 
   getApproxLocation() async {
-    print(storeEmailController.text);
     showLoaderDialog(registerScreenContext!);
     try {
       currentPosition = await getCurrentLocation();

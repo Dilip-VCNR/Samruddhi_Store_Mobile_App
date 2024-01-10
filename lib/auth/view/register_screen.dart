@@ -67,6 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 10,),
                 Form(
                     key: authProvider.registerFormKey,
                     child: Column(
@@ -951,7 +952,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           ),
-                        ):SizedBox(),
+                        ):const SizedBox(),
                         const SizedBox(
                           height: 20,
                         ),
