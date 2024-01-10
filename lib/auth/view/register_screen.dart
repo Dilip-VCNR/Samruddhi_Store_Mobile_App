@@ -43,7 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       CircleAvatar(
                         radius: 50,
-                        backgroundColor: AppColors.fontColor,
+                        backgroundColor: Colors.grey,
                         backgroundImage: authProvider.selectedImage != null
                             ? FileImage(authProvider.selectedImage!)
                             : null,
@@ -102,9 +102,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               itemBuilder: (BuildContext context,
                                                   int index) {
                                                 return InkWell(
-                                                  onTap: () {
-                                                    authProvider.selectedZone =
-                                                        authProvider.storeZoneList!.result![index].name;
+                                                  onTap: () async {
+                                                    authProvider.selectedZone = authProvider.storeZoneList!.result![index].name;
+                                                    await authProvider.getHubOnZone();
                                                     Navigator.pop(context);
                                                   },
                                                   child: Column(
@@ -119,11 +119,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                             vertical: 10),
                                                         child: Text(
                                                           authProvider.storeZoneList!.result![index].name!,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 18),
                                                         ),
                                                       ),
-                                                      Divider()
+                                                      const Divider()
                                                     ],
                                                   ),
                                                 );
@@ -367,11 +367,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                             vertical: 10),
                                                         child: Text(
                                                           isHeadquartersList[index],
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 18),
                                                         ),
                                                       ),
-                                                      Divider()
+                                                      const Divider()
                                                     ],
                                                   ),
                                                 );
@@ -476,92 +476,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ],
                           ),
                         ),
-                        // Container(
-                        //   margin: const EdgeInsets.symmetric(vertical: 10),
-                        //   width: screenSize.width,
-                        //   padding: const EdgeInsets.symmetric(
-                        //       vertical: 15, horizontal: 10),
-                        //   decoration: BoxDecoration(
-                        //       border: Border.all(color: Colors.grey),
-                        //       borderRadius:
-                        //       const BorderRadius.all(Radius.circular(10))),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.start,
-                        //     crossAxisAlignment: CrossAxisAlignment.start,
-                        //     mainAxisSize: MainAxisSize.min,
-                        //     children: [
-                        //       const Icon(Icons.receipt),
-                        //       const SizedBox(
-                        //         width: 10,
-                        //       ),
-                        //       Expanded(
-                        //         child: TextFormField(
-                        //           textInputAction: TextInputAction.done,
-                        //           validator: (value) {
-                        //             if (value!.isEmpty) {
-                        //               return 'Please enter valid email';
-                        //             }
-                        //             if (authProvider.isNotValidEmail(value)) {
-                        //               return "Please enter valid email";
-                        //             }
-                        //             return null;
-                        //           },
-                        //           controller: authProvider.storeEmailController,
-                        //           keyboardType: TextInputType.number,
-                        //           maxLength: 10,
-                        //           decoration: const InputDecoration(
-                        //               hintText: 'Email',
-                        //               counterText: "",
-                        //               isCollapsed: true,
-                        //               border: InputBorder.none),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.receipt),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textInputAction: TextInputAction.done,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid hubUuid';
-                                    }
-                                    // if (authProvider.isNotValidEmail(value)) {
-                                    //   return "Please enter valid hubUuid";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.hubUuidController,
-                                  keyboardType: TextInputType.number,
-                                  maxLength: 10,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Hub uid',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                         InkWell(
                           onTap: () {
                             showModalBottomSheet(
@@ -595,7 +509,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 return InkWell(
                                                   onTap: () {
                                                     authProvider.selectedCategory =
-                                                    authProvider.storeCategoryList!.result![index].storeCategoryName;
+                                                        authProvider.storeCategoryList!.result![index].storeCategoryName;
                                                     Navigator.pop(context);
                                                   },
                                                   child: Column(
@@ -610,11 +524,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                             vertical: 10),
                                                         child: Text(
                                                           authProvider.storeCategoryList!.result![index].storeCategoryName!,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 18),
                                                         ),
                                                       ),
-                                                      Divider()
+                                                      const Divider()
                                                     ],
                                                   ),
                                                 );
@@ -624,11 +538,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                   );
                                 }).then((value) {
-                                  if(authProvider.selectedCategory!=null){
-                                    setState(() {
-                                      authProvider.categoryController.text = authProvider.selectedCategory!;
-                                    });
-                                  }
+                              if(authProvider.selectedCategory!=null){
+                                setState(() {
+                                  authProvider.categoryController.text = authProvider.selectedCategory!;
+                                });
+                              }
                             });
                           },
                           child: InkWell(
@@ -733,11 +647,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                             vertical: 10),
                                                         child: Text(
                                                           homeDelivery[index],
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 18),
                                                         ),
                                                       ),
-                                                      Divider()
+                                                      const Divider()
                                                     ],
                                                   ),
                                                 );
@@ -800,7 +714,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
-                        InkWell(
+                        authProvider.homeDeliveryTypeController.text=='Yes'?InkWell(
                           onTap: () {
                             List<String> deliveryType = [
                               "Hub Delivery",
@@ -852,11 +766,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                             vertical: 10),
                                                         child: Text(
                                                           deliveryType[index],
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 18),
                                                         ),
                                                       ),
-                                                      Divider()
+                                                      const Divider()
                                                     ],
                                                   ),
                                                 );
@@ -918,7 +832,126 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ],
                             ),
                           ),
-                        ),
+                        ):const SizedBox(),
+                        authProvider.homeDeliveryTypeController.text=='Yes' && authProvider.deliveryTypeController.text == 'Hub Delivery'?InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text("Select Hub",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold)),
+                                            IconButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                icon: const Icon(Icons.close))
+                                          ],
+                                        ),
+                                        Expanded(
+                                          child: ListView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: authProvider.hubList!=null?authProvider.hubList!.result!.length:0,
+                                              itemBuilder: (BuildContext context,
+                                                  int index) {
+                                                return InkWell(
+                                                  onTap: () {
+                                                    authProvider.selectedHubUuid = authProvider.hubList!.result![index].hubUuid;
+                                                    authProvider.selectedHubName = authProvider.hubList!.result![index].hubName;
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets
+                                                            .symmetric(
+                                                            vertical: 10),
+                                                        child: Text(
+                                                          authProvider.hubList!.result![index].hubName!,
+                                                          style: const TextStyle(
+                                                              fontSize: 18),
+                                                        ),
+                                                      ),
+                                                      const Divider()
+                                                    ],
+                                                  ),
+                                                );
+                                              }),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).then((value) {
+                                  if(authProvider.selectedCategory!=null){
+                                    setState(() {
+                                      authProvider.hubController.text = authProvider.selectedHubName!;
+                                    });
+                                  }
+                            });
+                          },
+                          child: InkWell(
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              width: screenSize.width,
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius:
+                                  const BorderRadius.all(Radius.circular(10))),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(Icons.category),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    child: TextFormField(
+                                      enabled: false,
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'Please select valid Hub';
+                                        }
+                                        // if (authController.isNotValidPhone(value)) {
+                                        //   return "Please enter valid phone number";
+                                        // }
+                                        return null;
+                                      },
+                                      controller: authProvider.hubController,
+                                      keyboardType: TextInputType.number,
+                                      maxLength: 10,
+                                      decoration: const InputDecoration(
+                                          hintText: 'Delivery Hub',
+                                          counterText: "",
+                                          isCollapsed: true,
+                                          border: InputBorder.none),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  const Icon(Icons.keyboard_arrow_down),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ):SizedBox(),
                         const SizedBox(
                           height: 20,
                         ),

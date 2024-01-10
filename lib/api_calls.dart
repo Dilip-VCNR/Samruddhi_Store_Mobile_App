@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:samruddhi_store/auth/models/hub_list_response_model.dart';
 import 'package:samruddhi_store/auth/models/store_category_list_model.dart';
 import 'package:samruddhi_store/auth/models/store_zone_list_model.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/add_product_response_model.dart';
@@ -112,6 +113,7 @@ class ApiCalls {
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
+    log(responseJson.toString());
     return RegisterResponseModel.fromJson(responseJson);
   }
 
@@ -128,8 +130,6 @@ class ApiCalls {
       Uri.parse(UrlConstant.productCategoryList),
       headers: getHeaders(true),
     );
-    // print("lol");
-    // print(response.body);
     return ProductCategoryListModel.fromJson(json.decode(response.body));
   }
 
@@ -172,7 +172,6 @@ class ApiCalls {
   }) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.createProduct));
-    print("case1");
     // Add form fields
     request.fields['productSku'] = productSku!;
     request.fields['productName'] = productName!;
@@ -224,6 +223,14 @@ class ApiCalls {
     }));
     log(response.body);
     return AllProductResponseModel.fromJson(json.decode(response.body));
+  }
+
+  getHubOnZone(String selectedZone) async {
+    http.Response response = await hitApi(false, UrlConstant.getHubOnZone, jsonEncode({
+      "zone":selectedZone
+    }));
+    log(response.body);
+    return HubListResponseModel.fromJson(json.decode(response.body));
   }
 
 }

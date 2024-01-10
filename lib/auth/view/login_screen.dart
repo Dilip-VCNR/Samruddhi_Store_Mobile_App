@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Text.rich(
                         TextSpan(
                           children: [
-                            TextSpan(
+                            const TextSpan(
                               text:
                                   'By clicking on proceed, you agree to our \n',
                               style: TextStyle(

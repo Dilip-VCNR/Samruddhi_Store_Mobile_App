@@ -12,6 +12,7 @@ import 'package:timer_count_down/timer_controller.dart';
 import '../../database/app_pref.dart';
 import '../../utils/app_widgets.dart';
 import '../../utils/routes.dart';
+import '../models/hub_list_response_model.dart';
 import '../models/login_response_model.dart';
 import '../models/register_response_model.dart';
 import '../models/store_category_list_model.dart';
@@ -53,6 +54,8 @@ class AuthProvider extends ChangeNotifier {
   String? isHomeDelivery;
   String? deliveryType;
   String? selectedZone;
+  String? selectedHubUuid;
+  String? selectedHubName;
 
   TextEditingController isHeadquartersController = TextEditingController();
   TextEditingController homeDeliveryTypeController = TextEditingController();
@@ -64,7 +67,7 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController storeDisplayNameController = TextEditingController();
   TextEditingController gstController = TextEditingController();
   TextEditingController storeEmailController = TextEditingController();
-  TextEditingController hubUuidController = TextEditingController();
+  TextEditingController hubController = TextEditingController();
 
   // mark location screen declarations
   GoogleMapController? mapController;
@@ -80,6 +83,8 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController postalCodeController = TextEditingController();
   BuildContext? fillAddressBottomSheetContext;
 
+
+  HubListResponseModel? hubList;
   bool isNotValidEmail(String email) {
     const emailRegex =
         r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$';
@@ -253,7 +258,7 @@ class AuthProvider extends ChangeNotifier {
         storeEmailController.text,
         homeDeliveryTypeController.text,
         deliveryTypeController.text,
-        hubUuidController.text,
+        selectedHubUuid!,
         "branchOffice",
         addressController.text,
         cityController.text,
@@ -274,6 +279,14 @@ class AuthProvider extends ChangeNotifier {
     } else {
       Navigator.pop(fillAddressBottomSheetContext!);
       showErrorToast(fillAddressBottomSheetContext!, registerResponse.message!);
+    }
+  }
+
+  getHubOnZone() async {
+    hubList = await apiCalls.getHubOnZone(selectedZone!);
+    notifyListeners();
+    if(hubList!.statusCode!=200){
+      showErrorToast(registerScreenContext!, hubList!.message!);
     }
   }
 }
