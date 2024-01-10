@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
 
+import '../../home/models/home_data_model.dart';
+
 class ViewOrderDetail extends StatefulWidget {
   const ViewOrderDetail({Key? key}) : super(key: key);
 
@@ -13,10 +15,13 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    NewOrderListArray order = arguments['orderDetails'];
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Order - #7654',
+        title:  Text(
+          '#${order.orderId}',
           style: TextStyle(
             color: AppColors.fontColor,
             fontWeight: FontWeight.w600,
@@ -38,7 +43,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -51,7 +56,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                     ),
                   ),
                   Text(
-                    '#37, First cross, second main, Third cross\nJP Nagar, Bangalore 560090',
+                    '${order.deliveryDetailsArray!.toJson()}',
                     style: TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 14,

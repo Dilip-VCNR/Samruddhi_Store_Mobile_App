@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
                IconButton(onPressed: (){}, icon: const Icon(Icons.power_settings_new))
              ],
            ),
-           body: SingleChildScrollView(
+           body: dashboardProvider.homeResponse!=null?SingleChildScrollView(
              padding: const EdgeInsets.all(20),
              child: Column(
                mainAxisAlignment: MainAxisAlignment.start,
@@ -54,11 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
                        )
                      ],
                    ),
-                   child:const Column(
+                   child:Column(
                      mainAxisAlignment: MainAxisAlignment.center,
                      crossAxisAlignment: CrossAxisAlignment.center,
                      children: [
-                       Text(
+                       const Text(
                          'Collections Today',
                          style: TextStyle(
                            color: AppColors.fontColor,
@@ -67,8 +67,8 @@ class _HomeScreenState extends State<HomeScreen> {
                          ),
                          textAlign: TextAlign.center,
                        ),Text(
-                         '₹12,345',
-                         style: TextStyle(
+                         '₹${dashboardProvider.homeResponse!.result!.counterArray![0].todaysCollection}',
+                         style: const TextStyle(
                            color: AppColors.fontColor,
                            fontSize: 22,
                            fontWeight: FontWeight.bold,
@@ -102,11 +102,11 @@ class _HomeScreenState extends State<HomeScreen> {
                            )
                          ],
                        ),
-                       child: const Column(
+                       child: Column(
                          mainAxisAlignment: MainAxisAlignment.center,
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
-                           Text(
+                           const Text(
                              "Today's \nOrders",
                              style: TextStyle(
                                color: Colors.white,
@@ -115,8 +115,8 @@ class _HomeScreenState extends State<HomeScreen> {
                              ),
                            ),
                            Text(
-                             '24',
-                             style: TextStyle(
+                             '${dashboardProvider.homeResponse!.result!.counterArray![0].allOrderCount}',
+                             style: const TextStyle(
                                color: Colors.white,
                                fontSize: 22,
                                fontWeight: FontWeight.bold,
@@ -146,11 +146,11 @@ class _HomeScreenState extends State<HomeScreen> {
                            )
                          ],
                        ),
-                       child: const Column(
+                       child: Column(
                          mainAxisAlignment: MainAxisAlignment.center,
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
-                           Text(
+                           const Text(
                              "Pending\nOrders",
                              style: TextStyle(
                                color: AppColors.fontColor,
@@ -159,8 +159,8 @@ class _HomeScreenState extends State<HomeScreen> {
                              ),
                            ),
                            Text(
-                             '4',
-                             style: TextStyle(
+                             '${dashboardProvider.homeResponse!.result!.counterArray![0].pendingOrdersCount}',
+                             style: const TextStyle(
                                color: AppColors.fontColor,
                                fontSize: 22,
                                fontWeight: FontWeight.bold,
@@ -188,11 +188,11 @@ class _HomeScreenState extends State<HomeScreen> {
                            )
                          ],
                        ),
-                       child: const Column(
+                       child: Column(
                          mainAxisAlignment: MainAxisAlignment.center,
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
-                           Text(
+                           const Text(
                              "Orders\nDelivered",
                              style: TextStyle(
                                color: Colors.white,
@@ -201,8 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
                              ),
                            ),
                            Text(
-                             '2',
-                             style: TextStyle(
+                             '${dashboardProvider.homeResponse!.result!.counterArray![0].ordersDelivered}',
+                             style: const TextStyle(
                                color: Colors.white,
                                fontSize: 22,
                                fontWeight: FontWeight.bold,
@@ -225,40 +225,43 @@ class _HomeScreenState extends State<HomeScreen> {
                  ),
                  ListView.separated(
                    shrinkWrap: true,
-                   itemCount: 8,
+                   itemCount: dashboardProvider.homeResponse!.result!.newOrderListArray!.length,
                    scrollDirection: Axis.vertical,
                    physics: const NeverScrollableScrollPhysics(),
                    itemBuilder: (context, index) => GestureDetector(
                      onTap: (){
-                       Navigator.pushNamed(context, Routes.viewOrderDetailRoute);
+                       Navigator.pushNamed(context, Routes.viewOrderDetailRoute,arguments: {
+                         'orderDetails':dashboardProvider.homeResponse!.result!.newOrderListArray![index]
+                       });
                      },
                      child: Container(
+                       // color: Colors.black,
                        width: screenSize.width,
                        margin: const EdgeInsets.symmetric(vertical: 10),
                        child: Row(
                          mainAxisAlignment: MainAxisAlignment.start,
                          crossAxisAlignment: CrossAxisAlignment.center,
                          children: [
-                           Container(
-                             width: 100,
-                             height: 100,
-                             decoration: ShapeDecoration(
-                               image: const DecorationImage(
-                                 image: NetworkImage("https://via.placeholder.com/100x100"),
-                                 fit: BoxFit.fill,
-                               ),
-                               shape: RoundedRectangleBorder(
-                                 borderRadius: BorderRadius.circular(20),
-                               ),
-                             ),
-                           ),
-                           const SizedBox(width: 10,),
+                           // Container(
+                           //   width: 100,
+                           //   height: 100,
+                           //   decoration: ShapeDecoration(
+                           //     image: const DecorationImage(
+                           //       image: NetworkImage("https://via.placeholder.com/100x100"),
+                           //       fit: BoxFit.fill,
+                           //     ),
+                           //     shape: RoundedRectangleBorder(
+                           //       borderRadius: BorderRadius.circular(20),
+                           //     ),
+                           //   ),
+                           // ),
+                           // const SizedBox(width: 10,),
                            Column(
                              mainAxisAlignment: MainAxisAlignment.center,
                              crossAxisAlignment: CrossAxisAlignment.start,
                              children: [
-                               const Text(
-                                 'Order - #7654',
+                               Text(
+                                 'Order - #${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderId}',
                                  style: TextStyle(
                                    color: Colors.black,
                                    fontSize: 16,
@@ -267,8 +270,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                ),
                                SizedBox(
                                  width: screenSize.width/1.7,
-                                 child: const Text(
-                                   'Aashirwad toor dal and 4+ products',
+                                 child: Text(
+                                   '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails![0].productName} and ${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails!.length-1} other products',
                                    style: TextStyle(
                                      color: Colors.black,
                                      fontSize: 14,
@@ -276,13 +279,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                    ),
                                  ),
                                ),
-                               const SizedBox(
+                               SizedBox(height: 10,),
+                               SizedBox(
                                  width: 212,
                                  child: Text.rich(
                                    TextSpan(
                                      children: [
                                        TextSpan(
-                                         text: 'Order value ',
+                                         text: 'Order value : ',
                                          style: TextStyle(
                                            color: Color(0xFF37474F),
                                            fontSize: 14,
@@ -291,7 +295,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                          ),
                                        ),
                                        TextSpan(
-                                         text: '₹895',
+                                         text: '₹${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderGrandTotal}',
                                          style: TextStyle(
                                            color: Color(0xFF37474F),
                                            fontSize: 14,
@@ -302,6 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                    ),
                                  ),
                                ),
+                               SizedBox(height: 10,),
                                Container(
                                  width: 100,
                                  height: 25,
@@ -311,8 +316,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                      borderRadius: BorderRadius.circular(15),
                                    ),
                                  ),
-                                 child: const Center(
-                                   child: Text("Packing",style: TextStyle(color: Colors.white),),
+                                 child: Center(
+                                   child: Text('${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderStatus}',style: TextStyle(color: Colors.white),),
                                  ),
                                )
                              ],
@@ -327,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                ],
              ),
-           ),
+           ):const Center(child: CircularProgressIndicator(),),
          );
       },
     );

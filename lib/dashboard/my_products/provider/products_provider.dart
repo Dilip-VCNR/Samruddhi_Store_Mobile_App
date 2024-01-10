@@ -38,6 +38,7 @@ class ProductsProvider extends ChangeNotifier {
   ProductSubCategoryListModel? subCategoriesList;
   ProductCategoryListModel? categoriesList;
   File? selectedImage;
+  bool? isLoaded;
 
 
   // my products screen
@@ -55,8 +56,11 @@ class ProductsProvider extends ChangeNotifier {
   }
 
   getCategoriesDropDownData() async {
+    categoriesList = null;
+    subCategoriesList = null;
     categoriesList = await apiCalls.getProductCategoryList();
     subCategoriesList = await apiCalls.getProductSubCategoryList();
+    isLoaded = true;
     notifyListeners();
   }
 

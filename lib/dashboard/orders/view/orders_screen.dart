@@ -187,25 +187,26 @@ class _OrdersScreenState extends State<OrdersScreen>
               initialIndex: 0,
               length: 5,
               child: TabBar(
+                tabAlignment: TabAlignment.start,
                 controller: _tabController, // Add this line
                 isScrollable: true,
                 labelColor: AppColors.primaryColor,
                 indicatorColor: AppColors.primaryColor,
                 tabs: const [
                   Tab(
-                    text: "All orders(12)",
+                    text: "All orders",
                   ),
                   Tab(
-                    text: "New orders(2)",
+                    text: "New orders",
                   ),
                   Tab(
-                    text: "Pending(6)",
+                    text: "Pending",
                   ),
                   Tab(
-                    text: "Packed(1)",
+                    text: "Packed",
                   ),
                   Tab(
-                    text: "Shipped(7)",
+                    text: "Shipped",
                   ),
                 ],
               ),
