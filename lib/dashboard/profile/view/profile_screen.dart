@@ -90,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Tony stark',
+                        '${prefModel.userData!.displayName}',
                         style: TextStyle(
                           color: Color(0xFF3E3E3E),
                           fontSize: 18,
@@ -98,7 +98,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       Text(
-                        '+91 8660225160',
+                        '${prefModel.userData!.mobile}',
+                        style: TextStyle(
+                          color: Color(0xFF545454),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          height: 1.53,
+                        ),
+                      ),
+                      Text(
+                        '${prefModel.userData!.emailId}',
                         style: TextStyle(
                           color: Color(0xFF545454),
                           fontSize: 15,

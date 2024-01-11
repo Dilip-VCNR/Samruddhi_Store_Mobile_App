@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                    itemBuilder: (context, index) => GestureDetector(
                      onTap: (){
                        Navigator.pushNamed(context, Routes.viewOrderDetailRoute,arguments: {
-                         'orderDetails':dashboardProvider.homeResponse!.result!.newOrderListArray![index]
+                         'orderDetails':dashboardProvider.homeResponse!.result!.newOrderListArray![index].toJson()
                        });
                      },
                      child: Container(

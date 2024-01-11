@@ -17,6 +17,8 @@ import 'package:samruddhi_store/utils/url_constants.dart';
 import 'auth/models/login_response_model.dart';
 import 'auth/models/register_response_model.dart';
 import 'dashboard/home/models/home_data_model.dart';
+import 'dashboard/orders/models/order_on_status_response_model.dart';
+import 'dashboard/orders/models/order_status_update_response_model.dart';
 import 'database/app_pref.dart';
 import 'database/models/pref_model.dart';
 
@@ -244,5 +246,35 @@ class ApiCalls {
           "orderDate": formattedDate
         }));
     return HomeDataModel.fromJson(json.decode(response.body));
+  }
+
+  Future<OrderOnStatusResponseModel> getOrdersOnStatus(
+      String orderStatus) async {
+
+
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.getOrderOnStatus,
+        jsonEncode({
+          "storeUuid": prefModel.userData!.storeUuid!,
+          "orderStatus": orderStatus
+        }));
+
+    return OrderOnStatusResponseModel.fromJson(json.decode(response.body));
+  }
+
+  Future<OrderStatusUpdateResponseModel> setOrderStatus(
+      String statusType, String orderId) async {
+    if (statusType == "Order accepted") {
+      statusType = 'accepted';
+    } else if (statusType == "Packing Order") {
+      statusType = 'processing';
+    } else if (statusType == "Packed") {
+      statusType = 'ready';
+    }
+    http.Response response = await hitApi(true, UrlConstant.setOrderStatus,
+        jsonEncode({"orderId": orderId, "orderStatus": statusType}));
+    log(response.body);
+    return OrderStatusUpdateResponseModel.fromJson(json.decode(response.body));
   }
 }

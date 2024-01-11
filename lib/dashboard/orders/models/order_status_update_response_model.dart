@@ -1,27 +1,27 @@
 // To parse this JSON data, do
 //
-//     final homeDataModel = homeDataModelFromJson(jsonString);
+//     final orderStatusUpdateResponseModel = orderStatusUpdateResponseModelFromJson(jsonString);
 
 import 'dart:convert';
 
-HomeDataModel homeDataModelFromJson(String str) => HomeDataModel.fromJson(json.decode(str));
+OrderStatusUpdateResponseModel orderStatusUpdateResponseModelFromJson(String str) => OrderStatusUpdateResponseModel.fromJson(json.decode(str));
 
-String homeDataModelToJson(HomeDataModel data) => json.encode(data.toJson());
+String orderStatusUpdateResponseModelToJson(OrderStatusUpdateResponseModel data) => json.encode(data.toJson());
 
-class HomeDataModel {
+class OrderStatusUpdateResponseModel {
   bool? status;
   int? statusCode;
   String? message;
   Result? result;
 
-  HomeDataModel({
+  OrderStatusUpdateResponseModel({
     this.status,
     this.statusCode,
     this.message,
     this.result,
   });
 
-  factory HomeDataModel.fromJson(Map<String, dynamic> json) => HomeDataModel(
+  factory OrderStatusUpdateResponseModel.fromJson(Map<String, dynamic> json) => OrderStatusUpdateResponseModel(
     status: json["status"],
     statusCode: json["statusCode"],
     message: json["message"],
@@ -37,81 +37,14 @@ class HomeDataModel {
 }
 
 class Result {
-  List<CounterArray>? counterArray;
-  List<NewOrderListArray>? newOrderListArray;
-  List<CategoryCountArray>? categoryCountArray;
-
-  Result({
-    this.counterArray,
-    this.newOrderListArray,
-    this.categoryCountArray,
-  });
-
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
-    counterArray: json["counterArray"] == null ? [] : List<CounterArray>.from(json["counterArray"]!.map((x) => CounterArray.fromJson(x))),
-    newOrderListArray: json["newOrderListArray"] == null ? [] : List<NewOrderListArray>.from(json["newOrderListArray"]!.map((x) => NewOrderListArray.fromJson(x))),
-    categoryCountArray: json["categoryCountArray"] == null ? [] : List<CategoryCountArray>.from(json["categoryCountArray"]!.map((x) => CategoryCountArray.fromJson(x))),
-  );
-
-  Map<String, dynamic> toJson() => {
-    "counterArray": counterArray == null ? [] : List<dynamic>.from(counterArray!.map((x) => x.toJson())),
-    "newOrderListArray": newOrderListArray == null ? [] : List<dynamic>.from(newOrderListArray!.map((x) => x.toJson())),
-    "categoryCountArray": categoryCountArray == null ? [] : List<dynamic>.from(categoryCountArray!.map((x) => x.toJson())),
-  };
-}
-
-class CategoryCountArray {
-  int? undefined;
-
-  CategoryCountArray({
-    this.undefined,
-  });
-
-  factory CategoryCountArray.fromJson(Map<String, dynamic> json) => CategoryCountArray(
-    undefined: json["undefined"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "undefined": undefined,
-  };
-}
-
-class CounterArray {
-  int? allOrderCount;
-  int? pendingOrdersCount;
-  int? todaysCollection;
-  int? ordersDelivered;
-
-  CounterArray({
-    this.allOrderCount,
-    this.pendingOrdersCount,
-    this.todaysCollection,
-    this.ordersDelivered,
-  });
-
-  factory CounterArray.fromJson(Map<String, dynamic> json) => CounterArray(
-    allOrderCount: json["allOrderCount"],
-    pendingOrdersCount: json["pendingOrdersCount"],
-    todaysCollection: json["todaysCollection"],
-    ordersDelivered: json["OrdersDelivered"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "allOrderCount": allOrderCount,
-    "pendingOrdersCount": pendingOrdersCount,
-    "todaysCollection": todaysCollection,
-    "OrdersDelivered": ordersDelivered,
-  };
-}
-
-class NewOrderListArray {
   DeliveryDetailsArray? deliveryDetailsArray;
+  dynamic orderTime;
   String? id;
   String? orderNumber;
   String? orderId;
   String? orderStatus;
   String? storeUuid;
-  DateTime? orderDate;
+  String? orderDate;
   String? customerUuid;
   int? orderPickupId;
   bool? isVerified;
@@ -128,8 +61,9 @@ class NewOrderListArray {
   List<dynamic>? additionalChargesArray;
   int? v;
 
-  NewOrderListArray({
+  Result({
     this.deliveryDetailsArray,
+    this.orderTime,
     this.id,
     this.orderNumber,
     this.orderId,
@@ -153,19 +87,20 @@ class NewOrderListArray {
     this.v,
   });
 
-  factory NewOrderListArray.fromJson(Map<String, dynamic> json) => NewOrderListArray(
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
     deliveryDetailsArray: json["deliveryDetailsArray"] == null ? null : DeliveryDetailsArray.fromJson(json["deliveryDetailsArray"]),
+    orderTime: json["orderTime"],
     id: json["_id"],
     orderNumber: json["orderNumber"],
     orderId: json["orderId"],
     orderStatus: json["orderStatus"],
     storeUuid: json["storeUuid"],
-    orderDate: json["orderDate"] == null ? null : DateTime.parse(json["orderDate"]),
+    orderDate: json["orderDate"],
     customerUuid: json["customerUuid"],
     orderPickupId: json["orderPickupId"],
     isVerified: json["isVerified"],
     discountType: json["discountType"],
-    orderGrandTotal: json["orderGrandTotal"],
+    orderGrandTotal: json["orderGrandTotal"]?.toDouble(),
     orderStatusTrackArray: json["orderStatusTrackArray"] == null ? [] : List<OrderStatusTrackArray>.from(json["orderStatusTrackArray"]!.map((x) => OrderStatusTrackArray.fromJson(x))),
     hubUuid: json["hubUuid"],
     operatorUuid: json["operatorUuid"],
@@ -180,12 +115,13 @@ class NewOrderListArray {
 
   Map<String, dynamic> toJson() => {
     "deliveryDetailsArray": deliveryDetailsArray?.toJson(),
+    "orderTime": orderTime,
     "_id": id,
     "orderNumber": orderNumber,
     "orderId": orderId,
     "orderStatus": orderStatus,
     "storeUuid": storeUuid,
-    "orderDate": "${orderDate!.year.toString().padLeft(4, '0')}-${orderDate!.month.toString().padLeft(2, '0')}-${orderDate!.day.toString().padLeft(2, '0')}",
+    "orderDate": orderDate,
     "customerUuid": customerUuid,
     "orderPickupId": orderPickupId,
     "isVerified": isVerified,
@@ -223,7 +159,7 @@ class DeliveryDetailsArray {
 class OrderStatusTrackArray {
   String? action;
   String? date;
-  dynamic remarks;
+  String? remarks;
   bool? isDelete;
   String? id;
 
@@ -253,55 +189,50 @@ class OrderStatusTrackArray {
 }
 
 class ProductDetail {
-  ProductCategory? productCategory;
-  ProductSubCategory? productSubCategory;
-  Variants? variants;
-  String? id;
-  String? createdAt;
   String? productUuid;
   String? productName;
   String? storeUuid;
   String? storeName;
-  String? description;
+  String? productCategoryId;
+  String? productCategoryName;
+  dynamic subCategory;
+  dynamic description;
   bool? isMrp;
+  int? productTax;
   int? sellingPrice;
   bool? isAvailable;
   String? productSku;
   String? productUom;
-  int? productTax;
   int? productDiscount;
-  int? productOffer;
   int? productQuantity;
   int? addedCartQuantity;
   int? purchaseMinQuantity;
   int? productHsnCode;
-  String? manufacturer;
-  String? productModel;
+  dynamic manufacturer;
+  dynamic productModel;
   bool? isDeleted;
+  List<dynamic>? productImgArray;
+  int? taxableValue;
+  dynamic productTaxValue;
   double? productGrandTotal;
   int? subTotal;
-  List<ProductImgArray>? productImgArray;
-  int? v;
 
   ProductDetail({
-    this.productCategory,
-    this.productSubCategory,
-    this.variants,
-    this.id,
-    this.createdAt,
     this.productUuid,
     this.productName,
     this.storeUuid,
     this.storeName,
+    this.productCategoryId,
+    this.productCategoryName,
+    this.subCategory,
     this.description,
     this.isMrp,
+    this.productTax,
     this.sellingPrice,
     this.isAvailable,
     this.productSku,
     this.productUom,
-    this.productTax,
     this.productDiscount,
-    this.productOffer,
     this.productQuantity,
     this.addedCartQuantity,
     this.purchaseMinQuantity,
@@ -309,31 +240,29 @@ class ProductDetail {
     this.manufacturer,
     this.productModel,
     this.isDeleted,
+    this.productImgArray,
+    this.taxableValue,
+    this.productTaxValue,
     this.productGrandTotal,
     this.subTotal,
-    this.productImgArray,
-    this.v,
   });
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) => ProductDetail(
-    productCategory: json["productCategory"] == null ? null : ProductCategory.fromJson(json["productCategory"]),
-    productSubCategory: json["productSubCategory"] == null ? null : ProductSubCategory.fromJson(json["productSubCategory"]),
-    variants: json["variants"] == null ? null : Variants.fromJson(json["variants"]),
-    id: json["_id"],
-    createdAt: json["createdAt"],
     productUuid: json["productUuid"],
     productName: json["productName"],
     storeUuid: json["storeUuid"],
     storeName: json["storeName"],
+    productCategoryId: json["productCategoryId"],
+    productCategoryName: json["productCategoryName"],
+    subCategory: json["subCategory"],
     description: json["description"],
     isMrp: json["isMrp"],
+    productTax: json["productTax"],
     sellingPrice: json["sellingPrice"],
     isAvailable: json["isAvailable"],
     productSku: json["productSku"],
     productUom: json["productUom"],
-    productTax: json["productTax"],
     productDiscount: json["productDiscount"],
-    productOffer: json["productOffer"],
     productQuantity: json["productQuantity"],
     addedCartQuantity: json["addedCartQuantity"],
     purchaseMinQuantity: json["purchaseMinQuantity"],
@@ -341,31 +270,29 @@ class ProductDetail {
     manufacturer: json["manufacturer"],
     productModel: json["productModel"],
     isDeleted: json["isDeleted"],
-    productGrandTotal: json["productGrandTotal"].toDouble(),
+    productImgArray: json["productImgArray"] == null ? [] : List<dynamic>.from(json["productImgArray"]!.map((x) => x)),
+    taxableValue: json["taxableValue"],
+    productTaxValue: json["productTaxValue"],
+    productGrandTotal: json["productGrandTotal"]?.toDouble(),
     subTotal: json["subTotal"],
-    productImgArray: json["productImgArray"] == null ? [] : List<ProductImgArray>.from(json["productImgArray"]!.map((x) => ProductImgArray.fromJson(x))),
-    v: json["__v"],
   );
 
   Map<String, dynamic> toJson() => {
-    "productCategory": productCategory?.toJson(),
-    "productSubCategory": productSubCategory?.toJson(),
-    "variants": variants?.toJson(),
-    "_id": id,
-    "createdAt": createdAt,
     "productUuid": productUuid,
     "productName": productName,
     "storeUuid": storeUuid,
     "storeName": storeName,
+    "productCategoryId": productCategoryId,
+    "productCategoryName": productCategoryName,
+    "subCategory": subCategory,
     "description": description,
     "isMrp": isMrp,
+    "productTax": productTax,
     "sellingPrice": sellingPrice,
     "isAvailable": isAvailable,
     "productSku": productSku,
     "productUom": productUom,
-    "productTax": productTax,
     "productDiscount": productDiscount,
-    "productOffer": productOffer,
     "productQuantity": productQuantity,
     "addedCartQuantity": addedCartQuantity,
     "purchaseMinQuantity": purchaseMinQuantity,
@@ -373,109 +300,10 @@ class ProductDetail {
     "manufacturer": manufacturer,
     "productModel": productModel,
     "isDeleted": isDeleted,
+    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x)),
+    "taxableValue": taxableValue,
+    "productTaxValue": productTaxValue,
     "productGrandTotal": productGrandTotal,
     "subTotal": subTotal,
-    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x.toJson())),
-    "__v": v,
-  };
-}
-
-class ProductCategory {
-  String? productCategoryId;
-  String? productCategoryName;
-
-  ProductCategory({
-    this.productCategoryId,
-    this.productCategoryName,
-  });
-
-  factory ProductCategory.fromJson(Map<String, dynamic> json) => ProductCategory(
-    productCategoryId: json["productCategoryId"],
-    productCategoryName: json["productCategoryName"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "productCategoryId": productCategoryId,
-    "productCategoryName": productCategoryName,
-  };
-}
-
-class ProductImgArray {
-  String? imagePath;
-  String? imageType;
-  bool? isPrimary;
-  String? imageDescription;
-  String? id;
-
-  ProductImgArray({
-    this.imagePath,
-    this.imageType,
-    this.isPrimary,
-    this.imageDescription,
-    this.id,
-  });
-
-  factory ProductImgArray.fromJson(Map<String, dynamic> json) => ProductImgArray(
-    imagePath: json["imagePath"],
-    imageType: json["imageType"],
-    isPrimary: json["isPrimary"],
-    imageDescription: json["imageDescription"],
-    id: json["_id"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "imagePath": imagePath,
-    "imageType": imageType,
-    "isPrimary": isPrimary,
-    "imageDescription": imageDescription,
-    "_id": id,
-  };
-}
-
-class ProductSubCategory {
-  String? productCategoryId;
-  String? productSubCategoryId;
-  String? productSubCategoryName;
-
-  ProductSubCategory({
-    this.productCategoryId,
-    this.productSubCategoryId,
-    this.productSubCategoryName,
-  });
-
-  factory ProductSubCategory.fromJson(Map<String, dynamic> json) => ProductSubCategory(
-    productCategoryId: json["productCategoryId"],
-    productSubCategoryId: json["productSubCategoryId"],
-    productSubCategoryName: json["productSubCategoryName"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "productCategoryId": productCategoryId,
-    "productSubCategoryId": productSubCategoryId,
-    "productSubCategoryName": productSubCategoryName,
-  };
-}
-
-class Variants {
-  String? color;
-  String? size;
-  String? quality;
-
-  Variants({
-    this.color,
-    this.size,
-    this.quality,
-  });
-
-  factory Variants.fromJson(Map<String, dynamic> json) => Variants(
-    color: json["color"],
-    size: json["size"],
-    quality: json["quality"],
-  );
-
-  Map<String, dynamic> toJson() => {
-    "color": color,
-    "size": size,
-    "quality": quality,
   };
 }

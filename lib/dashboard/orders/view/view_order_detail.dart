@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
+import 'package:samruddhi_store/utils/app_widgets.dart';
 
+import '../../../api_calls.dart';
 import '../../home/models/home_data_model.dart';
+import '../models/order_status_update_response_model.dart';
 
 class ViewOrderDetail extends StatefulWidget {
   const ViewOrderDetail({Key? key}) : super(key: key);
@@ -17,12 +20,13 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
     Size screenSize = MediaQuery.of(context).size;
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    NewOrderListArray order = arguments['orderDetails'];
+    Map order = arguments['orderDetails'];
+    print(order);
     return Scaffold(
       appBar: AppBar(
         title:  Text(
-          '#${order.orderId}',
-          style: TextStyle(
+          '#${order['orderId']}',
+          style: const TextStyle(
             color: AppColors.fontColor,
             fontWeight: FontWeight.w600,
           ),
@@ -47,7 +51,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Delivery address',
                     style: TextStyle(
                       color: AppColors.fontColor,
@@ -56,14 +60,25 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                     ),
                   ),
                   Text(
-                    '${order.deliveryDetailsArray!.toJson()}',
-                    style: TextStyle(
+                    '${order['deliveryDetailsArray']}',
+                    style: const TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),
                   )
                 ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Ordered on : ${order['orderDate']}',
+              style: TextStyle(
+                color: AppColors.fontColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(
@@ -84,10 +99,9 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
             GestureDetector(
               onTap: (){
                 List<String> statusTypes = [
-                  "Accept order",
+                  "Order accepted",
                   "Packing Order",
                   "Packed",
-                  "Out for delivery",
                 ];
                 showModalBottomSheet(
                     context: context,
@@ -118,10 +132,17 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                   itemBuilder: (BuildContext context,
                                       int index) {
                                     return InkWell(
-                                      onTap: () {
-                                        activeStatus =
-                                        statusTypes[index];
+                                      onTap: () async {
+                                        showLoaderDialog(context);
+                                        OrderStatusUpdateResponseModel res = await ApiCalls().setOrderStatus(statusTypes[index],order['orderId']);
                                         Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        if(res.statusCode==200){
+                                          activeStatus = statusTypes[index];
+                                          showSuccessToast(context, res.message!);
+                                        }else{
+                                          showErrorToast(context, res.message!);
+                                        }
                                       },
                                       child: Column(
                                         mainAxisAlignment:
@@ -202,7 +223,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
             ),
             ListView.separated(
               shrinkWrap: true,
-              itemCount: 8,
+              itemCount: order['productDetails'].length,
               scrollDirection: Axis.vertical,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => Container(
@@ -212,32 +233,32 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: ShapeDecoration(
-                        image: const DecorationImage(
-                          image: NetworkImage(
-                              "https://via.placeholder.com/100x100"),
-                          fit: BoxFit.fill,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    // Container(
+                    //   width: 100,
+                    //   height: 100,
+                    //   decoration: ShapeDecoration(
+                    //     image: const DecorationImage(
+                    //       image: NetworkImage(
+                    //           "https://via.placeholder.com/100x100"),
+                    //       fit: BoxFit.fill,
+                    //     ),
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(20),
+                    //     ),
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   width: 10,
+                    // ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
                           width: screenSize.width / 1.7,
-                          child: const Text(
-                            'Aashirwad toor dal\n500 Grams',
-                            style: TextStyle(
+                          child: Text(
+                            '${order['productDetails'][index]['productName']}',
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -246,21 +267,21 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                         ),
                         SizedBox(
                           width: screenSize.width / 1.7,
-                          child: const Text(
-                            '3 Quantity',
-                            style: TextStyle(
+                          child: Text(
+                            '${order['productDetails'][index]['addedCartQuantity']} Quantity',
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           width: 212,
                           child: Text.rich(
                             TextSpan(
                               children: [
-                                TextSpan(
+                                const TextSpan(
                                   text: 'Order value ',
                                   style: TextStyle(
                                     color: Color(0xFF37474F),
@@ -270,8 +291,8 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: '₹895',
-                                  style: TextStyle(
+                                  text: '₹${order['productDetails'][index]['productGrandTotal']}',
+                                  style: const TextStyle(
                                     color: Color(0xFF37474F),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,

@@ -191,7 +191,7 @@ class AuthProvider extends ChangeNotifier {
       prefModel.userData = authResponse.result;
       await AppPref.setPref(prefModel);
       Navigator.pop(otpScreenContext!);
-      Navigator.pushNamed(otpScreenContext!, Routes.dashboardRoute);
+      Navigator.pushNamedAndRemoveUntil(otpScreenContext!, Routes.dashboardRoute, (route) => false);
     } else if (authResponse.statusCode == 404) {
       storeCategoryList = await apiCalls.getStoreCategoryList();
       storeZoneList = await apiCalls.getStoreZonesList();
