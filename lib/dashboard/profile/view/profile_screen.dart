@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:samruddhi_store/api_calls.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../database/app_pref.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/routes.dart';
 import '../../../utils/url_constants.dart';
@@ -18,16 +19,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   List options = [
     {'title': 'Edit Profile', 'icon': Icons.edit, 'clickType': 'edit_profile'},
-    {
-      'title': 'Custom reports',
-      'icon': Icons.event_note,
-      'clickType': 'my_address'
-    },
-    {
-      'title': 'Manage delivery type',
-      'icon': Icons.delivery_dining,
-      'clickType': 'my_orders'
-    },
+    // {
+    //   'title': 'Custom reports',
+    //   'icon': Icons.event_note,
+    //   'clickType': 'my_address'
+    // },
+    // {
+    //   'title': 'Manage delivery type',
+    //   'icon': Icons.delivery_dining,
+    //   'clickType': 'my_orders'
+    // },
     {'title': 'About', 'icon': Icons.info_outline, 'clickType': 'about'},
     {'title': 'FAQ’S', 'icon': Icons.question_mark_rounded, 'clickType': 'faq'},
     {
@@ -169,6 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             });
                         break;
                       case 'logout':
+                        AppPref.clearPref();
                         Navigator.of(context).pushNamedAndRemoveUntil(
                             Routes.loginRoute, (route) => false);
                         break;

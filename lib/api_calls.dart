@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -12,6 +11,7 @@ import 'package:samruddhi_store/dashboard/my_products/models/add_product_respons
 import 'package:samruddhi_store/dashboard/my_products/models/all_product_response_model.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/product_category_list_model.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/product_sub_category_list_model.dart';
+import 'package:samruddhi_store/dashboard/my_products/models/update_/product_response_model.dart';
 import 'package:samruddhi_store/utils/url_constants.dart';
 
 import 'auth/models/login_response_model.dart';
@@ -274,7 +274,35 @@ class ApiCalls {
     }
     http.Response response = await hitApi(true, UrlConstant.setOrderStatus,
         jsonEncode({"orderId": orderId, "orderStatus": statusType}));
-    log(response.body);
     return OrderStatusUpdateResponseModel.fromJson(json.decode(response.body));
+  }
+
+  Future<UpdateProductResponseModel> updateProduct(Map<String, Object?> productData, File? selectedImage) async {
+    var request = http.MultipartRequest('POST', Uri.parse(UrlConstant.updateProduct));
+
+    // Add form fields from the JSON object
+    productData.forEach((key, value) {
+      request.fields[key] = value.toString(); // Ensure values are strings
+    });
+    if (selectedImage != null) {
+      var picStream = http.ByteStream(selectedImage.openRead());
+      var length = await selectedImage.length();
+      var multipartFile = http.MultipartFile(
+        'image',
+        picStream,
+        length,
+        filename: selectedImage.path.split('/').last,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      request.files.add(multipartFile);
+    }
+
+    request.headers.addAll({
+      "x-access-token": "${prefModel.userData!.storeAuthToken}",
+    });
+    var response = await request.send();
+    var responseData = await response.stream.toBytes();
+    var responseJson = json.decode(utf8.decode(responseData));
+    return UpdateProductResponseModel.fromJson(responseJson);
   }
 }

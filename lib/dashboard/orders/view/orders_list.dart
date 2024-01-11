@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/dashboard/dashboard_provider.dart';
-import 'package:samruddhi_store/dashboard/home/models/home_data_model.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/routes.dart';
@@ -31,7 +30,7 @@ class _OrdersListState extends State<OrdersList> {
                     return const Center(child: CircularProgressIndicator());
                   }
                   if (snapshot.hasData) {
-                    return ListView.separated(
+                    return snapshot.data!.result!.isNotEmpty?ListView.separated(
                       shrinkWrap: true,
                       itemCount: snapshot.data!.result!.length,
                       scrollDirection: Axis.vertical,
@@ -72,7 +71,7 @@ class _OrdersListState extends State<OrdersList> {
                                 children: [
                                    Text(
                                     '#${snapshot.data!.result![index].orderId}',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
@@ -82,7 +81,7 @@ class _OrdersListState extends State<OrdersList> {
                                     width: screenSize.width / 1.7,
                                     child: Text(
                                       '${snapshot.data!.result![index].productDetails![0].productName} and ${snapshot.data!.result![index].productDetails!.length-1} other products',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
@@ -94,7 +93,7 @@ class _OrdersListState extends State<OrdersList> {
                                     child: Text.rich(
                                       TextSpan(
                                         children: [
-                                          TextSpan(
+                                          const TextSpan(
                                             text: 'Order value ',
                                             style: TextStyle(
                                               color: Color(0xFF37474F),
@@ -105,7 +104,7 @@ class _OrdersListState extends State<OrdersList> {
                                           ),
                                           TextSpan(
                                             text: '₹${snapshot.data!.result![index].orderGrandTotal}',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               color: Color(0xFF37474F),
                                               fontSize: 14,
                                               fontWeight: FontWeight.w700,
@@ -127,7 +126,7 @@ class _OrdersListState extends State<OrdersList> {
                                     child: Center(
                                       child: Text(
                                         "${snapshot.data!.result![index].orderStatus}",
-                                        style: TextStyle(color: Colors.white),
+                                        style: const TextStyle(color: Colors.white),
                                       ),
                                     ),
                                   )
@@ -140,7 +139,10 @@ class _OrdersListState extends State<OrdersList> {
                       separatorBuilder: (BuildContext context, int index) {
                         return const Divider();
                       },
-                    );
+                    ):const Align(alignment: Alignment.topCenter,child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Text("No orders Yet"),
+                    ));
                   } else if (snapshot.hasError) {
                     return Center(
                       child: Column(

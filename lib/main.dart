@@ -10,6 +10,7 @@ import 'package:samruddhi_store/splash/view/splash_screen.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:samruddhi_store/utils/routes.dart';
+import 'package:samruddhi_store/web_view_screen.dart';
 
 import 'auth/provider/auth_provider.dart';
 import 'auth/view/login_screen.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
           Routes.viewOrderDetailRoute: (context) => const ViewOrderDetail(),
           Routes.addProductRoute: (context) => const AddProduct(),
           Routes.editProductRoute: (context) => const EditProduct(),
+          Routes.webViewRoute: (context) => const WebViewScreen(),
         }
       ),
     );

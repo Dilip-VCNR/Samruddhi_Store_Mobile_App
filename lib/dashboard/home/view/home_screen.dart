@@ -27,9 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
          return Scaffold(
            appBar: AppBar(
              title: const Text("Dashboard"),
-             actions: [
-               IconButton(onPressed: (){}, icon: const Icon(Icons.power_settings_new))
-             ],
+             // actions: [
+             //   IconButton(onPressed: (){}, icon: const Icon(Icons.power_settings_new))
+             // ],
            ),
            body: dashboardProvider.homeResponse!=null?SingleChildScrollView(
              padding: const EdgeInsets.all(20),
@@ -223,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                      fontWeight: FontWeight.bold,
                    ),
                  ),
-                 ListView.separated(
+                 dashboardProvider.homeResponse!.result!.newOrderListArray!.isNotEmpty?ListView.separated(
                    shrinkWrap: true,
                    itemCount: dashboardProvider.homeResponse!.result!.newOrderListArray!.length,
                    scrollDirection: Axis.vertical,
@@ -262,7 +262,7 @@ class _HomeScreenState extends State<HomeScreen> {
                              children: [
                                Text(
                                  'Order - #${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderId}',
-                                 style: TextStyle(
+                                 style: const TextStyle(
                                    color: Colors.black,
                                    fontSize: 16,
                                    fontWeight: FontWeight.w700,
@@ -272,20 +272,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                  width: screenSize.width/1.7,
                                  child: Text(
                                    '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails![0].productName} and ${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails!.length-1} other products',
-                                   style: TextStyle(
+                                   style: const TextStyle(
                                      color: Colors.black,
                                      fontSize: 14,
                                      fontWeight: FontWeight.w400,
                                    ),
                                  ),
                                ),
-                               SizedBox(height: 10,),
+                               const SizedBox(height: 10,),
                                SizedBox(
                                  width: 212,
                                  child: Text.rich(
                                    TextSpan(
                                      children: [
-                                       TextSpan(
+                                       const TextSpan(
                                          text: 'Order value : ',
                                          style: TextStyle(
                                            color: Color(0xFF37474F),
@@ -296,7 +296,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                        ),
                                        TextSpan(
                                          text: '₹${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderGrandTotal}',
-                                         style: TextStyle(
+                                         style: const TextStyle(
                                            color: Color(0xFF37474F),
                                            fontSize: 14,
                                            fontWeight: FontWeight.w700,
@@ -306,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                    ),
                                  ),
                                ),
-                               SizedBox(height: 10,),
+                               const SizedBox(height: 10,),
                                Container(
                                  width: 100,
                                  height: 25,
@@ -317,7 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                    ),
                                  ),
                                  child: Center(
-                                   child: Text('${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderStatus}',style: TextStyle(color: Colors.white),),
+                                   child: Text('${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderStatus}',style: const TextStyle(color: Colors.white),),
                                  ),
                                )
                              ],
@@ -328,7 +328,7 @@ class _HomeScreenState extends State<HomeScreen> {
                    ), separatorBuilder: (BuildContext context, int index) {
                    return const Divider();
                  },
-                 )
+                 ):const Center(child: Text("No Orders yet !"),)
 
                ],
              ),

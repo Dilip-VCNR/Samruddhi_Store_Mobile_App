@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
 import 'package:samruddhi_store/utils/app_widgets.dart';
 
 import '../../../api_calls.dart';
-import '../../home/models/home_data_model.dart';
 import '../models/order_status_update_response_model.dart';
 
 class ViewOrderDetail extends StatefulWidget {
@@ -60,11 +60,42 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                     ),
                   ),
                   Text(
-                    '${order['deliveryDetailsArray']}',
+                    '${order['deliveryAddress']['completeAddress']}',
                     style: const TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Text(
+                    '${order['deliveryAddress']['city']}',
+                    style: const TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Text(
+                    '${order['deliveryAddress']['state']}',
+                    style: const TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  GestureDetector(
+                    onTap: (){
+                      double latitude = double.parse(order['deliveryAddress']['lat']);
+                      double longitude = double.parse(order['deliveryAddress']['lng']);
+                      MapsLauncher.launchCoordinates(latitude, longitude);
+                    },
+                    child: Container(
+                      width: screenSize.width/3,
+                      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: AppColors.primaryColor),
+                      child: Center(child: Text("Navigate",style: TextStyle(color: Colors.white),),),
                     ),
                   )
                 ],

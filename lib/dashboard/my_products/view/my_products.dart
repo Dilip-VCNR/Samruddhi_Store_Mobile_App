@@ -38,11 +38,11 @@ class _MyProductsState extends State<MyProducts> {
             centerTitle: true,
             // leading: const Icon(Icons.edit_outlined),
             actions: [
-              IconButton(
-                icon: const Icon(Icons.search),
-                color: AppColors.fontColor,
-                onPressed: () {},
-              ),
+              // IconButton(
+              //   icon: const Icon(Icons.search),
+              //   color: AppColors.fontColor,
+              //   onPressed: () {},
+              // ),
               IconButton(
                 icon: const Icon(Icons.add),
                 color: AppColors.fontColor,
@@ -136,7 +136,7 @@ class _MyProductsState extends State<MyProducts> {
                       ),
                     );
                   },
-                  itemBuilder: (context, dynamic element) {
+                  itemBuilder: (context, element) {
                     return Column(
                       children: [
                         Container(
@@ -185,8 +185,13 @@ class _MyProductsState extends State<MyProducts> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            Navigator.pushNamed(context,
-                                                Routes.editProductRoute);
+                                            productsProvider.setProductToEdit(element);
+                                            Navigator.pushNamed(context, Routes.editProductRoute).then((value) {
+                                              setState(() {
+                                                isLoaded=false;
+                                              });
+                                              return null;
+                                            });
                                           },
                                           child: const Row(
                                             children: [

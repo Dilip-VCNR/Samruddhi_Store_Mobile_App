@@ -25,9 +25,7 @@ class DashboardProvider extends ChangeNotifier{
       allOrdersCount = 0;
       pendingCount = 0;
       completedCount = 0;
-      print('case1');
       allOrdersCount =res.result!.length;
-      print(allOrdersCount);
       for(int i = 0;i<res.result!.length;i++){
         if(res.result![i].orderStatus!="delivered" && res.result![i].orderStatus!="new"){
           pendingCount  = pendingCount+1;

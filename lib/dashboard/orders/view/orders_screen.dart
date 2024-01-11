@@ -35,11 +35,11 @@ class _OrdersScreenState extends State<OrdersScreen>
       builder: (BuildContext context, DashboardProvider dashboardProvider, Widget? child) {
         return Scaffold(
           appBar: AppBar(
-            title: Column(
+            title: const Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text("Orders"),
+                Text("Orders"),
                 // GestureDetector(
                 //   onTap: () {},
                 //   child: const Text(
@@ -110,7 +110,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                               child: Text(
                                 'All Orders\n${dashboardProvider.allOrdersCount}',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: AppColors.fontColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -139,7 +139,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                               child: Text(
                                 'Pending\n${dashboardProvider.pendingCount}',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: AppColors.fontColor,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
@@ -168,7 +168,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                               child: Text(
                                 'Completed\n${dashboardProvider.completedCount}',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
