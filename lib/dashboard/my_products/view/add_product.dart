@@ -76,115 +76,6 @@ class _AddProductState extends State<AddProduct> {
                         key: productsProvider.addProductFormKey,
                         child: Column(
                           children: [
-                            TextFormField(
-                              textInputAction: TextInputAction.next,
-                              controller: productsProvider.productSkuController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter product sku';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                hintText: 'Product SKU',
-                                counterText: "",
-                                isCollapsed: true,
-                                filled: true,
-                                fillColor: AppColors.inputFieldColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 16.0, horizontal: 10),
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextFormField(
-                              textInputAction: TextInputAction.next,
-                              controller:
-                                  productsProvider.productNameController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter product name';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                hintText: 'Product name',
-                                counterText: "",
-                                isCollapsed: true,
-                                filled: true,
-                                fillColor: AppColors.inputFieldColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 16.0, horizontal: 10),
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextFormField(
-                              textInputAction: TextInputAction.next,
-                              controller:
-                                  productsProvider.productQuantityController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter product quantity';
-                                }
-                                return null;
-                              },
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: 'Product quantity',
-                                counterText: "",
-                                isCollapsed: true,
-                                filled: true,
-                                fillColor: AppColors.inputFieldColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 16.0, horizontal: 10),
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextFormField(
-                              textInputAction: TextInputAction.next,
-                              controller:
-                                  productsProvider.productDescriptionController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter product description';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                hintText: 'Product description',
-                                counterText: "",
-                                isCollapsed: true,
-                                filled: true,
-                                fillColor: AppColors.inputFieldColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 16.0, horizontal: 10),
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                            ),
                             const SizedBox(
                               height: 10,
                             ),
@@ -199,20 +90,20 @@ class _AddProductState extends State<AddProduct> {
                                           children: [
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              MainAxisAlignment
+                                                  .spaceBetween,
                                               children: [
                                                 const Text("Select Category",
                                                     style: TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
-                                                            FontWeight.bold)),
+                                                        FontWeight.bold)),
                                                 IconButton(
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                     },
                                                     icon:
-                                                        const Icon(Icons.close))
+                                                    const Icon(Icons.close))
                                               ],
                                             ),
                                             Expanded(
@@ -224,42 +115,42 @@ class _AddProductState extends State<AddProduct> {
                                                       .length,
                                                   itemBuilder:
                                                       (BuildContext context,
-                                                          int index) {
+                                                      int index) {
                                                     return InkWell(
                                                       onTap: () {
                                                         productsProvider
-                                                                .productCategoryController
-                                                                .text =
-                                                            productsProvider
-                                                                .categoriesList!
-                                                                .result![index]
-                                                                .productCategoryName!;
+                                                            .productCategoryController
+                                                            .text =
+                                                        productsProvider
+                                                            .categoriesList!
+                                                            .result![index]
+                                                            .productCategoryName!;
                                                         Navigator.pop(context);
                                                       },
                                                       child: Column(
                                                         mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
+                                                        MainAxisAlignment
+                                                            .start,
                                                         crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                         children: [
                                                           Padding(
                                                             padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    vertical:
-                                                                        10),
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical:
+                                                                10),
                                                             child: Text(
                                                               productsProvider
                                                                   .categoriesList!
                                                                   .result![
-                                                                      index]
+                                                              index]
                                                                   .productCategoryName!,
                                                               style:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          18),
+                                                              const TextStyle(
+                                                                  fontSize:
+                                                                  18),
                                                             ),
                                                           ),
                                                           const Divider()
@@ -278,7 +169,7 @@ class _AddProductState extends State<AddProduct> {
                               child: TextFormField(
                                 enabled: false,
                                 controller:
-                                    productsProvider.productCategoryController,
+                                productsProvider.productCategoryController,
                                 validator: (value) {
                                   if (value!.isEmpty) {
                                     return 'Please select category';
@@ -421,6 +312,116 @@ class _AddProductState extends State<AddProduct> {
                                 ),
                                 textAlignVertical: TextAlignVertical.center,
                               ),
+                            ),
+                            const SizedBox(height: 10,),
+                            TextFormField(
+                              textInputAction: TextInputAction.next,
+                              controller: productsProvider.productSkuController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter product sku';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'Product SKU',
+                                counterText: "",
+                                isCollapsed: true,
+                                filled: true,
+                                fillColor: AppColors.inputFieldColor,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 10),
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              textInputAction: TextInputAction.next,
+                              controller:
+                                  productsProvider.productNameController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter product name';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'Product name',
+                                counterText: "",
+                                isCollapsed: true,
+                                filled: true,
+                                fillColor: AppColors.inputFieldColor,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 10),
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              textInputAction: TextInputAction.next,
+                              controller:
+                                  productsProvider.productQuantityController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter product quantity';
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: 'Product quantity',
+                                counterText: "",
+                                isCollapsed: true,
+                                filled: true,
+                                fillColor: AppColors.inputFieldColor,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 10),
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              textInputAction: TextInputAction.next,
+                              controller:
+                                  productsProvider.productDescriptionController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter product description';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'Product description',
+                                counterText: "",
+                                isCollapsed: true,
+                                filled: true,
+                                fillColor: AppColors.inputFieldColor,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 10),
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
                             ),
 
                             const SizedBox(
@@ -612,7 +613,7 @@ class _AddProductState extends State<AddProduct> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                hintText: 'Product tax',
+                                hintText: 'Product tax %',
                                 counterText: "",
                                 isCollapsed: true,
                                 filled: true,
@@ -830,12 +831,12 @@ class _AddProductState extends State<AddProduct> {
                                 enabled: false,
                                 controller:
                                     productsProvider.productColorController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please select color';
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return 'Please select color';
+                                //   }
+                                //   return null;
+                                // },
                                 decoration: InputDecoration(
                                   suffixIcon: const Icon(
                                       Icons.keyboard_arrow_down_sharp),
@@ -945,12 +946,12 @@ class _AddProductState extends State<AddProduct> {
                                 enabled: false,
                                 controller:
                                     productsProvider.productQualityController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please select quality';
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return 'Please select quality';
+                                //   }
+                                //   return null;
+                                // },
                                 decoration: InputDecoration(
                                   suffixIcon: const Icon(
                                       Icons.keyboard_arrow_down_sharp),
@@ -1061,12 +1062,12 @@ class _AddProductState extends State<AddProduct> {
                                 enabled: false,
                                 controller:
                                     productsProvider.productSizeController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Please select size';
-                                  }
-                                  return null;
-                                },
+                                // validator: (value) {
+                                //   if (value!.isEmpty) {
+                                //     return 'Please select size';
+                                //   }
+                                //   return null;
+                                // },
                                 decoration: InputDecoration(
                                   suffixIcon: const Icon(
                                       Icons.keyboard_arrow_down_sharp),

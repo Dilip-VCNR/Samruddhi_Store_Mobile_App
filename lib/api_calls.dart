@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -217,6 +218,7 @@ class ApiCalls {
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
+    log(responseJson.toString());
     return AddProductResponseModel.fromJson(responseJson);
   }
 
@@ -225,6 +227,7 @@ class ApiCalls {
         true,
         UrlConstant.getAvailableProducts,
         jsonEncode({"storeUuid": prefModel.userData!.storeUuid}));
+    log(response.body);
     return AllProductResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -245,6 +248,7 @@ class ApiCalls {
           "storeUuid": prefModel.userData!.storeUuid!,
           "orderDate": formattedDate
         }));
+    log(response.body);
     return HomeDataModel.fromJson(json.decode(response.body));
   }
 
@@ -259,7 +263,7 @@ class ApiCalls {
           "storeUuid": prefModel.userData!.storeUuid!,
           "orderStatus": orderStatus
         }));
-
+    log(response.body);
     return OrderOnStatusResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -274,6 +278,7 @@ class ApiCalls {
     }
     http.Response response = await hitApi(true, UrlConstant.setOrderStatus,
         jsonEncode({"orderId": orderId, "orderStatus": statusType}));
+    log(response.body);
     return OrderStatusUpdateResponseModel.fromJson(json.decode(response.body));
   }
 

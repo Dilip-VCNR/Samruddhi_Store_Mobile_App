@@ -457,7 +457,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   textInputAction: TextInputAction.done,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Please enter valid gst';
+                                      return 'Please enter valid gst number';
                                     }
                                     // if (authController.isNotValidPhone(value)) {
                                     //   return "Please enter valid phone number";
@@ -468,7 +468,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   keyboardType: TextInputType.number,
                                   maxLength: 10,
                                   decoration: const InputDecoration(
-                                      hintText: 'GST %',
+                                      hintText: 'GST Number',
                                       counterText: "",
                                       isCollapsed: true,
                                       border: InputBorder.none),

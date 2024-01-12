@@ -16,6 +16,7 @@ class DashboardProvider extends ChangeNotifier{
 
   getHomeData() async {
     homeResponse = await apiCalls.getHomeData();
+    print("case1");
     notifyListeners();
   }
 

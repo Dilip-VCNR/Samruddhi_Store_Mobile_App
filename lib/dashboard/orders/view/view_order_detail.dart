@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
@@ -14,14 +15,24 @@ class ViewOrderDetail extends StatefulWidget {
 }
 
 class _ViewOrderDetailState extends State<ViewOrderDetail> {
-  String activeStatus = "Ready to dispatch";
+  String activeStatus = "";
+  String nextStatus = "";
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
     Map order = arguments['orderDetails'];
-    print(order);
+    activeStatus = arguments['orderDetails']['orderStatus'];
+    if(activeStatus=="new"){
+      nextStatus = "accepted";
+    }else if(activeStatus=="accepted"){
+      nextStatus = "processing";
+    }else if(activeStatus=="processing"){
+      nextStatus = "ready";
+    }else if(activeStatus=="ready" && order['orderDeliveryType']=="selfPickUp"){
+      nextStatus = "delivered";
+    }
     return Scaffold(
       appBar: AppBar(
         title:  Text(
@@ -83,19 +94,19 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   GestureDetector(
                     onTap: (){
-                      double latitude = double.parse(order['deliveryAddress']['lat']);
-                      double longitude = double.parse(order['deliveryAddress']['lng']);
+                      double latitude = order['deliveryAddress']['lat'];
+                      double longitude = order['deliveryAddress']['lng'];
                       MapsLauncher.launchCoordinates(latitude, longitude);
                     },
                     child: Container(
                       width: screenSize.width/3,
-                      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
+                      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                      decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
                       color: AppColors.primaryColor),
-                      child: Center(child: Text("Navigate",style: TextStyle(color: Colors.white),),),
+                      child: const Center(child: Text("Navigate",style: TextStyle(color: Colors.white),),),
                     ),
                   )
                 ],
@@ -106,7 +117,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
             ),
             Text(
               'Ordered on : ${order['orderDate']}',
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -115,94 +126,41 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
             const SizedBox(
               height: 10,
             ),
-            const Text(
+            Text(
+              'Current status : ${activeStatus}',
+              style: const TextStyle(
+                color: AppColors.fontColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            (activeStatus != "delivered" && nextStatus != '')?const SizedBox(
+              height: 10,
+            ):const SizedBox.shrink(),
+            (activeStatus != "delivered" && nextStatus != '')?const Text(
               'Status',
               style: TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
-            ),
-            const SizedBox(
+            ):const SizedBox.shrink(),
+            (activeStatus != "delivered" && nextStatus != '')?const SizedBox(
               height: 10,
-            ),
+            ):const SizedBox.shrink(),
 
-            GestureDetector(
-              onTap: (){
-                List<String> statusTypes = [
-                  "Order accepted",
-                  "Packing Order",
-                  "Packed",
-                ];
-                showModalBottomSheet(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text("Select Status",
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold)),
-                                IconButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    icon: const Icon(Icons.close))
-                              ],
-                            ),
-                            Expanded(
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: statusTypes.length,
-                                  itemBuilder: (BuildContext context,
-                                      int index) {
-                                    return InkWell(
-                                      onTap: () async {
-                                        showLoaderDialog(context);
-                                        OrderStatusUpdateResponseModel res = await ApiCalls().setOrderStatus(statusTypes[index],order['orderId']);
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                        if(res.statusCode==200){
-                                          activeStatus = statusTypes[index];
-                                          showSuccessToast(context, res.message!);
-                                        }else{
-                                          showErrorToast(context, res.message!);
-                                        }
-                                      },
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets
-                                                .symmetric(
-                                                vertical: 10),
-                                            child: Text(
-                                              statusTypes[index],
-                                              style: const TextStyle(
-                                                  fontSize: 18),
-                                            ),
-                                          ),
-                                          const Divider()
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).then((value) {
-                  setState(() {});
-                });
+            (activeStatus != "delivered" && nextStatus != '')?GestureDetector(
+              onTap: () async {
+                showLoaderDialog(context);
+                OrderStatusUpdateResponseModel res = await ApiCalls().setOrderStatus(nextStatus,order['orderId']);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                if(res.statusCode==200){
+                  activeStatus = nextStatus;
+                  showSuccessToast(context, res.message!);
+                }else{
+                  showErrorToast(context, res.message!);
+                }
               },
               child: Container(
                 width: screenSize.width,
@@ -212,15 +170,17 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const SizedBox(width: 10,),
                         const Icon(Icons.delivery_dining),
                         const SizedBox(width: 10,),
                         Text(
-                          activeStatus,
+                          "Move to "+nextStatus,
                           style: const TextStyle(
                             color: AppColors.fontColor,
                             fontSize: 16,
@@ -229,14 +189,14 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                         ),
                       ],
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Icon(Icons.keyboard_arrow_down_outlined),
-                    )
+                    // const Padding(
+                    //   padding: EdgeInsets.only(right: 20),
+                    //   child: Icon(Icons.keyboard_arrow_down_outlined),
+                    // )
                   ],
                 ),
               ),
-            ),
+            ):const SizedBox.shrink(),
 
             const SizedBox(
               height: 10,

@@ -39,6 +39,11 @@ class _OrdersListState extends State<OrdersList> {
                         onTap: () {
                           Navigator.pushNamed(context, Routes.viewOrderDetailRoute,arguments: {
                             'orderDetails':snapshot.data!.result![index].toJson()
+                          }).then((value) {
+                            setState(() {
+                              dashboardProvider.getOrdersOnStatus(widget.ordersType);
+                            });
+                            return null;
                           });
                         },
                         child: Container(

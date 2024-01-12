@@ -74,115 +74,6 @@ class _EditProductState extends State<EditProduct> {
                   key: productsProvider.editProductFormKey,
                   child: Column(
                     children: [
-                      TextFormField(
-                        textInputAction: TextInputAction.next,
-                        controller: productsProvider.editProductSkuController,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter product sku';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Product SKU',
-                          counterText: "",
-                          isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 10),
-                        ),
-                        textAlignVertical: TextAlignVertical.center,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        textInputAction: TextInputAction.next,
-                        controller:
-                        productsProvider.editProductNameController,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter product name';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Product name',
-                          counterText: "",
-                          isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 10),
-                        ),
-                        textAlignVertical: TextAlignVertical.center,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        textInputAction: TextInputAction.next,
-                        controller:
-                        productsProvider.editProductQuantityController,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter product quantity';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: 'Product quantity',
-                          counterText: "",
-                          isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 10),
-                        ),
-                        textAlignVertical: TextAlignVertical.center,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        textInputAction: TextInputAction.next,
-                        controller:
-                        productsProvider.editProductDescriptionController,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter product description';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Product description',
-                          counterText: "",
-                          isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 10),
-                        ),
-                        textAlignVertical: TextAlignVertical.center,
-                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -419,6 +310,116 @@ class _EditProductState extends State<EditProduct> {
                           ),
                           textAlignVertical: TextAlignVertical.center,
                         ),
+                      ),
+                      const SizedBox(height: 10,),
+                      TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller: productsProvider.editProductSkuController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter product sku';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Product SKU',
+                          counterText: "",
+                          isCollapsed: true,
+                          filled: true,
+                          fillColor: AppColors.inputFieldColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 10),
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller:
+                        productsProvider.editProductNameController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter product name';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Product name',
+                          counterText: "",
+                          isCollapsed: true,
+                          filled: true,
+                          fillColor: AppColors.inputFieldColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 10),
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller:
+                        productsProvider.editProductQuantityController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter product quantity';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          hintText: 'Product quantity',
+                          counterText: "",
+                          isCollapsed: true,
+                          filled: true,
+                          fillColor: AppColors.inputFieldColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 10),
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller:
+                        productsProvider.editProductDescriptionController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter product description';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Product description',
+                          counterText: "",
+                          isCollapsed: true,
+                          filled: true,
+                          fillColor: AppColors.inputFieldColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 10),
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
                       ),
 
                       const SizedBox(

@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider, Widget? child) {
         if(firstTimeLoading!=true){
+          print("case2");
           dashboardProvider.getHomeData();
           firstTimeLoading = true;
         }
@@ -232,6 +233,11 @@ class _HomeScreenState extends State<HomeScreen> {
                      onTap: (){
                        Navigator.pushNamed(context, Routes.viewOrderDetailRoute,arguments: {
                          'orderDetails':dashboardProvider.homeResponse!.result!.newOrderListArray![index].toJson()
+                       }).then((value) {
+                         setState(() {
+                           firstTimeLoading=false;
+                         });
+                         return null;
                        });
                      },
                      child: Container(

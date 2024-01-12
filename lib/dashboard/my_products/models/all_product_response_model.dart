@@ -44,17 +44,19 @@ class Result {
   String? createdAt;
   String? productUuid;
   String? productName;
+  List<ProductImgArray>? productImgArray;
   String? storeUuid;
   String? storeName;
   String? description;
   bool? isMrp;
-  int? sellingPrice;
+  double? sellingPrice;
   bool? isAvailable;
   String? productSku;
   String? productUom;
-  int? productTax;
-  int? productDiscount;
-  int? productOffer;
+  double? productTax;
+  double? productDiscount;
+  int? productTaxValue;
+  double? productOffer;
   int? productQuantity;
   int? addedCartQuantity;
   int? purchaseMinQuantity;
@@ -63,7 +65,6 @@ class Result {
   String? productModel;
   bool? isDeleted;
   int? productGrandTotal;
-  List<ProductImgArray>? productImgArray;
   int? v;
 
   Result({
@@ -74,6 +75,7 @@ class Result {
     this.createdAt,
     this.productUuid,
     this.productName,
+    this.productImgArray,
     this.storeUuid,
     this.storeName,
     this.description,
@@ -84,6 +86,7 @@ class Result {
     this.productUom,
     this.productTax,
     this.productDiscount,
+    this.productTaxValue,
     this.productOffer,
     this.productQuantity,
     this.addedCartQuantity,
@@ -93,7 +96,6 @@ class Result {
     this.productModel,
     this.isDeleted,
     this.productGrandTotal,
-    this.productImgArray,
     this.v,
   });
 
@@ -105,17 +107,19 @@ class Result {
     createdAt: json["createdAt"],
     productUuid: json["productUuid"],
     productName: json["productName"],
+    productImgArray: json["productImgArray"] == null ? [] : List<ProductImgArray>.from(json["productImgArray"]!.map((x) => ProductImgArray.fromJson(x))),
     storeUuid: json["storeUuid"],
     storeName: json["storeName"],
     description: json["description"],
     isMrp: json["isMrp"],
-    sellingPrice: json["sellingPrice"],
+    sellingPrice: json["sellingPrice"]?.toDouble(),
     isAvailable: json["isAvailable"],
     productSku: json["productSku"],
     productUom: json["productUom"],
-    productTax: json["productTax"],
-    productDiscount: json["productDiscount"],
-    productOffer: json["productOffer"],
+    productTax: json["productTax"]?.toDouble(),
+    productDiscount: json["productDiscount"]?.toDouble(),
+    productTaxValue: json["productTaxValue"],
+    productOffer: json["productOffer"]?.toDouble(),
     productQuantity: json["productQuantity"],
     addedCartQuantity: json["addedCartQuantity"],
     purchaseMinQuantity: json["purchaseMinQuantity"],
@@ -124,7 +128,6 @@ class Result {
     productModel: json["productModel"],
     isDeleted: json["isDeleted"],
     productGrandTotal: json["productGrandTotal"],
-    productImgArray: json["productImgArray"] == null ? [] : List<ProductImgArray>.from(json["productImgArray"]!.map((x) => ProductImgArray.fromJson(x))),
     v: json["__v"],
   );
 
@@ -136,6 +139,7 @@ class Result {
     "createdAt": createdAt,
     "productUuid": productUuid,
     "productName": productName,
+    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x.toJson())),
     "storeUuid": storeUuid,
     "storeName": storeName,
     "description": description,
@@ -146,6 +150,7 @@ class Result {
     "productUom": productUom,
     "productTax": productTax,
     "productDiscount": productDiscount,
+    "productTaxValue": productTaxValue,
     "productOffer": productOffer,
     "productQuantity": productQuantity,
     "addedCartQuantity": addedCartQuantity,
@@ -155,7 +160,6 @@ class Result {
     "productModel": productModel,
     "isDeleted": isDeleted,
     "productGrandTotal": productGrandTotal,
-    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x.toJson())),
     "__v": v,
   };
 }

@@ -47,17 +47,18 @@ class Result {
   ProductSubCategory? productSubCategory;
   String? description;
   bool? isMrp;
-  int? sellingPrice;
+  double? sellingPrice;
   Variants? variants;
   bool? isAvailable;
   String? productSku;
   String? productUom;
-  int? productTax;
-  int? productDiscount;
-  int? productOffer;
+  double? productTax;
+  double? productDiscount;
+  int? productTaxValue;
+  double? productOffer;
   int? productQuantity;
   int? addedCartQuantity;
-  double? purchaseMinQuantity;
+  int? purchaseMinQuantity;
   int? productHsnCode;
   String? manufacturer;
   String? productModel;
@@ -84,6 +85,7 @@ class Result {
     this.productUom,
     this.productTax,
     this.productDiscount,
+    this.productTaxValue,
     this.productOffer,
     this.productQuantity,
     this.addedCartQuantity,
@@ -108,17 +110,18 @@ class Result {
     productSubCategory: json["productSubCategory"] == null ? null : ProductSubCategory.fromJson(json["productSubCategory"]),
     description: json["description"],
     isMrp: json["isMrp"],
-    sellingPrice: json["sellingPrice"],
+    sellingPrice: json["sellingPrice"]?.toDouble(),
     variants: json["variants"] == null ? null : Variants.fromJson(json["variants"]),
     isAvailable: json["isAvailable"],
     productSku: json["productSku"],
     productUom: json["productUom"],
-    productTax: json["productTax"],
-    productDiscount: json["productDiscount"],
-    productOffer: json["productOffer"],
+    productTax: json["productTax"]?.toDouble(),
+    productDiscount: json["productDiscount"]?.toDouble(),
+    productTaxValue: json["productTaxValue"],
+    productOffer: json["productOffer"]?.toDouble(),
     productQuantity: json["productQuantity"],
     addedCartQuantity: json["addedCartQuantity"],
-    purchaseMinQuantity: json["purchaseMinQuantity"]?.toDouble(),
+    purchaseMinQuantity: json["purchaseMinQuantity"],
     productHsnCode: json["productHsnCode"],
     manufacturer: json["manufacturer"],
     productModel: json["productModel"],
@@ -146,6 +149,7 @@ class Result {
     "productUom": productUom,
     "productTax": productTax,
     "productDiscount": productDiscount,
+    "productTaxValue": productTaxValue,
     "productOffer": productOffer,
     "productQuantity": productQuantity,
     "addedCartQuantity": addedCartQuantity,
@@ -213,20 +217,24 @@ class ProductImgArray {
 }
 
 class ProductSubCategory {
+  String? productCategoryId;
   String? productSubCategoryId;
   String? productSubCategoryName;
 
   ProductSubCategory({
+    this.productCategoryId,
     this.productSubCategoryId,
     this.productSubCategoryName,
   });
 
   factory ProductSubCategory.fromJson(Map<String, dynamic> json) => ProductSubCategory(
+    productCategoryId: json["productCategoryId"],
     productSubCategoryId: json["productSubCategoryId"],
     productSubCategoryName: json["productSubCategoryName"],
   );
 
   Map<String, dynamic> toJson() => {
+    "productCategoryId": productCategoryId,
     "productSubCategoryId": productSubCategoryId,
     "productSubCategoryName": productSubCategoryName,
   };
