@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:provider/provider.dart';
+import 'package:samruddhi_store/api_calls.dart';
 import 'package:samruddhi_store/dashboard/my_products/provider/products_provider.dart';
 import 'package:samruddhi_store/utils/url_constants.dart';
 
@@ -32,8 +33,8 @@ class _MyProductsState extends State<MyProducts> {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.storeBackground,
-            title: const Text(
-              "More Super mart",
+            title: Text(
+              "${prefModel.userData!.displayName}",
             ),
             centerTitle: true,
             // leading: const Icon(Icons.edit_outlined),
@@ -72,21 +73,21 @@ class _MyProductsState extends State<MyProducts> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Groceries and shopping",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.fontColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      // const Text(
+                      //   "${prefModel.userData!.displayName}",
+                      //   textAlign: TextAlign.center,
+                      //   style: TextStyle(
+                      //     color: AppColors.fontColor,
+                      //     fontSize: 16,
+                      //     fontWeight: FontWeight.w500,
+                      //   ),
+                      // ),
                       SizedBox(
                         width: screenSize.width / 1.75,
-                        child: const Text(
-                          "#11, First floor vcnr Hospital, Nelamangala bangalore - 562123",
+                        child: Text(
+                          "${prefModel.userData!.addressArray![0].completeAddress} ${prefModel.userData!.addressArray![0].state} ${prefModel.userData!.addressArray![0].city} ${prefModel.userData!.addressArray![0].zipCode}",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: AppColors.fontColor,
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -103,8 +104,9 @@ class _MyProductsState extends State<MyProducts> {
               Expanded(
                 child: GroupedListView<dynamic, String>(
                   elements: productsProvider.allProducts,
-                  groupBy: (element) =>
-                      element['productCategory']['productCategoryName'],
+                  groupBy: (element) {
+                    return element['productCategory']['productCategoryName'];
+                  },
                   groupSeparatorBuilder: (String groupByValue) {
                     return GestureDetector(
                       onTap: () {},
@@ -114,7 +116,7 @@ class _MyProductsState extends State<MyProducts> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "${groupByValue}",
+                              groupByValue,
                               style: const TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 20,
