@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -51,6 +52,7 @@ class ApiCalls {
   Future<LoginResponseModel> getUserDetails(String uid, String fcmToken) async {
     http.Response response = await hitApi(false, UrlConstant.storeDetails,
         jsonEncode({"storeUuid": uid, "storeFcmToken": fcmToken}));
+    log(response.body);
     return LoginResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -159,9 +161,6 @@ class ApiCalls {
     String? productCategoryName,
     String? description,
     String? sellingPrice,
-    String? color,
-    String? size,
-    String? quality,
     String? productTax,
     String? productUom,
     String? productDiscount,
@@ -171,7 +170,7 @@ class ApiCalls {
     String? productHsnCode,
     String? productModel,
     String? productSubCategoryName,
-    File? selectedImage,
+    File? selectedImage, String? isPerishable, String? isReturnable,
   }) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.createProduct));
@@ -186,9 +185,6 @@ class ApiCalls {
     request.fields['description'] = description!;
     request.fields['isMrp'] = "true";
     request.fields['sellingPrice'] = sellingPrice!;
-    request.fields['color'] = color!;
-    request.fields['size'] = size!;
-    request.fields['quality'] = quality!;
     request.fields['productTax'] = productTax!;
     request.fields['productUom'] = productUom!;
     request.fields['productDiscount'] = productDiscount!;
@@ -198,6 +194,9 @@ class ApiCalls {
     request.fields['productHsnCode'] = productHsnCode!;
     request.fields['productModel'] = productModel!;
     request.fields['productSubCategoryName'] = productSubCategoryName!;
+    request.fields['isPerishable'] = isPerishable=="Yes"?"true":"false";
+    request.fields['isReturnable'] = isReturnable=="Yes"?"true":"false";
+
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -302,6 +301,7 @@ class ApiCalls {
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
+    log(responseJson.toString());
     return UpdateProductResponseModel.fromJson(responseJson);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/dashboard/my_products/provider/products_provider.dart';
 
@@ -13,6 +14,27 @@ class AddProduct extends StatefulWidget {
 
 class _AddProductState extends State<AddProduct> {
   bool? firstTimeLoading;
+  DateTime? selectedDate;
+
+
+  Future<void> selectDate(BuildContext context, ProductsProvider productsProvider) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now()
+          .add(const Duration(days: 365)), // Limit to 30 days from now
+    );
+
+    if (pickedDate != null && pickedDate != selectedDate) {
+      setState(() {
+        selectedDate = pickedDate;
+        productsProvider.expiryDateController.text=DateFormat("dd/MM/yyyy").format(
+            DateTime.parse(selectedDate
+                .toString()));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -399,6 +421,8 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              maxLines: 3,
+                              minLines: 3,
                               textInputAction: TextInputAction.next,
                               controller:
                                   productsProvider.productDescriptionController,
@@ -630,64 +654,64 @@ class _AddProductState extends State<AddProduct> {
                             const SizedBox(
                               height: 10,
                             ),
-                            TextFormField(
-                              keyboardType: TextInputType.number,
-                              textInputAction: TextInputAction.next,
-                              controller:
-                                  productsProvider.productOfferController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter product offer';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                hintText: 'Product offer',
-                                counterText: "",
-                                isCollapsed: true,
-                                filled: true,
-                                fillColor: AppColors.inputFieldColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 16.0, horizontal: 10),
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                            ),
+                            // TextFormField(
+                            //   keyboardType: TextInputType.number,
+                            //   textInputAction: TextInputAction.next,
+                            //   controller:
+                            //       productsProvider.productOfferController,
+                            //   validator: (value) {
+                            //     if (value!.isEmpty) {
+                            //       return 'Please enter product offer';
+                            //     }
+                            //     return null;
+                            //   },
+                            //   decoration: InputDecoration(
+                            //     hintText: 'Product offer',
+                            //     counterText: "",
+                            //     isCollapsed: true,
+                            //     filled: true,
+                            //     fillColor: AppColors.inputFieldColor,
+                            //     border: OutlineInputBorder(
+                            //       borderRadius: BorderRadius.circular(10.0),
+                            //       borderSide: BorderSide.none,
+                            //     ),
+                            //     contentPadding: const EdgeInsets.symmetric(
+                            //         vertical: 16.0, horizontal: 10),
+                            //   ),
+                            //   textAlignVertical: TextAlignVertical.center,
+                            // ),
                             const SizedBox(
                               height: 10,
                             ),
-                            TextFormField(
-                              keyboardType: TextInputType.number,
-                              textInputAction: TextInputAction.next,
-                              controller:
-                                  productsProvider.productMinQtyController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please enter product minimum purchase quantity';
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                hintText: 'Product minimum purchase quantity',
-                                counterText: "",
-                                isCollapsed: true,
-                                filled: true,
-                                fillColor: AppColors.inputFieldColor,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 16.0, horizontal: 10),
-                              ),
-                              textAlignVertical: TextAlignVertical.center,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
+                            // TextFormField(
+                            //   keyboardType: TextInputType.number,
+                            //   textInputAction: TextInputAction.next,
+                            //   controller:
+                            //       productsProvider.productMinQtyController,
+                            //   validator: (value) {
+                            //     if (value!.isEmpty) {
+                            //       return 'Please enter product minimum purchase quantity';
+                            //     }
+                            //     return null;
+                            //   },
+                            //   decoration: InputDecoration(
+                            //     hintText: 'Product minimum purchase quantity',
+                            //     counterText: "",
+                            //     isCollapsed: true,
+                            //     filled: true,
+                            //     fillColor: AppColors.inputFieldColor,
+                            //     border: OutlineInputBorder(
+                            //       borderRadius: BorderRadius.circular(10.0),
+                            //       borderSide: BorderSide.none,
+                            //     ),
+                            //     contentPadding: const EdgeInsets.symmetric(
+                            //         vertical: 16.0, horizontal: 10),
+                            //   ),
+                            //   textAlignVertical: TextAlignVertical.center,
+                            // ),
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
                             TextFormField(
                               textInputAction: TextInputAction.next,
                               controller: productsProvider
@@ -746,11 +770,9 @@ class _AddProductState extends State<AddProduct> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                List<String> colorTypes = [
-                                  "Green",
-                                  "White",
-                                  "Orange",
-                                  "Black",
+                                List<String> returnableList = [
+                                  "Yes",
+                                  "No"
                                 ];
                                 showModalBottomSheet(
                                     context: context,
@@ -764,7 +786,7 @@ class _AddProductState extends State<AddProduct> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                const Text("Select Color",
+                                                const Text("Is it returnable ?",
                                                     style: TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
@@ -780,16 +802,16 @@ class _AddProductState extends State<AddProduct> {
                                             Expanded(
                                               child: ListView.builder(
                                                   shrinkWrap: true,
-                                                  itemCount: colorTypes.length,
+                                                  itemCount: returnableList.length,
                                                   itemBuilder:
                                                       (BuildContext context,
                                                           int index) {
                                                     return InkWell(
                                                       onTap: () {
                                                         productsProvider
-                                                                .productColorController
+                                                                .productReturnController
                                                                 .text =
-                                                            colorTypes[index];
+                                                        returnableList[index];
                                                         Navigator.pop(context);
                                                       },
                                                       child: Column(
@@ -807,7 +829,7 @@ class _AddProductState extends State<AddProduct> {
                                                                     vertical:
                                                                         10),
                                                             child: Text(
-                                                              colorTypes[index],
+                                                              returnableList[index],
                                                               style:
                                                                   const TextStyle(
                                                                       fontSize:
@@ -830,7 +852,7 @@ class _AddProductState extends State<AddProduct> {
                               child: TextFormField(
                                 enabled: false,
                                 controller:
-                                    productsProvider.productColorController,
+                                    productsProvider.productReturnController,
                                 // validator: (value) {
                                 //   if (value!.isEmpty) {
                                 //     return 'Please select color';
@@ -840,7 +862,7 @@ class _AddProductState extends State<AddProduct> {
                                 decoration: InputDecoration(
                                   suffixIcon: const Icon(
                                       Icons.keyboard_arrow_down_sharp),
-                                  hintText: 'Select product color',
+                                  hintText: 'Is it returnable ?',
                                   counterText: "",
                                   isCollapsed: true,
                                   filled: true,
@@ -860,10 +882,9 @@ class _AddProductState extends State<AddProduct> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                List<String> qualityTypes = [
-                                  "Good",
-                                  "Better",
-                                  "Best",
+                                List<String> productPerishable = [
+                                  "Yes",
+                                  "No",
                                 ];
                                 showModalBottomSheet(
                                     context: context,
@@ -877,7 +898,7 @@ class _AddProductState extends State<AddProduct> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                const Text("Select Quality",
+                                                const Text("Is product Perishable ?",
                                                     style: TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
@@ -894,16 +915,16 @@ class _AddProductState extends State<AddProduct> {
                                               child: ListView.builder(
                                                   shrinkWrap: true,
                                                   itemCount:
-                                                      qualityTypes.length,
+                                                  productPerishable.length,
                                                   itemBuilder:
                                                       (BuildContext context,
                                                           int index) {
                                                     return InkWell(
                                                       onTap: () {
                                                         productsProvider
-                                                                .productQualityController
+                                                                .productPerishableController
                                                                 .text =
-                                                            qualityTypes[index];
+                                                        productPerishable[index];
                                                         Navigator.pop(context);
                                                       },
                                                       child: Column(
@@ -921,7 +942,7 @@ class _AddProductState extends State<AddProduct> {
                                                                     vertical:
                                                                         10),
                                                             child: Text(
-                                                              qualityTypes[
+                                                              productPerishable[
                                                                   index],
                                                               style:
                                                                   const TextStyle(
@@ -945,7 +966,7 @@ class _AddProductState extends State<AddProduct> {
                               child: TextFormField(
                                 enabled: false,
                                 controller:
-                                    productsProvider.productQualityController,
+                                    productsProvider.productPerishableController,
                                 // validator: (value) {
                                 //   if (value!.isEmpty) {
                                 //     return 'Please select quality';
@@ -955,7 +976,7 @@ class _AddProductState extends State<AddProduct> {
                                 decoration: InputDecoration(
                                   suffixIcon: const Icon(
                                       Icons.keyboard_arrow_down_sharp),
-                                  hintText: 'Select product quality',
+                                  hintText: 'Is it perishable ?',
                                   counterText: "",
                                   isCollapsed: true,
                                   filled: true,
@@ -970,108 +991,145 @@ class _AddProductState extends State<AddProduct> {
                                 textAlignVertical: TextAlignVertical.center,
                               ),
                             ),
+                            // const SizedBox(
+                            //   height: 10,
+                            // ),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     List<String> sizeTypes = [
+                            //       "Small",
+                            //       "Medium",
+                            //       "Large",
+                            //       "Extra Large",
+                            //       "XXL",
+                            //       "XXXL",
+                            //     ];
+                            //     showModalBottomSheet(
+                            //         context: context,
+                            //         builder: (BuildContext context) {
+                            //           return Padding(
+                            //             padding: const EdgeInsets.all(20.0),
+                            //             child: Column(
+                            //               children: [
+                            //                 Row(
+                            //                   mainAxisAlignment:
+                            //                       MainAxisAlignment
+                            //                           .spaceBetween,
+                            //                   children: [
+                            //                     const Text("Select Category",
+                            //                         style: TextStyle(
+                            //                             fontSize: 20,
+                            //                             fontWeight:
+                            //                                 FontWeight.bold)),
+                            //                     IconButton(
+                            //                         onPressed: () {
+                            //                           Navigator.pop(context);
+                            //                         },
+                            //                         icon:
+                            //                             const Icon(Icons.close))
+                            //                   ],
+                            //                 ),
+                            //                 Expanded(
+                            //                   child: ListView.builder(
+                            //                       shrinkWrap: true,
+                            //                       itemCount: sizeTypes.length,
+                            //                       itemBuilder:
+                            //                           (BuildContext context,
+                            //                               int index) {
+                            //                         return InkWell(
+                            //                           onTap: () {
+                            //                             productsProvider
+                            //                                     .productSizeController
+                            //                                     .text =
+                            //                                 sizeTypes[index];
+                            //                             Navigator.pop(context);
+                            //                           },
+                            //                           child: Column(
+                            //                             mainAxisAlignment:
+                            //                                 MainAxisAlignment
+                            //                                     .start,
+                            //                             crossAxisAlignment:
+                            //                                 CrossAxisAlignment
+                            //                                     .start,
+                            //                             children: [
+                            //                               Padding(
+                            //                                 padding:
+                            //                                     const EdgeInsets
+                            //                                         .symmetric(
+                            //                                         vertical:
+                            //                                             10),
+                            //                                 child: Text(
+                            //                                   sizeTypes[index],
+                            //                                   style:
+                            //                                       const TextStyle(
+                            //                                           fontSize:
+                            //                                               18),
+                            //                                 ),
+                            //                               ),
+                            //                               const Divider()
+                            //                             ],
+                            //                           ),
+                            //                         );
+                            //                       }),
+                            //                 ),
+                            //               ],
+                            //             ),
+                            //           );
+                            //         }).then((value) {
+                            //       setState(() {});
+                            //     });
+                            //   },
+                            //   child: TextFormField(
+                            //     enabled: false,
+                            //     controller:
+                            //         productsProvider.productSizeController,
+                            //     // validator: (value) {
+                            //     //   if (value!.isEmpty) {
+                            //     //     return 'Please select size';
+                            //     //   }
+                            //     //   return null;
+                            //     // },
+                            //     decoration: InputDecoration(
+                            //       suffixIcon: const Icon(
+                            //           Icons.keyboard_arrow_down_sharp),
+                            //       hintText: 'Select product size',
+                            //       counterText: "",
+                            //       isCollapsed: true,
+                            //       filled: true,
+                            //       fillColor: AppColors.inputFieldColor,
+                            //       border: OutlineInputBorder(
+                            //         borderRadius: BorderRadius.circular(10.0),
+                            //         borderSide: BorderSide.none,
+                            //       ),
+                            //       contentPadding: const EdgeInsets.symmetric(
+                            //           vertical: 16.0, horizontal: 10),
+                            //     ),
+                            //     textAlignVertical: TextAlignVertical.center,
+                            //   ),
+                            // ),
                             const SizedBox(
-                              height: 10,
+                              height: 20,
                             ),
                             GestureDetector(
-                              onTap: () {
-                                List<String> sizeTypes = [
-                                  "Small",
-                                  "Medium",
-                                  "Large",
-                                  "Extra Large",
-                                  "XXL",
-                                  "XXXL",
-                                ];
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                const Text("Select Category",
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                                IconButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    icon:
-                                                        const Icon(Icons.close))
-                                              ],
-                                            ),
-                                            Expanded(
-                                              child: ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount: sizeTypes.length,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    return InkWell(
-                                                      onTap: () {
-                                                        productsProvider
-                                                                .productSizeController
-                                                                .text =
-                                                            sizeTypes[index];
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    vertical:
-                                                                        10),
-                                                            child: Text(
-                                                              sizeTypes[index],
-                                                              style:
-                                                                  const TextStyle(
-                                                                      fontSize:
-                                                                          18),
-                                                            ),
-                                                          ),
-                                                          const Divider()
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }).then((value) {
-                                  setState(() {});
-                                });
-                              },
+                              onTap: () => selectDate(context,productsProvider),
                               child: TextFormField(
                                 enabled: false,
-                                controller:
-                                    productsProvider.productSizeController,
-                                // validator: (value) {
-                                //   if (value!.isEmpty) {
-                                //     return 'Please select size';
-                                //   }
-                                //   return null;
-                                // },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Select expiry date';
+                                  }
+                                  // if (authController.isNotValidName(value)) {
+                                  //   return "Please enter valid name";
+                                  // }
+                                  return null;
+                                },
+                                controller: productsProvider.expiryDateController,
                                 decoration: InputDecoration(
                                   suffixIcon: const Icon(
-                                      Icons.keyboard_arrow_down_sharp),
-                                  hintText: 'Select product size',
+                                    Icons.calendar_month_outlined,
+                                    color: AppColors.fontColor,
+                                  ),
+                                  hintText: 'Select expiry date',
                                   counterText: "",
                                   isCollapsed: true,
                                   filled: true,
@@ -1081,11 +1139,12 @@ class _AddProductState extends State<AddProduct> {
                                     borderSide: BorderSide.none,
                                   ),
                                   contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 16.0, horizontal: 10),
+                                      vertical: 16.0, horizontal: 16),
                                 ),
                                 textAlignVertical: TextAlignVertical.center,
                               ),
                             ),
+
                             const SizedBox(
                               height: 20,
                             ),

@@ -31,9 +31,11 @@ class ProductsProvider extends ChangeNotifier {
   TextEditingController productModelController = TextEditingController();
   TextEditingController productTaxController = TextEditingController();
   TextEditingController productOfferController = TextEditingController();
-  TextEditingController productColorController = TextEditingController();
-  TextEditingController productQualityController = TextEditingController();
+  TextEditingController productReturnController = TextEditingController();
+  TextEditingController productPerishableController = TextEditingController();
   TextEditingController productSizeController = TextEditingController();
+  TextEditingController expiryDateController = TextEditingController();
+
   final addProductFormKey = GlobalKey<FormState>();
   BuildContext? addProductScreenContext;
   ProductSubCategoryListModel? subCategoriesList;
@@ -67,6 +69,10 @@ class ProductsProvider extends ChangeNotifier {
   TextEditingController editProductColorController = TextEditingController();
   TextEditingController editProductQualityController = TextEditingController();
   TextEditingController editProductSizeController = TextEditingController();
+  TextEditingController editProductReturnController = TextEditingController();
+  TextEditingController editProductPerishableController = TextEditingController();
+  TextEditingController editExpiryDateController = TextEditingController();
+
   final editProductFormKey = GlobalKey<FormState>();
   BuildContext? editProductScreenContext;
 
@@ -99,9 +105,6 @@ class ProductsProvider extends ChangeNotifier {
         productCategoryName: productCategoryController.text,
         description: productDescriptionController.text,
         sellingPrice: productSellingPriceController.text,
-        color: productColorController.text,
-        size: productSizeController.text,
-        quality: productQualityController.text,
         productTax: productTaxController.text,
         productUom: productUomController.text,
         productDiscount: productDiscountController.text,
@@ -111,7 +114,10 @@ class ProductsProvider extends ChangeNotifier {
         productHsnCode: productHsnCodeController.text,
         productModel: productModelController.text,
         productSubCategoryName: productSubCategoryController.text,
-        selectedImage: selectedImage);
+        selectedImage: selectedImage,
+      isPerishable:productPerishableController.text,
+        isReturnable:productReturnController.text,
+    );
 
     if (response.statusCode == 201) {
       await getStoreProducts();
@@ -149,10 +155,19 @@ class ProductsProvider extends ChangeNotifier {
     editProductMinQtyController.text =  element['purchaseMinQuantity'].toString();
     editProductManufacturerController.text =  element['manufacturer'].toString();
     editProductModelController.text =  element['productModel'].toString();
-    editProductColorController.text =  element['variants']['color'].toString();
-    editProductQualityController.text =  element['variants']['quality'].toString();
-    editProductSizeController.text =  element['variants']['size'].toString();
-    editProductDescriptionController.text =  element['description'].toString();
+    editProductPerishableController.text = element['isPerishable']==true?"Yes":'No';
+    editProductReturnController.text = element['isReturnable']==true?"Yes":'No';
+    editExpiryDateController.text = element['productExpiryDate']??"";
+    if(element['variants']==null){
+      editProductColorController.clear();
+      editProductQualityController.clear();
+      editProductSizeController.clear();
+    }else{
+      editProductColorController.text =  element['variants']['color'].toString();
+      editProductQualityController.text =  element['variants']['quality'].toString();
+      editProductSizeController.text =  element['variants']['size'].toString();
+      editProductDescriptionController.text =  element['description'].toString();
+    }
     notifyListeners();
   }
 

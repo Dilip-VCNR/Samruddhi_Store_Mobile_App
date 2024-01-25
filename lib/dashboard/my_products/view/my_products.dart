@@ -85,7 +85,7 @@ class _MyProductsState extends State<MyProducts> {
                       SizedBox(
                         width: screenSize.width / 1.75,
                         child: Text(
-                          "${prefModel.userData!.addressArray![0].completeAddress} ${prefModel.userData!.addressArray![0].state} ${prefModel.userData!.addressArray![0].city} ${prefModel.userData!.addressArray![0].zipCode}",
+                          "${prefModel.userData!.addressArray!.completeAddress} ${prefModel.userData!.addressArray!.state} ${prefModel.userData!.addressArray!.city} ${prefModel.userData!.addressArray!.zipCode}",
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: AppColors.fontColor,
@@ -101,7 +101,7 @@ class _MyProductsState extends State<MyProducts> {
               const SizedBox(
                 height: 10,
               ),
-              Expanded(
+              productsProvider.allProducts.isNotEmpty?Expanded(
                 child: GroupedListView<dynamic, String>(
                   elements: productsProvider.allProducts,
                   groupBy: (element) {
@@ -123,16 +123,16 @@ class _MyProductsState extends State<MyProducts> {
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            // GestureDetector(
-                            //   onTap: () {},
-                            //   child: Icon(
-                            //     isSubcategoryHidden
-                            //         ? Icons.keyboard_arrow_up_rounded
-                            //         : Icons.keyboard_arrow_down_rounded,
-                            //     color: AppColors.fontColor,
-                            //     size: 40,
-                            //   ),
-                            // )
+                            GestureDetector(
+                              onTap: () {},
+                              child: Icon(
+                                isSubcategoryHidden
+                                    ? Icons.keyboard_arrow_up_rounded
+                                    : Icons.keyboard_arrow_down_rounded,
+                                color: AppColors.fontColor,
+                                size: 40,
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -253,7 +253,7 @@ class _MyProductsState extends State<MyProducts> {
                   // optional
                   order: GroupedListOrder.ASC, // optional
                 ),
-              )
+              ):const Center(child: Text("No Products yet"),)
             ],
           ),
         );

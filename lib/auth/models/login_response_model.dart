@@ -37,6 +37,7 @@ class LoginResponseModel {
 }
 
 class StoreInfo {
+  AddressArray? addressArray;
   String? id;
   String? createdAt;
   bool? isHeadquarters;
@@ -49,23 +50,25 @@ class StoreInfo {
   int? mobile;
   String? emailId;
   String? password;
-  List<ImgArray>? documentImgArray;
-  List<AddressArray>? addressArray;
-  List<ImgArray>? storeImgArray;
+  List<StoreImgArray>? storeImgArray;
   String? storeFcmToken;
   String? storeAuthToken;
-  dynamic zone;
+  String? storeCategoryId;
+  String? storeCategoryName;
+  String? zone;
   String? deliveryType;
   int? deliveryFee;
   String? hubUuid;
-  int? storeOffer;
   bool? isApproved;
   bool? isDeleted;
   bool? isHomeDelivery;
   dynamic operatorUuid;
+  List<dynamic>? documentImgArray;
+  List<dynamic>? orderDeliveryDetails;
   int? v;
 
   StoreInfo({
+    this.addressArray,
     this.id,
     this.createdAt,
     this.isHeadquarters,
@@ -78,24 +81,26 @@ class StoreInfo {
     this.mobile,
     this.emailId,
     this.password,
-    this.documentImgArray,
-    this.addressArray,
     this.storeImgArray,
     this.storeFcmToken,
     this.storeAuthToken,
+    this.storeCategoryId,
+    this.storeCategoryName,
     this.zone,
     this.deliveryType,
     this.deliveryFee,
     this.hubUuid,
-    this.storeOffer,
     this.isApproved,
     this.isDeleted,
     this.isHomeDelivery,
     this.operatorUuid,
+    this.documentImgArray,
+    this.orderDeliveryDetails,
     this.v,
   });
 
   factory StoreInfo.fromJson(Map<String, dynamic> json) => StoreInfo(
+    addressArray: json["addressArray"] == null ? null : AddressArray.fromJson(json["addressArray"]),
     id: json["_id"],
     createdAt: json["createdAt"],
     isHeadquarters: json["isHeadquarters"],
@@ -108,24 +113,26 @@ class StoreInfo {
     mobile: json["mobile"],
     emailId: json["emailId"],
     password: json["password"],
-    documentImgArray: json["documentImgArray"] == null ? [] : List<ImgArray>.from(json["documentImgArray"]!.map((x) => ImgArray.fromJson(x))),
-    addressArray: json["addressArray"] == null ? [] : List<AddressArray>.from(json["addressArray"]!.map((x) => AddressArray.fromJson(x))),
-    storeImgArray: json["storeImgArray"] == null ? [] : List<ImgArray>.from(json["storeImgArray"]!.map((x) => ImgArray.fromJson(x))),
+    storeImgArray: json["storeImgArray"] == null ? [] : List<StoreImgArray>.from(json["storeImgArray"]!.map((x) => StoreImgArray.fromJson(x))),
     storeFcmToken: json["storeFcmToken"],
     storeAuthToken: json["storeAuthToken"],
+    storeCategoryId: json["storeCategoryId"],
+    storeCategoryName: json["storeCategoryName"],
     zone: json["zone"],
     deliveryType: json["deliveryType"],
     deliveryFee: json["deliveryFee"],
     hubUuid: json["hubUuid"],
-    storeOffer: json["storeOffer"],
     isApproved: json["isApproved"],
     isDeleted: json["isDeleted"],
     isHomeDelivery: json["isHomeDelivery"],
     operatorUuid: json["operatorUuid"],
+    documentImgArray: json["documentImgArray"] == null ? [] : List<dynamic>.from(json["documentImgArray"]!.map((x) => x)),
+    orderDeliveryDetails: json["orderDeliveryDetails"] == null ? [] : List<dynamic>.from(json["orderDeliveryDetails"]!.map((x) => x)),
     v: json["__v"],
   );
 
   Map<String, dynamic> toJson() => {
+    "addressArray": addressArray?.toJson(),
     "_id": id,
     "createdAt": createdAt,
     "isHeadquarters": isHeadquarters,
@@ -138,20 +145,21 @@ class StoreInfo {
     "mobile": mobile,
     "emailId": emailId,
     "password": password,
-    "documentImgArray": documentImgArray == null ? [] : List<dynamic>.from(documentImgArray!.map((x) => x.toJson())),
-    "addressArray": addressArray == null ? [] : List<dynamic>.from(addressArray!.map((x) => x.toJson())),
     "storeImgArray": storeImgArray == null ? [] : List<dynamic>.from(storeImgArray!.map((x) => x.toJson())),
     "storeFcmToken": storeFcmToken,
     "storeAuthToken": storeAuthToken,
+    "storeCategoryId": storeCategoryId,
+    "storeCategoryName": storeCategoryName,
     "zone": zone,
     "deliveryType": deliveryType,
     "deliveryFee": deliveryFee,
     "hubUuid": hubUuid,
-    "storeOffer": storeOffer,
     "isApproved": isApproved,
     "isDeleted": isDeleted,
     "isHomeDelivery": isHomeDelivery,
     "operatorUuid": operatorUuid,
+    "documentImgArray": documentImgArray == null ? [] : List<dynamic>.from(documentImgArray!.map((x) => x)),
+    "orderDeliveryDetails": orderDeliveryDetails == null ? [] : List<dynamic>.from(orderDeliveryDetails!.map((x) => x)),
     "__v": v,
   };
 }
@@ -165,7 +173,6 @@ class AddressArray {
   double? lng;
   int? zipCode;
   bool? isDeleted;
-  String? id;
 
   AddressArray({
     this.addressType,
@@ -176,7 +183,6 @@ class AddressArray {
     this.lng,
     this.zipCode,
     this.isDeleted,
-    this.id,
   });
 
   factory AddressArray.fromJson(Map<String, dynamic> json) => AddressArray(
@@ -188,7 +194,6 @@ class AddressArray {
     lng: json["lng"]?.toDouble(),
     zipCode: json["zipCode"],
     isDeleted: json["isDeleted"],
-    id: json["_id"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -200,38 +205,37 @@ class AddressArray {
     "lng": lng,
     "zipCode": zipCode,
     "isDeleted": isDeleted,
-    "_id": id,
   };
 }
 
-class ImgArray {
+class StoreImgArray {
   String? imageType;
   String? imageDocName;
   String? imageUrl;
-  String? id;
   bool? isDeleted;
+  String? id;
 
-  ImgArray({
+  StoreImgArray({
     this.imageType,
     this.imageDocName,
     this.imageUrl,
-    this.id,
     this.isDeleted,
+    this.id,
   });
 
-  factory ImgArray.fromJson(Map<String, dynamic> json) => ImgArray(
+  factory StoreImgArray.fromJson(Map<String, dynamic> json) => StoreImgArray(
     imageType: json["imageType"],
     imageDocName: json["imageDocName"],
     imageUrl: json["imageURL"],
-    id: json["_id"],
     isDeleted: json["isDeleted"],
+    id: json["_id"],
   );
 
   Map<String, dynamic> toJson() => {
     "imageType": imageType,
     "imageDocName": imageDocName,
     "imageURL": imageUrl,
-    "_id": id,
     "isDeleted": isDeleted,
+    "_id": id,
   };
 }

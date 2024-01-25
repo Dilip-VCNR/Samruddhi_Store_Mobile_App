@@ -159,6 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 Expanded(
                                   child: TextFormField(
+                                    textCapitalization: TextCapitalization.sentences,
                                     enabled: false,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -207,6 +208,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               Expanded(
                                 child: TextFormField(
+                                  textCapitalization: TextCapitalization.sentences,
                                   textInputAction: TextInputAction.next,
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -250,6 +252,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               Expanded(
                                 child: TextFormField(
+                                  textCapitalization: TextCapitalization.sentences,
                                   textInputAction: TextInputAction.next,
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -293,6 +296,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               Expanded(
                                 child: TextFormField(
+                                  textCapitalization: TextCapitalization.sentences,
                                   textInputAction: TextInputAction.next,
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -407,6 +411,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 Expanded(
                                   child: TextFormField(
+                                    textCapitalization: TextCapitalization.sentences,
                                     enabled: false,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -454,6 +459,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               Expanded(
                                 child: TextFormField(
+                                  textCapitalization: TextCapitalization.sentences,
                                   textInputAction: TextInputAction.done,
                                   validator: (value) {
                                     if (value!.isEmpty) {
@@ -465,8 +471,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     return null;
                                   },
                                   controller: authProvider.gstController,
-                                  keyboardType: TextInputType.number,
-                                  maxLength: 10,
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 15,
                                   decoration: const InputDecoration(
                                       hintText: 'GST Number',
                                       counterText: "",
@@ -567,6 +573,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   Expanded(
                                     child: TextFormField(
+                                      textCapitalization: TextCapitalization.sentences,
                                       enabled: false,
                                       validator: (value) {
                                         if (value!.isEmpty) {
@@ -603,6 +610,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               "No",
                             ];
                             showModalBottomSheet(
+
                                 context: context,
                                 builder: (BuildContext context) {
                                   return Padding(
@@ -687,6 +695,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 Expanded(
                                   child: TextFormField(
+                                    textCapitalization: TextCapitalization.sentences,
                                     enabled: false,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -806,6 +815,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 Expanded(
                                   child: TextFormField(
+                                    textCapitalization: TextCapitalization.sentences,
                                     enabled: false,
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -924,6 +934,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   Expanded(
                                     child: TextFormField(
+                                      textCapitalization: TextCapitalization.sentences,
                                       enabled: false,
                                       validator: (value) {
                                         if (value!.isEmpty) {

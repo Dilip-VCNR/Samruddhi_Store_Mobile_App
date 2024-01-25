@@ -14,7 +14,7 @@ class RegisterResponseModel {
   bool? status;
   int? statusCode;
   String? message;
-  StoreInfo? result;
+  List<StoreInfo>? result;
 
   RegisterResponseModel({
     this.status,
@@ -27,14 +27,17 @@ class RegisterResponseModel {
     status: json["status"],
     statusCode: json["statusCode"],
     message: json["message"],
-    result: json["result"] == null ? null : StoreInfo.fromJson(json["result"]),
+    result: json["result"] == null
+        ? null
+        : (json["result"] is Map
+        ? [StoreInfo.fromJson(json["result"])]
+        : List<StoreInfo>.from((json["result"] as List).map((x) => StoreInfo.fromJson(x)))),
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "statusCode": statusCode,
     "message": message,
-    "result": result?.toJson(),
+    "result": result == null ? [] : List<StoreInfo>.from(result!.map((x) => x.toJson())),
   };
 }
-

@@ -38,42 +38,42 @@ class UpdateProductResponseModel {
 
 class Result {
   ProductCategory? productCategory;
-  Variants? variants;
+  ProductSubCategory? productSubCategory;
   String? id;
   String? createdAt;
   String? productUuid;
   String? productName;
-  List<ProductImgArray>? productImgArray;
   String? storeUuid;
   String? storeName;
   String? description;
   bool? isMrp;
-  int? sellingPrice;
+  double? sellingPrice;
   bool? isAvailable;
   String? productSku;
   String? productUom;
-  int? productTax;
-  int? productDiscount;
-  int? productOffer;
+  double? productTax;
+  double? productDiscount;
+  int? productTaxValue;
+  double? productOffer;
   int? productQuantity;
   int? addedCartQuantity;
-  double? purchaseMinQuantity;
+  int? purchaseMinQuantity;
   int? productHsnCode;
   String? manufacturer;
   String? productModel;
   bool? isDeleted;
   int? productGrandTotal;
+  List<ProductImgArray>? productImgArray;
   int? v;
   String? updatedAt;
 
   Result({
     this.productCategory,
-    this.variants,
+    this.productSubCategory,
     this.id,
     this.createdAt,
     this.productUuid,
     this.productName,
-    this.productImgArray,
     this.storeUuid,
     this.storeName,
     this.description,
@@ -84,6 +84,7 @@ class Result {
     this.productUom,
     this.productTax,
     this.productDiscount,
+    this.productTaxValue,
     this.productOffer,
     this.productQuantity,
     this.addedCartQuantity,
@@ -93,49 +94,50 @@ class Result {
     this.productModel,
     this.isDeleted,
     this.productGrandTotal,
+    this.productImgArray,
     this.v,
     this.updatedAt,
   });
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     productCategory: json["productCategory"] == null ? null : ProductCategory.fromJson(json["productCategory"]),
-    variants: json["variants"] == null ? null : Variants.fromJson(json["variants"]),
+    productSubCategory: json["productSubCategory"] == null ? null : ProductSubCategory.fromJson(json["productSubCategory"]),
     id: json["_id"],
     createdAt: json["createdAt"],
     productUuid: json["productUuid"],
     productName: json["productName"],
-    productImgArray: json["productImgArray"] == null ? [] : List<ProductImgArray>.from(json["productImgArray"]!.map((x) => ProductImgArray.fromJson(x))),
     storeUuid: json["storeUuid"],
     storeName: json["storeName"],
     description: json["description"],
     isMrp: json["isMrp"],
-    sellingPrice: json["sellingPrice"],
+    sellingPrice: json["sellingPrice"]?.toDouble(),
     isAvailable: json["isAvailable"],
     productSku: json["productSku"],
     productUom: json["productUom"],
-    productTax: json["productTax"],
-    productDiscount: json["productDiscount"],
-    productOffer: json["productOffer"],
+    productTax: json["productTax"]?.toDouble(),
+    productDiscount: json["productDiscount"]?.toDouble(),
+    productTaxValue: json["productTaxValue"],
+    productOffer: json["productOffer"]?.toDouble(),
     productQuantity: json["productQuantity"],
     addedCartQuantity: json["addedCartQuantity"],
-    purchaseMinQuantity: json["purchaseMinQuantity"]?.toDouble(),
+    purchaseMinQuantity: json["purchaseMinQuantity"],
     productHsnCode: json["productHsnCode"],
     manufacturer: json["manufacturer"],
     productModel: json["productModel"],
     isDeleted: json["isDeleted"],
     productGrandTotal: json["productGrandTotal"],
+    productImgArray: json["productImgArray"] == null ? [] : List<ProductImgArray>.from(json["productImgArray"]!.map((x) => ProductImgArray.fromJson(x))),
     v: json["__v"],
     updatedAt: json["updatedAt"],
   );
 
   Map<String, dynamic> toJson() => {
     "productCategory": productCategory?.toJson(),
-    "variants": variants?.toJson(),
+    "productSubCategory": productSubCategory?.toJson(),
     "_id": id,
     "createdAt": createdAt,
     "productUuid": productUuid,
     "productName": productName,
-    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x.toJson())),
     "storeUuid": storeUuid,
     "storeName": storeName,
     "description": description,
@@ -146,6 +148,7 @@ class Result {
     "productUom": productUom,
     "productTax": productTax,
     "productDiscount": productDiscount,
+    "productTaxValue": productTaxValue,
     "productOffer": productOffer,
     "productQuantity": productQuantity,
     "addedCartQuantity": addedCartQuantity,
@@ -155,6 +158,7 @@ class Result {
     "productModel": productModel,
     "isDeleted": isDeleted,
     "productGrandTotal": productGrandTotal,
+    "productImgArray": productImgArray == null ? [] : List<dynamic>.from(productImgArray!.map((x) => x.toJson())),
     "__v": v,
     "updatedAt": updatedAt,
   };
@@ -212,26 +216,26 @@ class ProductImgArray {
   };
 }
 
-class Variants {
-  String? color;
-  String? size;
-  String? quality;
+class ProductSubCategory {
+  String? productCategoryId;
+  String? productSubCategoryId;
+  String? productSubCategoryName;
 
-  Variants({
-    this.color,
-    this.size,
-    this.quality,
+  ProductSubCategory({
+    this.productCategoryId,
+    this.productSubCategoryId,
+    this.productSubCategoryName,
   });
 
-  factory Variants.fromJson(Map<String, dynamic> json) => Variants(
-    color: json["color"],
-    size: json["size"],
-    quality: json["quality"],
+  factory ProductSubCategory.fromJson(Map<String, dynamic> json) => ProductSubCategory(
+    productCategoryId: json["productCategoryId"],
+    productSubCategoryId: json["productSubCategoryId"],
+    productSubCategoryName: json["productSubCategoryName"],
   );
 
   Map<String, dynamic> toJson() => {
-    "color": color,
-    "size": size,
-    "quality": quality,
+    "productCategoryId": productCategoryId,
+    "productSubCategoryId": productSubCategoryId,
+    "productSubCategoryName": productSubCategoryName,
   };
 }

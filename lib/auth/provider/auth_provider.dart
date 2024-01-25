@@ -257,7 +257,7 @@ class AuthProvider extends ChangeNotifier {
         storeEmailController.text,
         homeDeliveryTypeController.text,
         deliveryTypeController.text,
-        selectedHubUuid!,
+        selectedHubUuid.toString(),
         "branchOffice",
         addressController.text,
         cityController.text,
@@ -269,7 +269,7 @@ class AuthProvider extends ChangeNotifier {
         fcmToken!,
         selectedImage);
     if (registerResponse.statusCode == 201) {
-      prefModel.userData = registerResponse.result;
+      prefModel.userData = registerResponse.result![0];
       await AppPref.setPref(prefModel);
       await clearFieldData();
       Navigator.pop(fillAddressBottomSheetContext!);
