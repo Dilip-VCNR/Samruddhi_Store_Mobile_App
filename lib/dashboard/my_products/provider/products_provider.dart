@@ -12,7 +12,6 @@ import '../models/all_product_response_model.dart';
 import '../models/product_category_list_model.dart';
 
 class ProductsProvider extends ChangeNotifier {
-
   ApiCalls apiCalls = ApiCalls();
 
   // Add product screen declarations
@@ -31,10 +30,11 @@ class ProductsProvider extends ChangeNotifier {
   TextEditingController productModelController = TextEditingController();
   TextEditingController productTaxController = TextEditingController();
   TextEditingController productOfferController = TextEditingController();
-  TextEditingController productReturnController = TextEditingController();
-  TextEditingController productPerishableController = TextEditingController();
   TextEditingController productSizeController = TextEditingController();
   TextEditingController expiryDateController = TextEditingController();
+  bool addProductAvailability = false;
+  bool addProductIsPerishable = false;
+  bool addProductIsReturnable = false;
 
   final addProductFormKey = GlobalKey<FormState>();
   BuildContext? addProductScreenContext;
@@ -43,25 +43,27 @@ class ProductsProvider extends ChangeNotifier {
   File? selectedImage;
   bool? isLoaded;
 
-
   // my products screen
   AllProductResponseModel? allProductsModel;
   BuildContext? myProductsScreenContext;
-  List allProducts= [];
-
+  List allProducts = [];
 
   // edit product pahge declarations
   TextEditingController editProductSkuController = TextEditingController();
   TextEditingController editProductNameController = TextEditingController();
   TextEditingController editProductQuantityController = TextEditingController();
   TextEditingController editProductCategoryController = TextEditingController();
-  TextEditingController editProductSubCategoryController = TextEditingController();
-  TextEditingController editProductDescriptionController = TextEditingController();
+  TextEditingController editProductSubCategoryController =
+      TextEditingController();
+  TextEditingController editProductDescriptionController =
+      TextEditingController();
   TextEditingController editProductUomController = TextEditingController();
-  TextEditingController editProductSellingPriceController = TextEditingController();
+  TextEditingController editProductSellingPriceController =
+      TextEditingController();
   TextEditingController editProductDiscountController = TextEditingController();
   TextEditingController editProductMinQtyController = TextEditingController();
-  TextEditingController editProductManufacturerController = TextEditingController();
+  TextEditingController editProductManufacturerController =
+      TextEditingController();
   TextEditingController editProductHsnCodeController = TextEditingController();
   TextEditingController editProductModelController = TextEditingController();
   TextEditingController editProductTaxController = TextEditingController();
@@ -70,7 +72,8 @@ class ProductsProvider extends ChangeNotifier {
   TextEditingController editProductQualityController = TextEditingController();
   TextEditingController editProductSizeController = TextEditingController();
   TextEditingController editProductReturnController = TextEditingController();
-  TextEditingController editProductPerishableController = TextEditingController();
+  TextEditingController editProductPerishableController =
+      TextEditingController();
   TextEditingController editExpiryDateController = TextEditingController();
 
   final editProductFormKey = GlobalKey<FormState>();
@@ -115,9 +118,9 @@ class ProductsProvider extends ChangeNotifier {
         productModel: productModelController.text,
         productSubCategoryName: productSubCategoryController.text,
         selectedImage: selectedImage,
-      isPerishable:productPerishableController.text,
-        isReturnable:productReturnController.text,
-    );
+        isPerishable: addProductIsPerishable.toString(),
+        isReturnable: addProductIsReturnable.toString(),
+        isAvailable: addProductAvailability);
 
     if (response.statusCode == 201) {
       await getStoreProducts();
@@ -131,9 +134,9 @@ class ProductsProvider extends ChangeNotifier {
   }
 
   getStoreProducts() async {
-    allProducts=[];
+    allProducts = [];
     allProductsModel = await apiCalls.getStoreProducts();
-    for(int i = 0;i<allProductsModel!.result!.length;i++){
+    for (int i = 0; i < allProductsModel!.result!.length; i++) {
       allProducts.add(allProductsModel!.result![i].toJson());
     }
     notifyListeners();
@@ -141,64 +144,73 @@ class ProductsProvider extends ChangeNotifier {
 
   void setProductToEdit(element) {
     lastEditProductId = element['productUuid'];
-    editProductSkuController.text =  element['productSku'];
-    editProductNameController.text =  element['productName'];
-    editProductCategoryController.text=  element['productCategory']['productCategoryName'];
-    editProductSubCategoryController.text =  element['productSubCategory']['productSubCategoryName'];
-    editProductQuantityController.text =  element['productQuantity'].toString();
-    editProductMinQtyController.text =  element['purchaseMinQuantity'].toString();
-    editProductUomController.text =  element['productUom'];
-    editProductSellingPriceController.text =  element['sellingPrice'].toString();
-    editProductDiscountController.text =  element['productDiscount'].toString();
-    editProductTaxController.text =  element['productTax'].toString();
-    editProductOfferController.text =  element['productOffer'].toString();
-    editProductMinQtyController.text =  element['purchaseMinQuantity'].toString();
-    editProductManufacturerController.text =  element['manufacturer'].toString();
-    editProductModelController.text =  element['productModel'].toString();
-    editProductPerishableController.text = element['isPerishable']==true?"Yes":'No';
-    editProductReturnController.text = element['isReturnable']==true?"Yes":'No';
-    editExpiryDateController.text = element['productExpiryDate']??"";
-    if(element['variants']==null){
+    editProductSkuController.text = element['productSku'];
+    editProductNameController.text = element['productName'];
+    editProductCategoryController.text =
+        element['productCategory']['productCategoryName'];
+    editProductSubCategoryController.text =
+        element['productSubCategory']['productSubCategoryName'];
+    editProductQuantityController.text = element['productQuantity'].toString();
+    editProductMinQtyController.text =
+        element['purchaseMinQuantity'].toString();
+    editProductUomController.text = element['productUom'];
+    editProductSellingPriceController.text = element['sellingPrice'].toString();
+    editProductDiscountController.text = element['productDiscount'].toString();
+    editProductTaxController.text = element['productTax'].toString();
+    editProductOfferController.text = element['productOffer'].toString();
+    editProductMinQtyController.text =
+        element['purchaseMinQuantity'].toString();
+    editProductManufacturerController.text = element['manufacturer'].toString();
+    editProductModelController.text = element['productModel'].toString();
+    editProductPerishableController.text =
+        element['isPerishable'] == true ? "Yes" : 'No';
+    editProductReturnController.text =
+        element['isReturnable'] == true ? "Yes" : 'No';
+    editExpiryDateController.text = element['productExpiryDate'] ?? "";
+    if (element['variants'] == null) {
       editProductColorController.clear();
       editProductQualityController.clear();
       editProductSizeController.clear();
-    }else{
-      editProductColorController.text =  element['variants']['color'].toString();
-      editProductQualityController.text =  element['variants']['quality'].toString();
-      editProductSizeController.text =  element['variants']['size'].toString();
-      editProductDescriptionController.text =  element['description'].toString();
+    } else {
+      editProductColorController.text = element['variants']['color'].toString();
+      editProductQualityController.text =
+          element['variants']['quality'].toString();
+      editProductSizeController.text = element['variants']['size'].toString();
+      editProductDescriptionController.text = element['description'].toString();
     }
     notifyListeners();
   }
 
   Future<void> updateProduct() async {
     showLoaderDialog(editProductScreenContext!);
-    UpdateProductResponseModel res = await apiCalls.updateProduct({  "storeUuid":prefModel.userData!.storeUuid,
-    "productUuid": lastEditProductId,
-    "productSku": editProductSkuController.text,
-    "productName": editProductNameController.text,
-    "imageDescription":"Durian to Apple",
-    "storeName": prefModel.userData!.storeName,
-    "description": editProductDescriptionController.text,
-    "sellingPrice": editProductSellingPriceController.text,
-    "variants": {
-    "color": editProductColorController.text,
-    "size": editProductSizeController.text,
-    "quality": editProductQualityController.text
-    },"isAvailable": true,
-    "productUom": editProductUomController.text,
-    "productDiscount": editProductDiscountController.text,
-    "productOffer": editProductOfferController.text,
-    "purchaseMinQuantity": editProductMinQtyController.text,
-    "manufacturer": editProductManufacturerController.text,
-    "hsnCode": editProductHsnCodeController.text,
-    "productModel": editProductModelController.text
-    },selectedImage);
+    UpdateProductResponseModel res = await apiCalls.updateProduct({
+      "storeUuid": prefModel.userData!.storeUuid,
+      "productUuid": lastEditProductId,
+      "productSku": editProductSkuController.text,
+      "productName": editProductNameController.text,
+      "imageDescription": "Durian to Apple",
+      "storeName": prefModel.userData!.storeName,
+      "description": editProductDescriptionController.text,
+      "sellingPrice": editProductSellingPriceController.text,
+      "variants": {
+        "color": editProductColorController.text,
+        "size": editProductSizeController.text,
+        "quality": editProductQualityController.text
+      },
+      "isAvailable": true,
+      "productUom": editProductUomController.text,
+      "productDiscount": editProductDiscountController.text,
+      "productOffer": editProductOfferController.text,
+      "purchaseMinQuantity": editProductMinQtyController.text,
+      "manufacturer": editProductManufacturerController.text,
+      "hsnCode": editProductHsnCodeController.text,
+      "productModel": editProductModelController.text
+    }, selectedImage);
     Navigator.pop(editProductScreenContext!);
-    if(res.statusCode==200){
+    if (res.statusCode == 200) {
       Navigator.pop(editProductScreenContext!);
       showSuccessToast(editProductScreenContext!, res.message!);
-    }else{
+    } else {
       showErrorToast(editProductScreenContext!, res.message!);
     }
   }

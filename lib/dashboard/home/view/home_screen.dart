@@ -49,8 +49,8 @@ class _HomeScreenState extends State<HomeScreen> {
                      shadows: const [
                        BoxShadow(
                          color: AppColors.cardShadow,
-                         blurRadius: 4,
-                         offset: Offset(0, 4),
+                         blurRadius: 2,
+                         offset: Offset(0, 2),
                          spreadRadius: 0,
                        )
                      ],
@@ -97,8 +97,8 @@ class _HomeScreenState extends State<HomeScreen> {
                          shadows: const [
                            BoxShadow(
                              color: AppColors.cardShadow,
-                             blurRadius: 4,
-                             offset: Offset(0, 4),
+                             blurRadius: 2,
+                             offset: Offset(0, 2),
                              spreadRadius: 0,
                            )
                          ],
@@ -141,8 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
                          shadows: const [
                            BoxShadow(
                              color: AppColors.cardShadow,
-                             blurRadius: 4,
-                             offset: Offset(0, 4),
+                             blurRadius: 2,
+                             offset: Offset(0, 2),
                              spreadRadius: 0,
                            )
                          ],
@@ -183,8 +183,8 @@ class _HomeScreenState extends State<HomeScreen> {
                          shadows: const [
                            BoxShadow(
                              color: AppColors.cardShadow,
-                             blurRadius: 4,
-                             offset: Offset(0, 4),
+                             blurRadius: 2,
+                             offset: Offset(0, 2),
                              spreadRadius: 0,
                            )
                          ],

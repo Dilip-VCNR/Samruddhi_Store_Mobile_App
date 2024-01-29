@@ -170,7 +170,7 @@ class ApiCalls {
     String? productHsnCode,
     String? productModel,
     String? productSubCategoryName,
-    File? selectedImage, String? isPerishable, String? isReturnable,
+    File? selectedImage, String? isPerishable, String? isReturnable, bool? isAvailable,
   }) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.createProduct));
@@ -196,6 +196,7 @@ class ApiCalls {
     request.fields['productSubCategoryName'] = productSubCategoryName!;
     request.fields['isPerishable'] = isPerishable=="Yes"?"true":"false";
     request.fields['isReturnable'] = isReturnable=="Yes"?"true":"false";
+    request.fields['isAvailable'] = isAvailable.toString();
 
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
