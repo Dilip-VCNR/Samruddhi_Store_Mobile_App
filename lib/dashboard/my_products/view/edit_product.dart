@@ -50,7 +50,7 @@ class _EditProductState extends State<EditProduct> {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Add product"),
+            title: const Text("Edit product"),
           ),
           body: productsProvider.subCategoriesList != null
               ? SingleChildScrollView(
@@ -65,7 +65,7 @@ class _EditProductState extends State<EditProduct> {
                     children: [
                       CircleAvatar(
                         radius: 50,
-                        backgroundColor: Colors.grey,
+                        backgroundColor: Colors.grey.shade400,
                         backgroundImage: productsProvider.selectedImage !=
                             null
                             ? FileImage(productsProvider.selectedImage!)
@@ -79,7 +79,7 @@ class _EditProductState extends State<EditProduct> {
                           right: 2,
                           child: CircleAvatar(
                               radius: 15,
-                              backgroundColor: Colors.grey.shade400,
+                              backgroundColor: Colors.grey,
                               child: IconButton(
                                   onPressed: productsProvider
                                       .getImageFromGallery,
@@ -95,7 +95,7 @@ class _EditProductState extends State<EditProduct> {
                   height: 10,
                 ),
                 Form(
-                  key: productsProvider.addProductFormKey,
+                  key: productsProvider.editProductFormKey,
                   child: Column(
                     children: [
                       const SizedBox(
@@ -141,7 +141,7 @@ class _EditProductState extends State<EditProduct> {
                                               return InkWell(
                                                 onTap: () {
                                                   productsProvider
-                                                      .editProductCategoryController
+                                                      .productCategoryController
                                                       .text =
                                                   productsProvider
                                                       .categoriesList!
@@ -189,6 +189,8 @@ class _EditProductState extends State<EditProduct> {
                           });
                         },
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          style: const TextStyle(color: Colors.black),
                           enabled: false,
                           controller:
                           productsProvider.editProductCategoryController,
@@ -204,11 +206,15 @@ class _EditProductState extends State<EditProduct> {
                             hintText: 'Select product category',
                             counterText: "",
                             isCollapsed: true,
-                            filled: true,
+
                             fillColor: AppColors.inputFieldColor,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none,
+
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 16.0, horizontal: 10),
@@ -260,7 +266,7 @@ class _EditProductState extends State<EditProduct> {
                                               return InkWell(
                                                 onTap: () {
                                                   productsProvider
-                                                      .editProductSubCategoryController
+                                                      .productSubCategoryController
                                                       .text =
                                                   productsProvider
                                                       .subCategoriesList!
@@ -308,6 +314,9 @@ class _EditProductState extends State<EditProduct> {
                           });
                         },
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+
+                          style: const TextStyle(color: Colors.black),
                           enabled: false,
                           controller: productsProvider
                               .editProductSubCategoryController,
@@ -323,11 +332,15 @@ class _EditProductState extends State<EditProduct> {
                             hintText: 'Select product sub category',
                             counterText: "",
                             isCollapsed: true,
-                            filled: true,
+
                             fillColor: AppColors.inputFieldColor,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none,
+
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 16.0, horizontal: 10),
@@ -337,6 +350,8 @@ class _EditProductState extends State<EditProduct> {
                       ),
                       const SizedBox(height: 10,),
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+                        style: const TextStyle(color: Colors.black),
                         textInputAction: TextInputAction.next,
                         controller: productsProvider.editProductSkuController,
                         validator: (value) {
@@ -346,14 +361,16 @@ class _EditProductState extends State<EditProduct> {
                           return null;
                         },
                         decoration: InputDecoration(
+                          labelText: "Product SKU",
+
                           hintText: 'Product SKU',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
+
                           fillColor: AppColors.inputFieldColor,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 16.0, horizontal: 10),
@@ -364,6 +381,9 @@ class _EditProductState extends State<EditProduct> {
                         height: 10,
                       ),
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+
+                        style: const TextStyle(color: Colors.black),
                         textInputAction: TextInputAction.next,
                         controller:
                         productsProvider.editProductNameController,
@@ -374,14 +394,15 @@ class _EditProductState extends State<EditProduct> {
                           return null;
                         },
                         decoration: InputDecoration(
+                          labelText: 'Product name',
                           hintText: 'Product name',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
+
                           fillColor: AppColors.inputFieldColor,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 16.0, horizontal: 10),
@@ -392,6 +413,45 @@ class _EditProductState extends State<EditProduct> {
                         height: 10,
                       ),
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+
+                        textAlign: TextAlign.start,
+                        style: const TextStyle(color: Colors.black),
+                        maxLines: 3,
+                        minLines: 3,
+                        textInputAction: TextInputAction.next,
+                        controller:
+                        productsProvider.editProductDescriptionController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter product description';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Product description',
+                          hintText: 'Product description',
+                          counterText: "",
+                          isCollapsed: true,
+
+                          fillColor: AppColors.inputFieldColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 10),
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+
+                        style: const TextStyle(color: Colors.black),
                         textInputAction: TextInputAction.next,
                         controller:
                         productsProvider.editProductQuantityController,
@@ -406,41 +466,11 @@ class _EditProductState extends State<EditProduct> {
                           hintText: 'Product quantity',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
+
                           fillColor: AppColors.inputFieldColor,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 10),
-                        ),
-                        textAlignVertical: TextAlignVertical.center,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        maxLines: 3,
-                        minLines: 3,
-                        textInputAction: TextInputAction.next,
-                        controller:
-                        productsProvider.editProductDescriptionController,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter product description';
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Product description',
-                          counterText: "",
-                          isCollapsed: true,
-                          filled: true,
-                          fillColor: AppColors.inputFieldColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 16.0, horizontal: 10),
@@ -496,7 +526,7 @@ class _EditProductState extends State<EditProduct> {
                                               return InkWell(
                                                 onTap: () {
                                                   productsProvider
-                                                      .editProductUomController
+                                                      .productUomController
                                                       .text =
                                                   productUom[index];
                                                   Navigator.pop(context);
@@ -537,6 +567,9 @@ class _EditProductState extends State<EditProduct> {
                           });
                         },
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+
+                          style: const TextStyle(color: Colors.black),
                           enabled: false,
                           controller:
                           productsProvider.editProductUomController,
@@ -547,16 +580,20 @@ class _EditProductState extends State<EditProduct> {
                             return null;
                           },
                           decoration: InputDecoration(
+
                             suffixIcon: const Icon(
                                 Icons.keyboard_arrow_down_sharp),
                             hintText: 'Select product UOM',
                             counterText: "",
                             isCollapsed: true,
-                            filled: true,
-                            fillColor: AppColors.inputFieldColor,
+
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none,
+
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 16.0, horizontal: 10),
@@ -569,6 +606,9 @@ class _EditProductState extends State<EditProduct> {
                       ),
 
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+
+                        style: const TextStyle(color: Colors.black),
                         textInputAction: TextInputAction.next,
                         controller: productsProvider
                             .editProductSellingPriceController,
@@ -580,14 +620,14 @@ class _EditProductState extends State<EditProduct> {
                         },
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+                          labelText: "Product selling price",
                           hintText: 'Product selling price',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
+
                           fillColor: AppColors.inputFieldColor,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 16.0, horizontal: 10),
@@ -598,6 +638,9 @@ class _EditProductState extends State<EditProduct> {
                         height: 10,
                       ),
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+
+                        style: const TextStyle(color: Colors.black),
                         keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.next,
                         controller:
@@ -609,14 +652,15 @@ class _EditProductState extends State<EditProduct> {
                           return null;
                         },
                         decoration: InputDecoration(
+                          labelText: 'Product discount',
                           hintText: 'Product discount',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
+
                           fillColor: AppColors.inputFieldColor,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 16.0, horizontal: 10),
@@ -627,6 +671,9 @@ class _EditProductState extends State<EditProduct> {
                         height: 10,
                       ),
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+
+                        style: const TextStyle(color: Colors.black),
                         keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.next,
                         controller: productsProvider.editProductTaxController,
@@ -637,14 +684,15 @@ class _EditProductState extends State<EditProduct> {
                           return null;
                         },
                         decoration: InputDecoration(
+                          labelText: 'Product tax %',
                           hintText: 'Product tax %',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
+
                           fillColor: AppColors.inputFieldColor,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 16.0, horizontal: 10),
@@ -669,20 +717,20 @@ class _EditProductState extends State<EditProduct> {
                       //     hintText: 'Product offer',
                       //     counterText: "",
                       //     isCollapsed: true,
-                      //     filled: true,
+                      //
                       //     fillColor: AppColors.inputFieldColor,
                       //     border: OutlineInputBorder(
                       //       borderRadius: BorderRadius.circular(10.0),
-                      //       borderSide: BorderSide.none,
+                      //
                       //     ),
                       //     contentPadding: const EdgeInsets.symmetric(
                       //         vertical: 16.0, horizontal: 10),
                       //   ),
                       //   textAlignVertical: TextAlignVertical.center,
                       // ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
                       // TextFormField(
                       //   keyboardType: TextInputType.number,
                       //   textInputAction: TextInputAction.next,
@@ -698,11 +746,11 @@ class _EditProductState extends State<EditProduct> {
                       //     hintText: 'Product minimum purchase quantity',
                       //     counterText: "",
                       //     isCollapsed: true,
-                      //     filled: true,
+                      //
                       //     fillColor: AppColors.inputFieldColor,
                       //     border: OutlineInputBorder(
                       //       borderRadius: BorderRadius.circular(10.0),
-                      //       borderSide: BorderSide.none,
+                      //
                       //     ),
                       //     contentPadding: const EdgeInsets.symmetric(
                       //         vertical: 16.0, horizontal: 10),
@@ -713,6 +761,9 @@ class _EditProductState extends State<EditProduct> {
                       //   height: 10,
                       // ),
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+
+                        style: const TextStyle(color: Colors.black),
                         textInputAction: TextInputAction.next,
                         controller: productsProvider
                             .editProductManufacturerController,
@@ -723,14 +774,15 @@ class _EditProductState extends State<EditProduct> {
                           return null;
                         },
                         decoration: InputDecoration(
+                          labelText: 'Product manufacturer',
                           hintText: 'Product manufacturer',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
+
                           fillColor: AppColors.inputFieldColor,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 16.0, horizontal: 10),
@@ -741,6 +793,10 @@ class _EditProductState extends State<EditProduct> {
                         height: 10,
                       ),
                       TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+
+                        style: const TextStyle(color: Colors.black),
+
                         textInputAction: TextInputAction.next,
                         controller:
                         productsProvider.editProductModelController,
@@ -751,14 +807,15 @@ class _EditProductState extends State<EditProduct> {
                           return null;
                         },
                         decoration: InputDecoration(
+                          labelText: 'Product model',
                           hintText: 'Product model',
                           counterText: "",
                           isCollapsed: true,
-                          filled: true,
+
                           fillColor: AppColors.inputFieldColor,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none,
+
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 16.0, horizontal: 10),
@@ -767,229 +824,6 @@ class _EditProductState extends State<EditProduct> {
                       ),
                       const SizedBox(
                         height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          List<String> returnableList = [
-                            "Yes",
-                            "No"
-                          ];
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
-                                        children: [
-                                          const Text("Is it returnable ?",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight:
-                                                  FontWeight.bold)),
-                                          IconButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              icon:
-                                              const Icon(Icons.close))
-                                        ],
-                                      ),
-                                      Expanded(
-                                        child: ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: returnableList.length,
-                                            itemBuilder:
-                                                (BuildContext context,
-                                                int index) {
-                                              return InkWell(
-                                                onTap: () {
-                                                  productsProvider
-                                                      .editProductReturnController
-                                                      .text =
-                                                  returnableList[index];
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .start,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .symmetric(
-                                                          vertical:
-                                                          10),
-                                                      child: Text(
-                                                        returnableList[index],
-                                                        style:
-                                                        const TextStyle(
-                                                            fontSize:
-                                                            18),
-                                                      ),
-                                                    ),
-                                                    const Divider()
-                                                  ],
-                                                ),
-                                              );
-                                            }),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }).then((value) {
-                            setState(() {});
-                          });
-                        },
-                        child: TextFormField(
-                          enabled: false,
-                          controller:
-                          productsProvider.editProductReturnController,
-                          // validator: (value) {
-                          //   if (value!.isEmpty) {
-                          //     return 'Please select color';
-                          //   }
-                          //   return null;
-                          // },
-                          decoration: InputDecoration(
-                            suffixIcon: const Icon(
-                                Icons.keyboard_arrow_down_sharp),
-                            hintText: 'Is it returnable ?',
-                            counterText: "",
-                            isCollapsed: true,
-                            filled: true,
-                            fillColor: AppColors.inputFieldColor,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 16.0, horizontal: 10),
-                          ),
-                          textAlignVertical: TextAlignVertical.center,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          List<String> productPerishable = [
-                            "Yes",
-                            "No",
-                          ];
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
-                                        children: [
-                                          const Text("Is product Perishable ?",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight:
-                                                  FontWeight.bold)),
-                                          IconButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              icon:
-                                              const Icon(Icons.close))
-                                        ],
-                                      ),
-                                      Expanded(
-                                        child: ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount:
-                                            productPerishable.length,
-                                            itemBuilder:
-                                                (BuildContext context,
-                                                int index) {
-                                              return InkWell(
-                                                onTap: () {
-                                                  productsProvider
-                                                      .editProductPerishableController
-                                                      .text =
-                                                  productPerishable[index];
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .start,
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment
-                                                      .start,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .symmetric(
-                                                          vertical:
-                                                          10),
-                                                      child: Text(
-                                                        productPerishable[
-                                                        index],
-                                                        style:
-                                                        const TextStyle(
-                                                            fontSize:
-                                                            18),
-                                                      ),
-                                                    ),
-                                                    const Divider()
-                                                  ],
-                                                ),
-                                              );
-                                            }),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }).then((value) {
-                            setState(() {});
-                          });
-                        },
-                        child: TextFormField(
-                          enabled: false,
-                          controller:
-                          productsProvider.editProductPerishableController,
-                          // validator: (value) {
-                          //   if (value!.isEmpty) {
-                          //     return 'Please select quality';
-                          //   }
-                          //   return null;
-                          // },
-                          decoration: InputDecoration(
-                            suffixIcon: const Icon(
-                                Icons.keyboard_arrow_down_sharp),
-                            hintText: 'Is it perishable ?',
-                            counterText: "",
-                            isCollapsed: true,
-                            filled: true,
-                            fillColor: AppColors.inputFieldColor,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none,
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 16.0, horizontal: 10),
-                          ),
-                          textAlignVertical: TextAlignVertical.center,
-                        ),
                       ),
                       // const SizedBox(
                       //   height: 10,
@@ -1095,11 +929,11 @@ class _EditProductState extends State<EditProduct> {
                       //       hintText: 'Select product size',
                       //       counterText: "",
                       //       isCollapsed: true,
-                      //       filled: true,
+                      //
                       //       fillColor: AppColors.inputFieldColor,
                       //       border: OutlineInputBorder(
                       //         borderRadius: BorderRadius.circular(10.0),
-                      //         borderSide: BorderSide.none,
+                      //
                       //       ),
                       //       contentPadding: const EdgeInsets.symmetric(
                       //           vertical: 16.0, horizontal: 10),
@@ -1107,12 +941,14 @@ class _EditProductState extends State<EditProduct> {
                       //     textAlignVertical: TextAlignVertical.center,
                       //   ),
                       // ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      // const SizedBox(
+                      //   height: 20,
+                      // ),
                       GestureDetector(
                         onTap: () => selectDate(context,productsProvider),
                         child: TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+
                           enabled: false,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -1123,26 +959,75 @@ class _EditProductState extends State<EditProduct> {
                             // }
                             return null;
                           },
+                          style: const TextStyle(color: Colors.black),
                           controller: productsProvider.editExpiryDateController,
                           decoration: InputDecoration(
                             suffixIcon: const Icon(
                               Icons.calendar_month_outlined,
                               color: AppColors.fontColor,
                             ),
+                            labelText: 'Select expiry date',
                             hintText: 'Select expiry date',
                             counterText: "",
                             isCollapsed: true,
-                            filled: true,
+
                             fillColor: AppColors.inputFieldColor,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none,
+
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 16.0, horizontal: 16),
                           ),
                           textAlignVertical: TextAlignVertical.center,
                         ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text("Is it available now?"),
+                          Switch(value: productsProvider.editProductAvailability, onChanged: (val){
+                            setState(() {
+                              productsProvider.editProductAvailability = !productsProvider.editProductAvailability;
+                            });
+                          })
+                        ],
+                      ),
+
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text("Is it returnable ?"),
+                          Switch(value: productsProvider.editProductIsReturnable, onChanged: (val){
+                            setState(() {
+                              productsProvider.editProductIsReturnable = !productsProvider.editProductIsReturnable;
+                            });
+                          })
+                        ],
+                      ),
+
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text("Is it perishable ?"),
+                          Switch(value: productsProvider.editProductIsPerishable, onChanged: (val){
+                            setState(() {
+                              productsProvider.editProductIsPerishable = !productsProvider.editProductIsPerishable;
+                            });
+                          })
+                        ],
                       ),
 
                       const SizedBox(
@@ -1151,9 +1036,9 @@ class _EditProductState extends State<EditProduct> {
                       InkWell(
                         onTap: () async {
                           if (productsProvider
-                              .addProductFormKey.currentState!
+                              .editProductFormKey.currentState!
                               .validate()) {
-                            productsProvider.addNewProduct();
+                            productsProvider.updateProduct();
                           }
                         },
                         child: Container(

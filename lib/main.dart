@@ -19,6 +19,7 @@ import 'auth/view/otp_screen.dart';
 import 'auth/view/register_screen.dart';
 import 'dashboard/dashboard_screen.dart';
 import 'dashboard/my_products/view/add_product.dart';
+import 'dashboard/my_products/view/product_search.dart';
 import 'database/app_pref.dart';
 import 'firebase_options.dart';
 
@@ -49,6 +50,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+              scrolledUnderElevation: 0
+          ),
           textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
           primaryColor: AppColors.primaryColor,
           useMaterial3: true,
@@ -67,6 +71,7 @@ class MyApp extends StatelessWidget {
           Routes.addProductRoute: (context) => const AddProduct(),
           Routes.editProductRoute: (context) => const EditProduct(),
           Routes.webViewRoute: (context) => const WebViewScreen(),
+          Routes.productSearch: (context) => const ProductSearch(),
         }
       ),
     );

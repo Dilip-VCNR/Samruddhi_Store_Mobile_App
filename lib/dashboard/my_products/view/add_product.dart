@@ -189,6 +189,8 @@ class _AddProductState extends State<AddProduct> {
                                 });
                               },
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
+
                                 style: const TextStyle(color: Colors.black),
                                 enabled: false,
                                 controller:
@@ -313,6 +315,8 @@ class _AddProductState extends State<AddProduct> {
                                 });
                               },
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
+
                                 style: const TextStyle(color: Colors.black),
                                 enabled: false,
                                 controller: productsProvider
@@ -347,6 +351,7 @@ class _AddProductState extends State<AddProduct> {
                             ),
                             const SizedBox(height: 10,),
                             TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
                               style: const TextStyle(color: Colors.black),
                               textInputAction: TextInputAction.next,
                               controller: productsProvider.productSkuController,
@@ -377,6 +382,8 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
+
                               style: const TextStyle(color: Colors.black),
                               textInputAction: TextInputAction.next,
                               controller:
@@ -407,19 +414,24 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
+
+                              textAlign: TextAlign.start,
                               style: const TextStyle(color: Colors.black),
+                              maxLines: 3,
+                              minLines: 3,
                               textInputAction: TextInputAction.next,
                               controller:
-                                  productsProvider.productQuantityController,
+                              productsProvider.productDescriptionController,
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Please enter product quantity';
+                                  return 'Please enter product description';
                                 }
                                 return null;
                               },
-                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                hintText: 'Product quantity',
+                                labelText: 'Product description',
+                                hintText: 'Product description',
                                 counterText: "",
                                 isCollapsed: true,
 
@@ -433,26 +445,26 @@ class _AddProductState extends State<AddProduct> {
                               ),
                               textAlignVertical: TextAlignVertical.center,
                             ),
+
                             const SizedBox(
                               height: 10,
                             ),
                             TextFormField(
-                              textAlign: TextAlign.start,
+                              textCapitalization: TextCapitalization.sentences,
+
                               style: const TextStyle(color: Colors.black),
-                              maxLines: 3,
-                              minLines: 3,
                               textInputAction: TextInputAction.next,
                               controller:
-                                  productsProvider.productDescriptionController,
+                              productsProvider.productQuantityController,
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Please enter product description';
+                                  return 'Please enter product quantity';
                                 }
                                 return null;
                               },
+                              keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                labelText: 'Product description',
-                                hintText: 'Product description',
+                                hintText: 'Product quantity',
                                 counterText: "",
                                 isCollapsed: true,
 
@@ -556,6 +568,8 @@ class _AddProductState extends State<AddProduct> {
                                 });
                               },
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
+
                                 style: const TextStyle(color: Colors.black),
                                 enabled: false,
                                 controller:
@@ -593,6 +607,8 @@ class _AddProductState extends State<AddProduct> {
                             ),
 
                             TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
+
                               style: const TextStyle(color: Colors.black),
                               textInputAction: TextInputAction.next,
                               controller: productsProvider
@@ -623,6 +639,8 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
+
                               style: const TextStyle(color: Colors.black),
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.next,
@@ -654,6 +672,8 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
+
                               style: const TextStyle(color: Colors.black),
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.next,
@@ -742,6 +762,8 @@ class _AddProductState extends State<AddProduct> {
                             //   height: 10,
                             // ),
                             TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
+
                               style: const TextStyle(color: Colors.black),
                               textInputAction: TextInputAction.next,
                               controller: productsProvider
@@ -772,6 +794,8 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
+
                               style: const TextStyle(color: Colors.black),
 
                               textInputAction: TextInputAction.next,
@@ -924,6 +948,7 @@ class _AddProductState extends State<AddProduct> {
                             GestureDetector(
                               onTap: () => selectDate(context,productsProvider),
                               child: TextFormField(
+                                textCapitalization: TextCapitalization.sentences,
 
                                 enabled: false,
                                 validator: (value) {

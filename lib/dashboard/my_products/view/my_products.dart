@@ -39,11 +39,13 @@ class _MyProductsState extends State<MyProducts> {
             centerTitle: true,
             // leading: const Icon(Icons.edit_outlined),
             actions: [
-              // IconButton(
-              //   icon: const Icon(Icons.search),
-              //   color: AppColors.fontColor,
-              //   onPressed: () {},
-              // ),
+              IconButton(
+                icon: const Icon(Icons.search),
+                color: AppColors.fontColor,
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.productSearch);
+                },
+              ),
               IconButton(
                 icon: const Icon(Icons.add),
                 color: AppColors.fontColor,
@@ -235,6 +237,21 @@ class _MyProductsState extends State<MyProducts> {
                                         color: AppColors.primaryColor,
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Tax : ${element['productTax']}%',
+                                      style: const TextStyle(
+                                        // color: AppColors.primaryColor,
+                                        // fontSize: 20,
+                                        // fontWeight: FontWeight.w600,
+                                      ),
+                                    ),Text(
+                                      'Discount : ${element['productDiscount']}%',
+                                      style: const TextStyle(
+                                        // color: AppColors.primaryColor,
+                                        // fontSize: 20,
+                                        // fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ],

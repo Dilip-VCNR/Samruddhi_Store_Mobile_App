@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
 import 'package:samruddhi_store/utils/app_widgets.dart';
+import 'package:slide_to_act/slide_to_act.dart';
 
 import '../../../api_calls.dart';
 import '../models/order_status_update_response_model.dart';
@@ -17,6 +18,9 @@ class ViewOrderDetail extends StatefulWidget {
 class _ViewOrderDetailState extends State<ViewOrderDetail> {
   String activeStatus = "";
   String nextStatus = "";
+
+  final GlobalKey<SlideActionState> _key = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -127,6 +131,17 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
+              'Order PickUp Id : ${order['orderPickupId']}',
+              style: const TextStyle(
+                color: AppColors.fontColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
               'Current status : ${activeStatus}',
               style: const TextStyle(
                 color: AppColors.fontColor,
@@ -149,8 +164,59 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ):const SizedBox.shrink(),
 
-            (activeStatus != "delivered" && nextStatus != '')?GestureDetector(
-              onTap: () async {
+            // (activeStatus != "delivered" && nextStatus != '')?GestureDetector(
+            //   onTap: () async {
+            //     showLoaderDialog(context);
+            //     OrderStatusUpdateResponseModel res = await ApiCalls().setOrderStatus(nextStatus,order['orderId']);
+            //     Navigator.pop(context);
+            //     Navigator.pop(context);
+            //     if(res.statusCode==200){
+            //       activeStatus = nextStatus;
+            //       showSuccessToast(context, res.message!);
+            //     }else{
+            //       showErrorToast(context, res.message!);
+            //     }
+            //   },
+            //   child: Container(
+            //     width: screenSize.width,
+            //     height: 50,
+            //     decoration: ShapeDecoration(
+            //       color: const Color(0xFF86DF71),
+            //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            //     ),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       children: [
+            //         Row(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           crossAxisAlignment: CrossAxisAlignment.center,
+            //           children: [
+            //             const SizedBox(width: 10,),
+            //             const Icon(Icons.delivery_dining),
+            //             const SizedBox(width: 10,),
+            //             Text(
+            //               "Move to "+nextStatus,
+            //               style: const TextStyle(
+            //                 color: AppColors.fontColor,
+            //                 fontSize: 16,
+            //                 fontWeight: FontWeight.w400,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //         // const Padding(
+            //         //   padding: EdgeInsets.only(right: 20),
+            //         //   child: Icon(Icons.keyboard_arrow_down_outlined),
+            //         // )
+            //       ],
+            //     ),
+            //   ),
+            // ):const SizedBox.shrink(),
+            (activeStatus != "delivered" && nextStatus != '')?SlideAction(
+              outerColor: Color(0xFF86DF71),
+              text: "Move to "+nextStatus,
+              key: _key,
+              onSubmit: () async {
                 showLoaderDialog(context);
                 OrderStatusUpdateResponseModel res = await ApiCalls().setOrderStatus(nextStatus,order['orderId']);
                 Navigator.pop(context);
@@ -161,41 +227,8 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                 }else{
                   showErrorToast(context, res.message!);
                 }
+                _key.currentState!.reset();
               },
-              child: Container(
-                width: screenSize.width,
-                height: 50,
-                decoration: ShapeDecoration(
-                  color: const Color(0xFF86DF71),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(width: 10,),
-                        const Icon(Icons.delivery_dining),
-                        const SizedBox(width: 10,),
-                        Text(
-                          "Move to "+nextStatus,
-                          style: const TextStyle(
-                            color: AppColors.fontColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    // const Padding(
-                    //   padding: EdgeInsets.only(right: 20),
-                    //   child: Icon(Icons.keyboard_arrow_down_outlined),
-                    // )
-                  ],
-                ),
-              ),
             ):const SizedBox.shrink(),
 
             const SizedBox(
@@ -209,9 +242,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+
             ListView.separated(
               shrinkWrap: true,
               itemCount: order['productDetails'].length,

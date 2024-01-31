@@ -10,4 +10,5 @@ class Routes {
   static const String viewOrderDetailRoute = "/viewOrderDetail";
   static const String addProductRoute = "/addProduct";
   static const String editProductRoute = "/editProduct";
+  static const String productSearch = "/productSearch";
 }

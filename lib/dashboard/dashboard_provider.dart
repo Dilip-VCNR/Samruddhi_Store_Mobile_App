@@ -26,12 +26,12 @@ class DashboardProvider extends ChangeNotifier{
       allOrdersCount = 0;
       pendingCount = 0;
       completedCount = 0;
-      allOrdersCount =res.result!.length;
-      for(int i = 0;i<res.result!.length;i++){
-        if(res.result![i].orderStatus!="delivered" && res.result![i].orderStatus!="new"){
+      allOrdersCount =res.result!.orders!.length;
+      for(int i = 0;i<res.result!.orders!.length;i++){
+        if(res.result!.orders![i].orderStatus!="delivered" && res.result!.orders![i].orderStatus!="new"){
           pendingCount  = pendingCount+1;
         }
-        if(res.result![i].orderStatus=="delivered"){
+        if(res.result!.orders![i].orderStatus=="delivered"){
           completedCount  = completedCount+1;
         }
       }

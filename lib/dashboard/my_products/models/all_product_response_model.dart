@@ -12,7 +12,7 @@ class AllProductResponseModel {
   bool? status;
   int? statusCode;
   String? message;
-  List<Result>? result;
+  List<ProductsResult>? result;
 
   AllProductResponseModel({
     this.status,
@@ -25,7 +25,7 @@ class AllProductResponseModel {
     status: json["status"],
     statusCode: json["statusCode"],
     message: json["message"],
-    result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+    result: json["result"] == null ? [] : List<ProductsResult>.from(json["result"]!.map((x) => ProductsResult.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -36,7 +36,7 @@ class AllProductResponseModel {
   };
 }
 
-class Result {
+class ProductsResult {
   ProductCategory? productCategory;
   ProductSubCategory? productSubCategory;
   Variants? variants;
@@ -67,7 +67,7 @@ class Result {
   int? productGrandTotal;
   int? v;
 
-  Result({
+  ProductsResult({
     this.productCategory,
     this.productSubCategory,
     this.variants,
@@ -99,7 +99,7 @@ class Result {
     this.v,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory ProductsResult.fromJson(Map<String, dynamic> json) => ProductsResult(
     productCategory: json["productCategory"] == null ? null : ProductCategory.fromJson(json["productCategory"]),
     productSubCategory: json["productSubCategory"] == null ? null : ProductSubCategory.fromJson(json["productSubCategory"]),
     variants: json["variants"] == null ? null : Variants.fromJson(json["variants"]),
