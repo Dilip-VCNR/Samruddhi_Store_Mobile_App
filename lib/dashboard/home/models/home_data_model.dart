@@ -327,7 +327,7 @@ class ProductDetail {
   double? productDiscount;
   double? productDiscountedValue;
   int? productQuantity;
-  int? addedCartQuantity;
+  double? addedCartQuantity;
   bool? isReturnable;
   bool? isPerishable;
   int? productHsnCode;
@@ -338,8 +338,8 @@ class ProductDetail {
   int? v;
   int? taxableValue;
   double? productTaxValue;
-  int? productSubTotal;
-  int? productGrandTotal;
+  double? productSubTotal;
+  double? productGrandTotal;
 
   ProductDetail({
     this.productCategory,
@@ -394,7 +394,7 @@ class ProductDetail {
     productDiscount: json["productDiscount"].toDouble(),
     productDiscountedValue: json["productDiscountedValue"].toDouble(),
     productQuantity: json["productQuantity"],
-    addedCartQuantity: json["addedCartQuantity"],
+    addedCartQuantity: json["addedCartQuantity"].toDouble(),
     isReturnable: json["isReturnable"],
     isPerishable: json["isPerishable"],
     productHsnCode: json["productHsnCode"],
@@ -405,8 +405,8 @@ class ProductDetail {
     v: json["__v"],
     taxableValue: json["taxableValue"],
     productTaxValue: json["productTaxValue"]?.toDouble(),
-    productSubTotal: json["productSubTotal"],
-    productGrandTotal: json["productGrandTotal"],
+    productSubTotal: json["productSubTotal"].toDouble(),
+    productGrandTotal: json["productGrandTotal"].toDouble(),
   );
 
   Map<String, dynamic> toJson() => {

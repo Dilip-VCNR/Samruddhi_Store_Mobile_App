@@ -58,10 +58,10 @@ class AuthProvider extends ChangeNotifier {
   String? selectedHubName;
 
   TextEditingController isHeadquartersController = TextEditingController();
-  TextEditingController homeDeliveryTypeController = TextEditingController();
+  TextEditingController deliveryMethodController = TextEditingController();
   TextEditingController selectedZoneController = TextEditingController();
   TextEditingController categoryController = TextEditingController();
-  TextEditingController deliveryTypeController = TextEditingController();
+  TextEditingController isHomeDeliveryController = TextEditingController();
   TextEditingController storeNameController = TextEditingController();
   TextEditingController storeMailController = TextEditingController();
   TextEditingController storeDisplayNameController = TextEditingController();
@@ -257,8 +257,8 @@ class AuthProvider extends ChangeNotifier {
         gstController.text,
         phoneNumberController.text,
         storeEmailController.text,
-        deliveryTypeController.text,
-        homeDeliveryTypeController.text,
+        isHomeDelivery,
+        deliveryMethodController.text,
         selectedHubUuid.toString(),
         "branchOffice",
         addressController.text,
@@ -270,9 +270,8 @@ class AuthProvider extends ChangeNotifier {
         postalCodeController.text,
         fcmToken!,
         selectedImage,
-      storeCommissionController.text,
-      deliveryFeeController.text
-    );
+        storeCommissionController.text,
+        deliveryFeeController.text);
     if (registerResponse.statusCode == 201) {
       prefModel.userData = registerResponse.result![0];
       await AppPref.setPref(prefModel);
@@ -297,10 +296,10 @@ class AuthProvider extends ChangeNotifier {
     selectedHubName= '';
 
      isHeadquartersController.clear();
-     homeDeliveryTypeController.clear();
+     isHomeDeliveryController.clear();
      selectedZoneController.clear();
      categoryController.clear();
-     deliveryTypeController.clear();
+     deliveryMethodController.clear();
      storeNameController.clear();
      storeMailController.clear();
      storeDisplayNameController.clear();

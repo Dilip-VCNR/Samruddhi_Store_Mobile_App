@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
@@ -53,7 +54,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            order['deliveryAddress']!=null?Container(
               padding: const EdgeInsets.all(20),
               width: screenSize.width,
               decoration: ShapeDecoration(
@@ -115,12 +116,23 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                   )
                 ],
               ),
-            ),
+            ):SizedBox.shrink(),
             const SizedBox(
               height: 10,
             ),
             Text(
               'Ordered on : ${order['orderDate']}',
+              style: const TextStyle(
+                color: AppColors.fontColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Ordered type : ${order['orderDeliveryType']}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,

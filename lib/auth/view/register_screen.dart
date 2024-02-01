@@ -551,7 +551,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   textInputAction: TextInputAction.done,
                                   validator: (value) {
                                     if (value!.isEmpty) {
-                                      return 'Please enter valid delivery fee';
+                                      return 'Please enter valid commission percentage';
                                     }
                                     // if (authController.isNotValidPhone(value)) {
                                     //   return "Please enter valid phone number";
@@ -759,7 +759,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   );
                                 }).then((value) {
                               setState(() {
-                                authProvider.deliveryTypeController.text = authProvider.isHomeDelivery!;
+                                authProvider.isHomeDeliveryController.text = authProvider.isHomeDelivery!;
                               });
                             });
                           },
@@ -794,7 +794,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       // }
                                       return null;
                                     },
-                                    controller: authProvider.deliveryTypeController,
+                                    controller: authProvider.isHomeDeliveryController,
                                     keyboardType: TextInputType.number,
                                     maxLength: 10,
                                     decoration: const InputDecoration(
@@ -812,11 +812,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
-                        authProvider.homeDeliveryTypeController.text=='Yes'?InkWell(
+                        authProvider.isHomeDeliveryController.text=='Yes'?InkWell(
                           onTap: () {
                             List<String> deliveryType = [
                               "Hub Delivery",
-                              "Self Delivery",
+                              "Store Delivery",
                             ];
                             showModalBottomSheet(
                                 context: context,
@@ -829,7 +829,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           children: [
-                                            const Text("Select Delivery Type",
+                                            const Text("Select Delivery Method Type",
                                                 style: TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold)),
@@ -879,7 +879,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   );
                                 }).then((value) {
                               setState(() {
-                                authProvider.deliveryTypeController.text = authProvider.deliveryType!;
+                                authProvider.deliveryMethodController.text = authProvider.deliveryType!;
                               });
                             });
                           },
@@ -914,7 +914,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       // }
                                       return null;
                                     },
-                                    controller: authProvider.deliveryTypeController,
+                                    controller: authProvider.deliveryMethodController,
                                     keyboardType: TextInputType.number,
                                     maxLength: 10,
                                     decoration: const InputDecoration(
@@ -932,7 +932,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ):const SizedBox(),
-                        authProvider.homeDeliveryTypeController.text=='Yes' && authProvider.deliveryTypeController.text == 'Hub Delivery'?InkWell(
+                        authProvider.isHomeDeliveryController.text=='Yes' && authProvider.deliveryMethodController.text == 'Hub Delivery'?InkWell(
                           onTap: () {
                             showModalBottomSheet(
                                 context: context,

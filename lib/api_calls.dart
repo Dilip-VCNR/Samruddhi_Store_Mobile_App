@@ -63,8 +63,8 @@ class ApiCalls {
       String gst,
       String? phoneNumber,
       String storeEmail,
-      String isHomeDelivery,
-      String deliveryType,
+      String? isHomeDelivery,
+      String deliveryMethod,
       String hubUuid,
       String addressType,
       String completeAddress,
@@ -90,7 +90,7 @@ class ApiCalls {
     request.fields['emailId'] = storeEmail;
     request.fields['isHomeDelivery'] =
         isHomeDelivery == "Yes" ? "true" : "false";
-    request.fields['deliveryType'] = deliveryType;
+    request.fields['deliveryType'] = deliveryMethod=="Hub Delivery"?"hubDelivery":"storeDelivery";
     request.fields['hubUuid'] = hubUuid;
     request.fields['addressType'] = addressType;
     request.fields['completeAddress'] = completeAddress;
@@ -195,8 +195,8 @@ class ApiCalls {
     request.fields['productHsnCode'] = productHsnCode!;
     request.fields['productModel'] = productModel!;
     request.fields['productSubCategoryName'] = productSubCategoryName!;
-    request.fields['isPerishable'] = isPerishable=="Yes"?"true":"false";
-    request.fields['isReturnable'] = isReturnable=="Yes"?"true":"false";
+    request.fields['isPerishable'] = isPerishable!;
+    request.fields['isReturnable'] = isReturnable!;
     request.fields['isAvailable'] = isAvailable.toString();
 
     if (selectedImage != null) {
@@ -211,7 +211,7 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
-
+    print(request.fields);
     request.headers.addAll({
       "x-access-token": "${prefModel.userData!.storeAuthToken}",
     });
