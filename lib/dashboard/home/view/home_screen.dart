@@ -22,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
         if (firstTimeLoading != true) {
-          print("case2");
           dashboardProvider.getHomeData();
           firstTimeLoading = true;
         }

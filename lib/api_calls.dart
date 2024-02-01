@@ -116,7 +116,6 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
-    print(request.fields);
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
@@ -211,7 +210,6 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
-    print(request.fields);
     request.headers.addAll({
       "x-access-token": "${prefModel.userData!.storeAuthToken}",
     });
@@ -298,12 +296,9 @@ class ApiCalls {
     request.headers.addAll({
       "x-access-token": "${prefModel.userData!.storeAuthToken}",
     });
-    print("case3");
     var response = await request.send();
-    print("case4");
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
-    print(responseJson);
     return UpdateProductResponseModel.fromJson(responseJson);
   }
 }

@@ -169,7 +169,6 @@ class ProductsProvider extends ChangeNotifier {
 
   Future<void> updateProduct() async {
     showLoaderDialog(editProductScreenContext!);
-    print('case1');
     UpdateProductResponseModel res = await apiCalls.updateProduct({
       "storeUuid": prefModel.userData!.storeUuid,
       "productUuid": lastEditProductId,

@@ -36,8 +36,6 @@ class _ProductSearchState extends State<ProductSearch> {
                       //   ProductsResult.fromJson(productsProvider.allProducts[i]);
                       // }
                       filteredProducts = [];
-                      print(productsProvider.allProducts.where((element) => element['productName'].toLowerCase()
-                                    .contains(val.toLowerCase())));
                       setState(() {
                         filteredProducts = productsProvider.allProducts.where((element) => element['productName'].toLowerCase()
                             .contains(val.toLowerCase())).toList();
@@ -49,7 +47,6 @@ class _ProductSearchState extends State<ProductSearch> {
                         //         .contains(val.toLowerCase()))
                         //     .toList();
                       });
-                      print(filteredProducts);
                     },
                     autofocus: true,
                     decoration: InputDecoration(
