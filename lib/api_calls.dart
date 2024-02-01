@@ -75,7 +75,7 @@ class ApiCalls {
       String zone,
       String postalCode,
       String fcmToken,
-      File? selectedImage) async {
+      File? selectedImage, String commission,String deliveryfee) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.registerStore));
     // Add form fields
@@ -101,6 +101,8 @@ class ApiCalls {
     request.fields['zone'] = zone;
     request.fields['zipCode'] = postalCode;
     request.fields['storeFcmToken'] = fcmToken;
+    request.fields['deliveryFee'] = deliveryfee;
+    request.fields['storeCommissionPercent'] = commission;
 
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
@@ -114,6 +116,7 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
+    print(request.fields);
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));

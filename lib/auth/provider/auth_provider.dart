@@ -68,6 +68,8 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController gstController = TextEditingController();
   TextEditingController storeEmailController = TextEditingController();
   TextEditingController hubController = TextEditingController();
+  TextEditingController storeCommissionController = TextEditingController();
+  TextEditingController deliveryFeeController = TextEditingController();
 
   // mark location screen declarations
   GoogleMapController? mapController;
@@ -255,8 +257,8 @@ class AuthProvider extends ChangeNotifier {
         gstController.text,
         phoneNumberController.text,
         storeEmailController.text,
-        homeDeliveryTypeController.text,
         deliveryTypeController.text,
+        homeDeliveryTypeController.text,
         selectedHubUuid.toString(),
         "branchOffice",
         addressController.text,
@@ -267,11 +269,15 @@ class AuthProvider extends ChangeNotifier {
         selectedZoneController.text,
         postalCodeController.text,
         fcmToken!,
-        selectedImage);
+        selectedImage,
+      storeCommissionController.text,
+      deliveryFeeController.text
+    );
     if (registerResponse.statusCode == 201) {
       prefModel.userData = registerResponse.result![0];
       await AppPref.setPref(prefModel);
       await clearFieldData();
+      clearRegisterForm();
       Navigator.pop(fillAddressBottomSheetContext!);
       Navigator.pushNamedAndRemoveUntil(fillAddressBottomSheetContext!,
           Routes.dashboardRoute, (route) => false);
@@ -279,6 +285,36 @@ class AuthProvider extends ChangeNotifier {
       Navigator.pop(fillAddressBottomSheetContext!);
       showErrorToast(fillAddressBottomSheetContext!, registerResponse.message!);
     }
+  }
+  
+  clearRegisterForm(){
+    isHeadquarters = '';
+    selectedCategory= '';
+    isHomeDelivery= '';
+    deliveryType= '';
+    selectedZone= '';
+    selectedHubUuid= '';
+    selectedHubName= '';
+
+     isHeadquartersController.clear();
+     homeDeliveryTypeController.clear();
+     selectedZoneController.clear();
+     categoryController.clear();
+     deliveryTypeController.clear();
+     storeNameController.clear();
+     storeMailController.clear();
+     storeDisplayNameController.clear();
+     gstController.clear();
+     storeEmailController.clear();
+     hubController.clear();
+     storeCommissionController.clear();
+     deliveryFeeController.clear();
+
+     addressController.clear();
+     cityController.clear();
+     stateController.clear();
+     postalCodeController.clear();
+     notifyListeners();
   }
 
   getHubOnZone() async {

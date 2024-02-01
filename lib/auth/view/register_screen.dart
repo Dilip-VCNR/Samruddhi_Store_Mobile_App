@@ -483,6 +483,94 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ],
                           ),
                         ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          width: screenSize.width,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.delivery_dining_outlined),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  textCapitalization: TextCapitalization.sentences,
+                                  textInputAction: TextInputAction.done,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter valid delivery fee';
+                                    }
+                                    // if (authController.isNotValidPhone(value)) {
+                                    //   return "Please enter valid phone number";
+                                    // }
+                                    return null;
+                                  },
+                                  controller: authProvider.deliveryFeeController,
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 15,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Delivery fee controller',
+                                      counterText: "",
+                                      isCollapsed: true,
+                                      border: InputBorder.none),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 10),
+                          width: screenSize.width,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 15, horizontal: 10),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius:
+                              const BorderRadius.all(Radius.circular(10))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.delivery_dining_outlined),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  textCapitalization: TextCapitalization.sentences,
+                                  textInputAction: TextInputAction.done,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter valid delivery fee';
+                                    }
+                                    // if (authController.isNotValidPhone(value)) {
+                                    //   return "Please enter valid phone number";
+                                    // }
+                                    return null;
+                                  },
+                                  controller: authProvider.storeCommissionController,
+                                  keyboardType: TextInputType.text,
+                                  maxLength: 15,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Store commission %',
+                                      counterText: "",
+                                      isCollapsed: true,
+                                      border: InputBorder.none),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                         InkWell(
                           onTap: () {
                             showModalBottomSheet(
@@ -671,7 +759,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   );
                                 }).then((value) {
                               setState(() {
-                                authProvider.homeDeliveryTypeController.text = authProvider.isHomeDelivery!;
+                                authProvider.deliveryTypeController.text = authProvider.isHomeDelivery!;
                               });
                             });
                           },
@@ -706,7 +794,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       // }
                                       return null;
                                     },
-                                    controller: authProvider.homeDeliveryTypeController,
+                                    controller: authProvider.deliveryTypeController,
                                     keyboardType: TextInputType.number,
                                     maxLength: 10,
                                     decoration: const InputDecoration(

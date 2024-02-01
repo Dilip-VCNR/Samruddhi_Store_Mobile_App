@@ -323,9 +323,9 @@ class ProductDetail {
   bool? isAvailable;
   String? productSku;
   String? productUom;
-  int? productTax;
-  int? productDiscount;
-  int? productDiscountedValue;
+  double? productTax;
+  double? productDiscount;
+  double? productDiscountedValue;
   int? productQuantity;
   int? addedCartQuantity;
   bool? isReturnable;
@@ -390,9 +390,9 @@ class ProductDetail {
     isAvailable: json["isAvailable"],
     productSku: json["productSku"],
     productUom: json["productUom"],
-    productTax: json["productTax"],
-    productDiscount: json["productDiscount"],
-    productDiscountedValue: json["productDiscountedValue"],
+    productTax: json["productTax"].toDouble(),
+    productDiscount: json["productDiscount"].toDouble(),
+    productDiscountedValue: json["productDiscountedValue"].toDouble(),
     productQuantity: json["productQuantity"],
     addedCartQuantity: json["addedCartQuantity"],
     isReturnable: json["isReturnable"],
