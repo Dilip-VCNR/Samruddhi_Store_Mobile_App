@@ -6,6 +6,7 @@ import 'package:samruddhi_store/dashboard/dashboard_provider.dart';
 import 'package:samruddhi_store/dashboard/my_products/provider/products_provider.dart';
 import 'package:samruddhi_store/dashboard/my_products/view/edit_product.dart';
 import 'package:samruddhi_store/dashboard/orders/view/view_order_detail.dart';
+import 'package:samruddhi_store/dashboard/profile/view/edit_profile.dart';
 import 'package:samruddhi_store/splash/view/splash_screen.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
           Routes.editProductRoute: (context) => const EditProduct(),
           Routes.webViewRoute: (context) => const WebViewScreen(),
           Routes.productSearch: (context) => const ProductSearch(),
+          Routes.editProfile: (context) => const EditProfile(),
         }
       ),
     );

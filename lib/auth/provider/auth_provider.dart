@@ -71,6 +71,14 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController storeCommissionController = TextEditingController();
   TextEditingController deliveryFeeController = TextEditingController();
 
+  //edit profile
+  TextEditingController editStoreNameController = TextEditingController();
+  TextEditingController editStoreDisplayNameController = TextEditingController();
+  TextEditingController editGstController = TextEditingController();
+  TextEditingController editStoreEmailController = TextEditingController();
+  TextEditingController editStoreCommissionController = TextEditingController();
+  TextEditingController editDeliveryFeeController = TextEditingController();
+
   // mark location screen declarations
   GoogleMapController? mapController;
   String location = "Search location";
@@ -84,9 +92,10 @@ class AuthProvider extends ChangeNotifier {
   TextEditingController cityController = TextEditingController();
   TextEditingController postalCodeController = TextEditingController();
   BuildContext? fillAddressBottomSheetContext;
-
+  BuildContext? editProfileScreenContext;
 
   HubListResponseModel? hubList;
+
   bool isNotValidEmail(String email) {
     const emailRegex =
         r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)*(\.[a-zA-Z]{2,})$';
@@ -193,11 +202,15 @@ class AuthProvider extends ChangeNotifier {
       prefModel.userData = authResponse.result;
       await AppPref.setPref(prefModel);
       Navigator.pop(otpScreenContext!);
-      Navigator.pushNamedAndRemoveUntil(otpScreenContext!, Routes.dashboardRoute, (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          otpScreenContext!, Routes.dashboardRoute, (route) => false);
     } else if (authResponse.statusCode == 404) {
       storeCategoryList = await apiCalls.getStoreCategoryList();
       storeZoneList = await apiCalls.getStoreZonesList();
-      if (storeCategoryList!.statusCode == 200 && storeCategoryList!.result!.isNotEmpty && storeZoneList!.statusCode==200 && storeZoneList!.result!.isNotEmpty) {
+      if (storeCategoryList!.statusCode == 200 &&
+          storeCategoryList!.result!.isNotEmpty &&
+          storeZoneList!.statusCode == 200 &&
+          storeZoneList!.result!.isNotEmpty) {
         Navigator.pop(otpScreenContext!);
         Navigator.pushNamed(otpScreenContext!, Routes.registerRoute);
       } else {
@@ -285,42 +298,86 @@ class AuthProvider extends ChangeNotifier {
       showErrorToast(fillAddressBottomSheetContext!, registerResponse.message!);
     }
   }
-  
-  clearRegisterForm(){
+
+  clearRegisterForm() {
     isHeadquarters = '';
-    selectedCategory= '';
-    isHomeDelivery= '';
-    deliveryType= '';
-    selectedZone= '';
-    selectedHubUuid= '';
-    selectedHubName= '';
+    selectedCategory = '';
+    isHomeDelivery = '';
+    deliveryType = '';
+    selectedZone = '';
+    selectedHubUuid = '';
+    selectedHubName = '';
 
-     isHeadquartersController.clear();
-     isHomeDeliveryController.clear();
-     selectedZoneController.clear();
-     categoryController.clear();
-     deliveryMethodController.clear();
-     storeNameController.clear();
-     storeMailController.clear();
-     storeDisplayNameController.clear();
-     gstController.clear();
-     storeEmailController.clear();
-     hubController.clear();
-     storeCommissionController.clear();
-     deliveryFeeController.clear();
+    isHeadquartersController.clear();
+    isHomeDeliveryController.clear();
+    selectedZoneController.clear();
+    categoryController.clear();
+    deliveryMethodController.clear();
+    storeNameController.clear();
+    storeMailController.clear();
+    storeDisplayNameController.clear();
+    gstController.clear();
+    storeEmailController.clear();
+    hubController.clear();
+    storeCommissionController.clear();
+    deliveryFeeController.clear();
 
-     addressController.clear();
-     cityController.clear();
-     stateController.clear();
-     postalCodeController.clear();
-     notifyListeners();
+    addressController.clear();
+    cityController.clear();
+    stateController.clear();
+    postalCodeController.clear();
+    notifyListeners();
   }
 
   getHubOnZone() async {
     hubList = await apiCalls.getHubOnZone(selectedZone!);
     notifyListeners();
-    if(hubList!.statusCode!=200){
+    if (hubList!.statusCode != 200) {
       showErrorToast(registerScreenContext!, hubList!.message!);
     }
+  }
+
+  updateProfile() async {
+    showLoaderDialog(editProfileScreenContext!);
+    LoginResponseModel response = await apiCalls.updateProfile(
+        storeName: editStoreNameController.text,
+        storeDisplayName: editStoreDisplayNameController.text,
+        storeGst: editGstController.text,
+        storeEmail: editStoreEmailController.text,
+        storeCommission: editStoreCommissionController.text,
+        storeDeliveryFee: editDeliveryFeeController.text,
+        selectedImage: selectedImage);
+
+    if (response.statusCode == 200) {
+      prefModel.userData = response.result;
+      await AppPref.setPref(prefModel);
+      clearEditProfileFields();
+      notifyListeners();
+      Navigator.pop(editProfileScreenContext!);
+      showSuccessToast(editProfileScreenContext!, response.message!);
+    } else {
+      Navigator.pop(editProfileScreenContext!);
+      showErrorToast(editProfileScreenContext!, response.message!);
+    }
+  }
+
+  void clearEditProfileFields() {
+    editStoreNameController.clear();
+    editStoreDisplayNameController.clear();
+    editGstController.clear();
+    editStoreEmailController.clear();
+    editStoreCommissionController.clear();
+    editDeliveryFeeController.clear();
+    selectedImage=null;
+  }
+
+  void moveToEditProfile() {
+    editStoreNameController.text = prefModel.userData!.storeName!;
+    editStoreDisplayNameController.text = prefModel.userData!.displayName!;
+    editGstController.text = prefModel.userData!.gstNo!;
+    editStoreEmailController.text = prefModel.userData!.emailId!;
+    editStoreCommissionController.text = prefModel.userData!.storeCommissionPercent.toString();
+    editDeliveryFeeController.text = prefModel.userData!.deliveryFee!.toString();
+    Navigator.pushNamed(editProfileScreenContext!, Routes.editProfile);
   }
 }

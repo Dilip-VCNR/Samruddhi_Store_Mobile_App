@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/app_colors.dart';
+import '../../../utils/routes.dart';
 import '../../../utils/url_constants.dart';
 import '../models/all_product_response_model.dart';
 import '../provider/products_provider.dart';
@@ -109,7 +110,7 @@ class _ProductSearchState extends State<ProductSearch> {
                                 width: 20,
                               ),
                               SizedBox(
-                                width: screenSize.width*.6,
+                                width: screenSize.width*.5,
                                 child: Column(
                                   mainAxisAlignment:
                                   MainAxisAlignment.start,
@@ -159,9 +160,57 @@ class _ProductSearchState extends State<ProductSearch> {
                                           decorationColor: AppColors.secondaryColor
                                       ),
                                     ),
+                                    Text(
+                                      'Tax : ${product.productTax}%',
+                                      style: const TextStyle(
+                                        // color: AppColors.primaryColor,
+                                        // fontSize: 20,
+                                        // fontWeight: FontWeight.w600,
+                                      ),
+                                    ),Text(
+                                      'Discount : ${product.productDiscount}%',
+                                      style: const TextStyle(
+                                        // color: AppColors.primaryColor,
+                                        // fontSize: 20,
+                                        // fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                                 ]
                               ),
                           ),
+                              GestureDetector(
+                                onTap: () {
+                                  productsProvider.setProductToEdit(product.toJson());
+                                  Navigator.pushNamed(context, Routes.editProductRoute).then((value) {
+                                    setState(() {
+                                      Navigator.pop(context);
+                                    });
+                                    return null;
+                                  });
+                                },
+                                child: const Row(
+                                  children: [
+                                    Text(
+                                      "Edit",
+                                      style: TextStyle(
+                                        decoration:
+                                        TextDecoration.underline,
+                                        color: AppColors.fontColor,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        letterSpacing: 0.60,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Icon(
+                                      Icons.edit_outlined,
+                                      size: 15,
+                                    )
+                                  ],
+                                ),
+                              )
 
                       ],
                     )

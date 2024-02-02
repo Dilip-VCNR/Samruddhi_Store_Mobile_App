@@ -11,7 +11,6 @@ import 'package:samruddhi_store/dashboard/my_products/models/add_product_respons
 import 'package:samruddhi_store/dashboard/my_products/models/all_product_response_model.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/product_category_list_model.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/product_sub_category_list_model.dart';
-import 'package:samruddhi_store/dashboard/my_products/models/update_/product_response_model.dart';
 import 'package:samruddhi_store/utils/url_constants.dart';
 
 import 'auth/models/login_response_model.dart';
@@ -170,7 +169,7 @@ class ApiCalls {
     String? productHsnCode,
     String? productModel,
     String? productSubCategoryName,
-    File? selectedImage, String? isPerishable, String? isReturnable, bool? isAvailable,
+    File? selectedImage, String? isPerishable, String? isReturnable, bool? isAvailable, String? expiryDate,
   }) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.createProduct));
@@ -188,8 +187,6 @@ class ApiCalls {
     request.fields['productTax'] = productTax!;
     request.fields['productUom'] = productUom!;
     request.fields['productDiscount'] = productDiscount!;
-    request.fields['productOffer'] = productOffer!;
-    request.fields['purchaseMinQuantity'] = purchaseMinQuantity!;
     request.fields['manufacturer'] = manufacturer!;
     request.fields['productHsnCode'] = productHsnCode!;
     request.fields['productModel'] = productModel!;
@@ -197,6 +194,7 @@ class ApiCalls {
     request.fields['isPerishable'] = isPerishable!;
     request.fields['isReturnable'] = isReturnable!;
     request.fields['isAvailable'] = isAvailable.toString();
+    request.fields['productExpiryDate'] = expiryDate.toString();
 
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
@@ -213,6 +211,73 @@ class ApiCalls {
     request.headers.addAll({
       "x-access-token": "${prefModel.userData!.storeAuthToken}",
     });
+    print(request.fields);
+    var response = await request.send();
+    var responseData = await response.stream.toBytes();
+    var responseJson = json.decode(utf8.decode(responseData));
+    return AddProductResponseModel.fromJson(responseJson);
+  }
+
+  Future<AddProductResponseModel> updateProduct({
+    String? productSku,
+    String? productName,
+    String? productQuantity,
+    String? productCategoryName,
+    String? description,
+    String? sellingPrice,
+    String? productTax,
+    String? productUom,
+    String? productDiscount,
+    String? productOffer,
+    String? purchaseMinQuantity,
+    String? manufacturer,
+    String? productHsnCode,
+    String? productModel,
+    String? productSubCategoryName,
+    File? selectedImage, String? isPerishable, String? isReturnable, bool? isAvailable, String? expiryDate, String? lastEditProductId,
+  }) async {
+    var request =
+    http.MultipartRequest('POST', Uri.parse(UrlConstant.updateProduct));
+    // Add form fields
+    request.fields['productUuid'] = lastEditProductId!;
+    request.fields['productSku'] = productSku!;
+    request.fields['productName'] = productName!;
+    request.fields['storeUuid'] = prefModel.userData!.storeUuid!;
+    request.fields['storeName'] = prefModel.userData!.storeName!;
+    request.fields['productQuantity'] = productQuantity!;
+    request.fields['isAvailable'] = "true";
+    request.fields['productCategoryName'] = productCategoryName!;
+    request.fields['description'] = description!;
+    request.fields['isMrp'] = "true";
+    request.fields['sellingPrice'] = sellingPrice!;
+    request.fields['productTax'] = productTax!;
+    request.fields['productUom'] = productUom!;
+    request.fields['productDiscount'] = productDiscount!;
+    request.fields['manufacturer'] = manufacturer!;
+    request.fields['productHsnCode'] = productHsnCode!;
+    request.fields['productModel'] = productModel!;
+    request.fields['productSubCategoryName'] = productSubCategoryName!;
+    request.fields['isPerishable'] = isPerishable!;
+    request.fields['isReturnable'] = isReturnable!;
+    request.fields['isAvailable'] = isAvailable.toString();
+    request.fields['productExpiryDate'] = expiryDate.toString();
+
+    if (selectedImage != null) {
+      var picStream = http.ByteStream(selectedImage.openRead());
+      var length = await selectedImage.length();
+      var multipartFile = http.MultipartFile(
+        'image',
+        picStream,
+        length,
+        filename: selectedImage.path.split('/').last,
+        contentType: MediaType('image', 'jpeg'),
+      );
+      request.files.add(multipartFile);
+    }
+    request.headers.addAll({
+      "x-access-token": "${prefModel.userData!.storeAuthToken}",
+    });
+    print(request.fields);
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
@@ -273,13 +338,19 @@ class ApiCalls {
     return OrderStatusUpdateResponseModel.fromJson(json.decode(response.body));
   }
 
-  Future<UpdateProductResponseModel> updateProduct(Map<String, Object?> productData, File? selectedImage) async {
-    var request = http.MultipartRequest('POST', Uri.parse(UrlConstant.updateProduct));
+  updateProfile({required String storeName, required String storeDisplayName, required String storeGst, required String storeEmail, required String storeCommission, required String storeDeliveryFee, File? selectedImage}) async {
+    var request =
+    http.MultipartRequest('POST', Uri.parse(UrlConstant.registerStore));
+    // Add form fields
 
-    // Add form fields from the JSON object
-    productData.forEach((key, value) {
-      request.fields[key] = value.toString(); // Ensure values are strings
-    });
+    request.fields['storeUuid'] = prefModel.userData!.storeUuid!;
+    request.fields['storeName'] = storeName;
+    request.fields['displayName'] = storeDisplayName;
+    request.fields['gstNo'] = storeGst;
+    request.fields['emailId'] = storeEmail;
+    request.fields['deliveryFee'] = storeDeliveryFee;
+    request.fields['storeCommissionPercent'] = storeCommission;
+
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -292,13 +363,10 @@ class ApiCalls {
       );
       request.files.add(multipartFile);
     }
-
-    request.headers.addAll({
-      "x-access-token": "${prefModel.userData!.storeAuthToken}",
-    });
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
-    return UpdateProductResponseModel.fromJson(responseJson);
+    return LoginResponseModel.fromJson(responseJson);
   }
+
 }

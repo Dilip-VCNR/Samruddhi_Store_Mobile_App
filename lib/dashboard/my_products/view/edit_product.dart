@@ -29,7 +29,7 @@ class _EditProductState extends State<EditProduct> {
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
-        productsProvider.editExpiryDateController.text=DateFormat("dd/MM/yyyy").format(
+        productsProvider.expiryDateController.text=DateFormat("dd/MM/yyyy").format(
             DateTime.parse(selectedDate
                 .toString()));
       });
@@ -95,7 +95,7 @@ class _EditProductState extends State<EditProduct> {
                   height: 10,
                 ),
                 Form(
-                  key: productsProvider.editProductFormKey,
+                  key: productsProvider.addProductFormKey,
                   child: Column(
                     children: [
                       const SizedBox(
@@ -190,10 +190,11 @@ class _EditProductState extends State<EditProduct> {
                         },
                         child: TextFormField(
                           textCapitalization: TextCapitalization.sentences,
+
                           style: const TextStyle(color: Colors.black),
                           enabled: false,
                           controller:
-                          productsProvider.editProductCategoryController,
+                          productsProvider.productCategoryController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please select category';
@@ -319,7 +320,7 @@ class _EditProductState extends State<EditProduct> {
                           style: const TextStyle(color: Colors.black),
                           enabled: false,
                           controller: productsProvider
-                              .editProductSubCategoryController,
+                              .productSubCategoryController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please select sub category';
@@ -353,7 +354,7 @@ class _EditProductState extends State<EditProduct> {
                         textCapitalization: TextCapitalization.sentences,
                         style: const TextStyle(color: Colors.black),
                         textInputAction: TextInputAction.next,
-                        controller: productsProvider.editProductSkuController,
+                        controller: productsProvider.productSkuController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter product sku';
@@ -386,7 +387,7 @@ class _EditProductState extends State<EditProduct> {
                         style: const TextStyle(color: Colors.black),
                         textInputAction: TextInputAction.next,
                         controller:
-                        productsProvider.editProductNameController,
+                        productsProvider.productNameController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter product name';
@@ -421,7 +422,7 @@ class _EditProductState extends State<EditProduct> {
                         minLines: 3,
                         textInputAction: TextInputAction.next,
                         controller:
-                        productsProvider.editProductDescriptionController,
+                        productsProvider.productDescriptionController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter product description';
@@ -454,7 +455,7 @@ class _EditProductState extends State<EditProduct> {
                         style: const TextStyle(color: Colors.black),
                         textInputAction: TextInputAction.next,
                         controller:
-                        productsProvider.editProductQuantityController,
+                        productsProvider.productQuantityController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter product quantity';
@@ -463,6 +464,7 @@ class _EditProductState extends State<EditProduct> {
                         },
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+                          labelText: "Product quantity",
                           hintText: 'Product quantity',
                           counterText: "",
                           isCollapsed: true,
@@ -572,7 +574,7 @@ class _EditProductState extends State<EditProduct> {
                           style: const TextStyle(color: Colors.black),
                           enabled: false,
                           controller:
-                          productsProvider.editProductUomController,
+                          productsProvider.productUomController,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please select UOM';
@@ -611,7 +613,7 @@ class _EditProductState extends State<EditProduct> {
                         style: const TextStyle(color: Colors.black),
                         textInputAction: TextInputAction.next,
                         controller: productsProvider
-                            .editProductSellingPriceController,
+                            .productSellingPriceController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter product selling price';
@@ -644,7 +646,7 @@ class _EditProductState extends State<EditProduct> {
                         keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.next,
                         controller:
-                        productsProvider.editProductDiscountController,
+                        productsProvider.productDiscountController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter product discount';
@@ -676,7 +678,7 @@ class _EditProductState extends State<EditProduct> {
                         style: const TextStyle(color: Colors.black),
                         keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.next,
-                        controller: productsProvider.editProductTaxController,
+                        controller: productsProvider.productTaxController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter product tax';
@@ -702,71 +704,13 @@ class _EditProductState extends State<EditProduct> {
                       const SizedBox(
                         height: 10,
                       ),
-                      // TextFormField(
-                      //   keyboardType: TextInputType.number,
-                      //   textInputAction: TextInputAction.next,
-                      //   controller:
-                      //       productsProvider.productOfferController,
-                      //   validator: (value) {
-                      //     if (value!.isEmpty) {
-                      //       return 'Please enter product offer';
-                      //     }
-                      //     return null;
-                      //   },
-                      //   decoration: InputDecoration(
-                      //     hintText: 'Product offer',
-                      //     counterText: "",
-                      //     isCollapsed: true,
-                      //
-                      //     fillColor: AppColors.inputFieldColor,
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(10.0),
-                      //
-                      //     ),
-                      //     contentPadding: const EdgeInsets.symmetric(
-                      //         vertical: 16.0, horizontal: 10),
-                      //   ),
-                      //   textAlignVertical: TextAlignVertical.center,
-                      // ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
-                      // TextFormField(
-                      //   keyboardType: TextInputType.number,
-                      //   textInputAction: TextInputAction.next,
-                      //   controller:
-                      //       productsProvider.productMinQtyController,
-                      //   validator: (value) {
-                      //     if (value!.isEmpty) {
-                      //       return 'Please enter product minimum purchase quantity';
-                      //     }
-                      //     return null;
-                      //   },
-                      //   decoration: InputDecoration(
-                      //     hintText: 'Product minimum purchase quantity',
-                      //     counterText: "",
-                      //     isCollapsed: true,
-                      //
-                      //     fillColor: AppColors.inputFieldColor,
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(10.0),
-                      //
-                      //     ),
-                      //     contentPadding: const EdgeInsets.symmetric(
-                      //         vertical: 16.0, horizontal: 10),
-                      //   ),
-                      //   textAlignVertical: TextAlignVertical.center,
-                      // ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
                       TextFormField(
                         textCapitalization: TextCapitalization.sentences,
 
                         style: const TextStyle(color: Colors.black),
                         textInputAction: TextInputAction.next,
                         controller: productsProvider
-                            .editProductManufacturerController,
+                            .productManufacturerController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter product manufacturer';
@@ -799,7 +743,41 @@ class _EditProductState extends State<EditProduct> {
 
                         textInputAction: TextInputAction.next,
                         controller:
-                        productsProvider.editProductModelController,
+                        productsProvider.productHsnCodeController,
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter product hsn';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          labelText: 'Product hsn',
+                          hintText: 'Product hsn',
+                          counterText: "",
+                          isCollapsed: true,
+
+                          fillColor: AppColors.inputFieldColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 10),
+                        ),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        textCapitalization: TextCapitalization.sentences,
+
+                        style: const TextStyle(color: Colors.black),
+
+                        textInputAction: TextInputAction.next,
+                        controller:
+                        productsProvider.productModelController,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter product model';
@@ -825,130 +803,10 @@ class _EditProductState extends State<EditProduct> {
                       const SizedBox(
                         height: 10,
                       ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     List<String> sizeTypes = [
-                      //       "Small",
-                      //       "Medium",
-                      //       "Large",
-                      //       "Extra Large",
-                      //       "XXL",
-                      //       "XXXL",
-                      //     ];
-                      //     showModalBottomSheet(
-                      //         context: context,
-                      //         builder: (BuildContext context) {
-                      //           return Padding(
-                      //             padding: const EdgeInsets.all(20.0),
-                      //             child: Column(
-                      //               children: [
-                      //                 Row(
-                      //                   mainAxisAlignment:
-                      //                       MainAxisAlignment
-                      //                           .spaceBetween,
-                      //                   children: [
-                      //                     const Text("Select Category",
-                      //                         style: TextStyle(
-                      //                             fontSize: 20,
-                      //                             fontWeight:
-                      //                                 FontWeight.bold)),
-                      //                     IconButton(
-                      //                         onPressed: () {
-                      //                           Navigator.pop(context);
-                      //                         },
-                      //                         icon:
-                      //                             const Icon(Icons.close))
-                      //                   ],
-                      //                 ),
-                      //                 Expanded(
-                      //                   child: ListView.builder(
-                      //                       shrinkWrap: true,
-                      //                       itemCount: sizeTypes.length,
-                      //                       itemBuilder:
-                      //                           (BuildContext context,
-                      //                               int index) {
-                      //                         return InkWell(
-                      //                           onTap: () {
-                      //                             productsProvider
-                      //                                     .productSizeController
-                      //                                     .text =
-                      //                                 sizeTypes[index];
-                      //                             Navigator.pop(context);
-                      //                           },
-                      //                           child: Column(
-                      //                             mainAxisAlignment:
-                      //                                 MainAxisAlignment
-                      //                                     .start,
-                      //                             crossAxisAlignment:
-                      //                                 CrossAxisAlignment
-                      //                                     .start,
-                      //                             children: [
-                      //                               Padding(
-                      //                                 padding:
-                      //                                     const EdgeInsets
-                      //                                         .symmetric(
-                      //                                         vertical:
-                      //                                             10),
-                      //                                 child: Text(
-                      //                                   sizeTypes[index],
-                      //                                   style:
-                      //                                       const TextStyle(
-                      //                                           fontSize:
-                      //                                               18),
-                      //                                 ),
-                      //                               ),
-                      //                               const Divider()
-                      //                             ],
-                      //                           ),
-                      //                         );
-                      //                       }),
-                      //                 ),
-                      //               ],
-                      //             ),
-                      //           );
-                      //         }).then((value) {
-                      //       setState(() {});
-                      //     });
-                      //   },
-                      //   child: TextFormField(
-                      //     enabled: false,
-                      //     controller:
-                      //         productsProvider.productSizeController,
-                      //     // validator: (value) {
-                      //     //   if (value!.isEmpty) {
-                      //     //     return 'Please select size';
-                      //     //   }
-                      //     //   return null;
-                      //     // },
-                      //     decoration: InputDecoration(
-                      //       suffixIcon: const Icon(
-                      //           Icons.keyboard_arrow_down_sharp),
-                      //       hintText: 'Select product size',
-                      //       counterText: "",
-                      //       isCollapsed: true,
-                      //
-                      //       fillColor: AppColors.inputFieldColor,
-                      //       border: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(10.0),
-                      //
-                      //       ),
-                      //       contentPadding: const EdgeInsets.symmetric(
-                      //           vertical: 16.0, horizontal: 10),
-                      //     ),
-                      //     textAlignVertical: TextAlignVertical.center,
-                      //   ),
-                      // ),
-                      // const SizedBox(
-                      //   height: 20,
-                      // ),
                       GestureDetector(
                         onTap: () => selectDate(context,productsProvider),
                         child: TextFormField(
                           textCapitalization: TextCapitalization.sentences,
-
                           enabled: false,
                           validator: (value) {
                             if (value!.isEmpty) {
@@ -960,7 +818,7 @@ class _EditProductState extends State<EditProduct> {
                             return null;
                           },
                           style: const TextStyle(color: Colors.black),
-                          controller: productsProvider.editExpiryDateController,
+                          controller: productsProvider.expiryDateController,
                           decoration: InputDecoration(
                             suffixIcon: const Icon(
                               Icons.calendar_month_outlined,
@@ -990,9 +848,9 @@ class _EditProductState extends State<EditProduct> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const Text("Is it available now?"),
-                          Switch(value: productsProvider.editProductAvailability, onChanged: (val){
+                          Switch(value: productsProvider.addProductAvailability, onChanged: (val){
                             setState(() {
-                              productsProvider.editProductAvailability = !productsProvider.editProductAvailability;
+                              productsProvider.addProductAvailability = !productsProvider.addProductAvailability;
                             });
                           })
                         ],
@@ -1006,9 +864,9 @@ class _EditProductState extends State<EditProduct> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const Text("Is it returnable ?"),
-                          Switch(value: productsProvider.editProductIsReturnable, onChanged: (val){
+                          Switch(value: productsProvider.addProductIsReturnable, onChanged: (val){
                             setState(() {
-                              productsProvider.editProductIsReturnable = !productsProvider.editProductIsReturnable;
+                              productsProvider.addProductIsReturnable = !productsProvider.addProductIsReturnable;
                             });
                           })
                         ],
@@ -1022,9 +880,9 @@ class _EditProductState extends State<EditProduct> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const Text("Is it perishable ?"),
-                          Switch(value: productsProvider.editProductIsPerishable, onChanged: (val){
+                          Switch(value: productsProvider.addProductIsPerishable, onChanged: (val){
                             setState(() {
-                              productsProvider.editProductIsPerishable = !productsProvider.editProductIsPerishable;
+                              productsProvider.addProductIsPerishable = !productsProvider.addProductIsPerishable;
                             });
                           })
                         ],
@@ -1036,7 +894,7 @@ class _EditProductState extends State<EditProduct> {
                       InkWell(
                         onTap: () async {
                           if (productsProvider
-                              .editProductFormKey.currentState!
+                              .addProductFormKey.currentState!
                               .validate()) {
                             productsProvider.updateProduct();
                           }

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -5,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:samruddhi_store/api_calls.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/add_product_response_model.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/product_sub_category_list_model.dart';
-import 'package:samruddhi_store/dashboard/my_products/models/update_/product_response_model.dart';
 import 'package:samruddhi_store/utils/app_widgets.dart';
 
 import '../models/all_product_response_model.dart';
@@ -35,12 +35,12 @@ class ProductsProvider extends ChangeNotifier {
   bool addProductAvailability = false;
   bool addProductIsPerishable = false;
   bool addProductIsReturnable = false;
+  File? selectedImage;
 
   final addProductFormKey = GlobalKey<FormState>();
   BuildContext? addProductScreenContext;
   ProductSubCategoryListModel? subCategoriesList;
   ProductCategoryListModel? categoriesList;
-  File? selectedImage;
   bool? isLoaded;
 
   // my products screen
@@ -48,30 +48,6 @@ class ProductsProvider extends ChangeNotifier {
   BuildContext? myProductsScreenContext;
   List allProducts = [];
 
-  // edit product pahge declarations
-  TextEditingController editProductSkuController = TextEditingController();
-  TextEditingController editProductNameController = TextEditingController();
-  TextEditingController editProductQuantityController = TextEditingController();
-  TextEditingController editProductCategoryController = TextEditingController();
-  TextEditingController editProductSubCategoryController =
-      TextEditingController();
-  TextEditingController editProductDescriptionController =
-      TextEditingController();
-  TextEditingController editProductUomController = TextEditingController();
-  TextEditingController editProductSellingPriceController =
-      TextEditingController();
-  TextEditingController editProductDiscountController = TextEditingController();
-  TextEditingController editProductMinQtyController = TextEditingController();
-  TextEditingController editProductManufacturerController =
-      TextEditingController();
-  TextEditingController editProductHsnCodeController = TextEditingController();
-  TextEditingController editProductModelController = TextEditingController();
-  TextEditingController editProductTaxController = TextEditingController();
-  TextEditingController editProductOfferController = TextEditingController();
-  TextEditingController editExpiryDateController = TextEditingController();
-  bool editProductAvailability = false;
-  bool editProductIsPerishable = false;
-  bool editProductIsReturnable = false;
 
   final editProductFormKey = GlobalKey<FormState>();
   BuildContext? editProductScreenContext;
@@ -117,10 +93,13 @@ class ProductsProvider extends ChangeNotifier {
         selectedImage: selectedImage,
         isPerishable: addProductIsPerishable.toString(),
         isReturnable: addProductIsReturnable.toString(),
-        isAvailable: addProductAvailability);
+        isAvailable: addProductAvailability,
+      expiryDate:expiryDateController.text
+    );
 
     if (response.statusCode == 201) {
       await getStoreProducts();
+      clearFields();
       Navigator.pop(addProductScreenContext!);
       showSuccessToast(addProductScreenContext!, response.message!);
       Navigator.pop(addProductScreenContext!);
@@ -140,61 +119,92 @@ class ProductsProvider extends ChangeNotifier {
   }
 
   void setProductToEdit(element) {
+    log(element.toString());
     lastEditProductId = element['productUuid'];
-    editProductSkuController.text = element['productSku'];
-    editProductNameController.text = element['productName'];
-    editProductCategoryController.text =
+    productSkuController.text = element['productSku'];
+    productNameController.text = element['productName'];
+    productCategoryController.text =
         element['productCategory']['productCategoryName'];
-    editProductSubCategoryController.text =
+    productSubCategoryController.text =
         element['productSubCategory']['productSubCategoryName'];
-    editProductQuantityController.text = element['productQuantity'].toString();
-    editProductMinQtyController.text =
+    productQuantityController.text = element['productQuantity'].toString();
+    productUomController.text = element['productUom'];
+    productSellingPriceController.text = element['sellingPrice'].toString();
+    productDiscountController.text = element['productDiscount'].toString();
+    productTaxController.text = element['productTax'].toString();
+    productOfferController.text = element['productOffer'].toString();
+    productMinQtyController.text =
         element['purchaseMinQuantity'].toString();
-    editProductUomController.text = element['productUom'];
-    editProductSellingPriceController.text = element['sellingPrice'].toString();
-    editProductDiscountController.text = element['productDiscount'].toString();
-    editProductTaxController.text = element['productTax'].toString();
-    editProductOfferController.text = element['productOffer'].toString();
-    editProductMinQtyController.text =
-        element['purchaseMinQuantity'].toString();
-    editProductManufacturerController.text = element['manufacturer'].toString();
-    editProductModelController.text = element['productModel'].toString();
-    editProductIsPerishable = element['isPerishable']??false;
-    editProductIsReturnable = element['isReturnable']?? false;
-    editProductAvailability = element['isAvailable']??false;
-    editExpiryDateController.text = element['productExpiryDate'] ?? "";
-    editProductDescriptionController.text = element['description'].toString();
+    productManufacturerController.text = element['manufacturer'].toString();
+    productModelController.text = element['productModel'].toString();
+    addProductIsPerishable = element['isPerishable']??false;
+    addProductIsReturnable = element['isReturnable']?? false;
+    addProductAvailability = element['isAvailable']??false;
+    expiryDateController.text = element['productExpiryDate'] ?? "";
+    productHsnCodeController.text = element['productHsnCode'].toString();
+    productDescriptionController.text = element['description'].toString();
+    // selectedImage = File.fromUri(Uri.parse(UrlConstant.imageBaseUrl+element['productImgArray'][0]['imagePath']));
     notifyListeners();
   }
 
   Future<void> updateProduct() async {
     showLoaderDialog(editProductScreenContext!);
-    UpdateProductResponseModel res = await apiCalls.updateProduct({
-      "storeUuid": prefModel.userData!.storeUuid,
-      "productUuid": lastEditProductId,
-      "productSku": editProductSkuController.text,
-      "productName": editProductNameController.text,
-      "imageDescription": editProductDescriptionController.text,
-      "storeName": prefModel.userData!.storeName,
-      "description": editProductDescriptionController.text,
-      "sellingPrice": editProductSellingPriceController.text,
-      "isAvailable": editProductAvailability,
-      "productUom": editProductUomController.text,
-      "productDiscount": editProductDiscountController.text,
-      "productOffer": editProductOfferController.text,
-      "purchaseMinQuantity": editProductMinQtyController.text,
-      "manufacturer": editProductManufacturerController.text,
-      "hsnCode": editProductHsnCodeController.text,
-      "productModel": editProductModelController.text,
-      "isPerishable":editProductIsPerishable,
-      "isReturnable":editProductIsReturnable,
-    }, selectedImage);
-    Navigator.pop(editProductScreenContext!);
-    if (res.statusCode == 200) {
+    AddProductResponseModel response = await apiCalls.updateProduct(
+        productSku: productSkuController.text,
+        productName: productNameController.text,
+        productQuantity: productQuantityController.text,
+        productCategoryName: productCategoryController.text,
+        description: productDescriptionController.text,
+        sellingPrice: productSellingPriceController.text,
+        productTax: productTaxController.text,
+        productUom: productUomController.text,
+        productDiscount: productDiscountController.text,
+        productOffer: productOfferController.text,
+        purchaseMinQuantity: productMinQtyController.text,
+        manufacturer: productManufacturerController.text,
+        productHsnCode: productHsnCodeController.text,
+        productModel: productModelController.text,
+        productSubCategoryName: productSubCategoryController.text,
+        selectedImage: selectedImage,
+        isPerishable: addProductIsPerishable.toString(),
+        isReturnable: addProductIsReturnable.toString(),
+        isAvailable: addProductAvailability,
+        expiryDate:expiryDateController.text,
+        lastEditProductId:lastEditProductId
+    );
+
+    if (response.statusCode == 200) {
+      await getStoreProducts();
+      clearFields();
       Navigator.pop(editProductScreenContext!);
-      showSuccessToast(editProductScreenContext!, res.message!);
+      showSuccessToast(editProductScreenContext!, response.message!);
+      Navigator.pop(editProductScreenContext!);
     } else {
-      showErrorToast(editProductScreenContext!, res.message!);
+      Navigator.pop(editProductScreenContext!);
+      showErrorToast(editProductScreenContext!, response.message!);
     }
+  }
+  clearFields(){
+     productSkuController.clear();
+     productNameController.clear();
+     productQuantityController.clear();
+     productCategoryController.clear();
+     productSubCategoryController.clear();
+     productDescriptionController.clear();
+     productUomController.clear();
+     productSellingPriceController.clear();
+     productDiscountController.clear();
+     productMinQtyController.clear();
+     productManufacturerController.clear();
+     productHsnCodeController.clear();
+     productModelController.clear();
+     productTaxController.clear();
+     productOfferController.clear();
+     productSizeController.clear();
+     expiryDateController.clear();
+    addProductAvailability = false;
+    addProductIsPerishable = false;
+    addProductIsReturnable = false;
+    selectedImage=null;
   }
 }

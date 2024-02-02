@@ -59,6 +59,7 @@ class StoreInfo {
   String? deliveryType;
   int? deliveryFee;
   String? hubUuid;
+  int? storeCommissionPercent;
   bool? isApproved;
   bool? isDeleted;
   bool? isHomeDelivery;
@@ -90,6 +91,7 @@ class StoreInfo {
     this.deliveryType,
     this.deliveryFee,
     this.hubUuid,
+    this.storeCommissionPercent,
     this.isApproved,
     this.isDeleted,
     this.isHomeDelivery,
@@ -122,6 +124,7 @@ class StoreInfo {
     deliveryType: json["deliveryType"],
     deliveryFee: json["deliveryFee"],
     hubUuid: json["hubUuid"],
+    storeCommissionPercent: json["storeCommissionPercent"],
     isApproved: json["isApproved"],
     isDeleted: json["isDeleted"],
     isHomeDelivery: json["isHomeDelivery"],
@@ -154,6 +157,7 @@ class StoreInfo {
     "deliveryType": deliveryType,
     "deliveryFee": deliveryFee,
     "hubUuid": hubUuid,
+    "storeCommissionPercent": storeCommissionPercent,
     "isApproved": isApproved,
     "isDeleted": isDeleted,
     "isHomeDelivery": isHomeDelivery,

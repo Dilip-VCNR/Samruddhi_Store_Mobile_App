@@ -43,6 +43,7 @@ class _AddProductState extends State<AddProduct> {
       builder: (BuildContext context, ProductsProvider productsProvider,
           Widget? child) {
         if (firstTimeLoading != true) {
+          productsProvider.clearFields();
           productsProvider.addProductScreenContext = context;
           productsProvider.getCategoriesDropDownData();
           firstTimeLoading = true;
@@ -464,6 +465,7 @@ class _AddProductState extends State<AddProduct> {
                               },
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
+                                labelText: "Product quantity",
                                 hintText: 'Product quantity',
                                 counterText: "",
                                 isCollapsed: true,
@@ -703,64 +705,6 @@ class _AddProductState extends State<AddProduct> {
                             const SizedBox(
                               height: 10,
                             ),
-                            // TextFormField(
-                            //   keyboardType: TextInputType.number,
-                            //   textInputAction: TextInputAction.next,
-                            //   controller:
-                            //       productsProvider.productOfferController,
-                            //   validator: (value) {
-                            //     if (value!.isEmpty) {
-                            //       return 'Please enter product offer';
-                            //     }
-                            //     return null;
-                            //   },
-                            //   decoration: InputDecoration(
-                            //     hintText: 'Product offer',
-                            //     counterText: "",
-                            //     isCollapsed: true,
-                            //
-                            //     fillColor: AppColors.inputFieldColor,
-                            //     border: OutlineInputBorder(
-                            //       borderRadius: BorderRadius.circular(10.0),
-                            //
-                            //     ),
-                            //     contentPadding: const EdgeInsets.symmetric(
-                            //         vertical: 16.0, horizontal: 10),
-                            //   ),
-                            //   textAlignVertical: TextAlignVertical.center,
-                            // ),
-                            // const SizedBox(
-                            //   height: 10,
-                            // ),
-                            // TextFormField(
-                            //   keyboardType: TextInputType.number,
-                            //   textInputAction: TextInputAction.next,
-                            //   controller:
-                            //       productsProvider.productMinQtyController,
-                            //   validator: (value) {
-                            //     if (value!.isEmpty) {
-                            //       return 'Please enter product minimum purchase quantity';
-                            //     }
-                            //     return null;
-                            //   },
-                            //   decoration: InputDecoration(
-                            //     hintText: 'Product minimum purchase quantity',
-                            //     counterText: "",
-                            //     isCollapsed: true,
-                            //
-                            //     fillColor: AppColors.inputFieldColor,
-                            //     border: OutlineInputBorder(
-                            //       borderRadius: BorderRadius.circular(10.0),
-                            //
-                            //     ),
-                            //     contentPadding: const EdgeInsets.symmetric(
-                            //         vertical: 16.0, horizontal: 10),
-                            //   ),
-                            //   textAlignVertical: TextAlignVertical.center,
-                            // ),
-                            // const SizedBox(
-                            //   height: 10,
-                            // ),
                             TextFormField(
                               textCapitalization: TextCapitalization.sentences,
 
@@ -777,6 +721,40 @@ class _AddProductState extends State<AddProduct> {
                               decoration: InputDecoration(
                                 labelText: 'Product manufacturer',
                                 hintText: 'Product manufacturer',
+                                counterText: "",
+                                isCollapsed: true,
+
+                                fillColor: AppColors.inputFieldColor,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 10),
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.number,
+                              textCapitalization: TextCapitalization.sentences,
+
+                              style: const TextStyle(color: Colors.black),
+
+                              textInputAction: TextInputAction.next,
+                              controller:
+                              productsProvider.productHsnCodeController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter product hsn';
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'Product hsn',
+                                hintText: 'Product hsn',
                                 counterText: "",
                                 isCollapsed: true,
 
@@ -826,125 +804,6 @@ class _AddProductState extends State<AddProduct> {
                             const SizedBox(
                               height: 10,
                             ),
-                            // const SizedBox(
-                            //   height: 10,
-                            // ),
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     List<String> sizeTypes = [
-                            //       "Small",
-                            //       "Medium",
-                            //       "Large",
-                            //       "Extra Large",
-                            //       "XXL",
-                            //       "XXXL",
-                            //     ];
-                            //     showModalBottomSheet(
-                            //         context: context,
-                            //         builder: (BuildContext context) {
-                            //           return Padding(
-                            //             padding: const EdgeInsets.all(20.0),
-                            //             child: Column(
-                            //               children: [
-                            //                 Row(
-                            //                   mainAxisAlignment:
-                            //                       MainAxisAlignment
-                            //                           .spaceBetween,
-                            //                   children: [
-                            //                     const Text("Select Category",
-                            //                         style: TextStyle(
-                            //                             fontSize: 20,
-                            //                             fontWeight:
-                            //                                 FontWeight.bold)),
-                            //                     IconButton(
-                            //                         onPressed: () {
-                            //                           Navigator.pop(context);
-                            //                         },
-                            //                         icon:
-                            //                             const Icon(Icons.close))
-                            //                   ],
-                            //                 ),
-                            //                 Expanded(
-                            //                   child: ListView.builder(
-                            //                       shrinkWrap: true,
-                            //                       itemCount: sizeTypes.length,
-                            //                       itemBuilder:
-                            //                           (BuildContext context,
-                            //                               int index) {
-                            //                         return InkWell(
-                            //                           onTap: () {
-                            //                             productsProvider
-                            //                                     .productSizeController
-                            //                                     .text =
-                            //                                 sizeTypes[index];
-                            //                             Navigator.pop(context);
-                            //                           },
-                            //                           child: Column(
-                            //                             mainAxisAlignment:
-                            //                                 MainAxisAlignment
-                            //                                     .start,
-                            //                             crossAxisAlignment:
-                            //                                 CrossAxisAlignment
-                            //                                     .start,
-                            //                             children: [
-                            //                               Padding(
-                            //                                 padding:
-                            //                                     const EdgeInsets
-                            //                                         .symmetric(
-                            //                                         vertical:
-                            //                                             10),
-                            //                                 child: Text(
-                            //                                   sizeTypes[index],
-                            //                                   style:
-                            //                                       const TextStyle(
-                            //                                           fontSize:
-                            //                                               18),
-                            //                                 ),
-                            //                               ),
-                            //                               const Divider()
-                            //                             ],
-                            //                           ),
-                            //                         );
-                            //                       }),
-                            //                 ),
-                            //               ],
-                            //             ),
-                            //           );
-                            //         }).then((value) {
-                            //       setState(() {});
-                            //     });
-                            //   },
-                            //   child: TextFormField(
-                            //     enabled: false,
-                            //     controller:
-                            //         productsProvider.productSizeController,
-                            //     // validator: (value) {
-                            //     //   if (value!.isEmpty) {
-                            //     //     return 'Please select size';
-                            //     //   }
-                            //     //   return null;
-                            //     // },
-                            //     decoration: InputDecoration(
-                            //       suffixIcon: const Icon(
-                            //           Icons.keyboard_arrow_down_sharp),
-                            //       hintText: 'Select product size',
-                            //       counterText: "",
-                            //       isCollapsed: true,
-                            //
-                            //       fillColor: AppColors.inputFieldColor,
-                            //       border: OutlineInputBorder(
-                            //         borderRadius: BorderRadius.circular(10.0),
-                            //
-                            //       ),
-                            //       contentPadding: const EdgeInsets.symmetric(
-                            //           vertical: 16.0, horizontal: 10),
-                            //     ),
-                            //     textAlignVertical: TextAlignVertical.center,
-                            //   ),
-                            // ),
-                            // const SizedBox(
-                            //   height: 20,
-                            // ),
                             GestureDetector(
                               onTap: () => selectDate(context,productsProvider),
                               child: TextFormField(

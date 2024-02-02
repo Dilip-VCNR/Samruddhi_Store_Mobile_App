@@ -240,6 +240,14 @@ class _MyProductsState extends State<MyProducts> {
                                       ),
                                     ),
                                     Text(
+                                      'UOM : ${element['productUom']}',
+                                      style: const TextStyle(
+                                        // color: AppColors.primaryColor,
+                                        // fontSize: 20,
+                                        // fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
                                       'Tax : ${element['productTax']}%',
                                       style: const TextStyle(
                                         // color: AppColors.primaryColor,
