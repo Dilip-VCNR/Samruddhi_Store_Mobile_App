@@ -37,6 +37,7 @@ class AuthProvider extends ChangeNotifier {
   final loginFormKey = GlobalKey<FormState>();
   TextEditingController phoneNumberController = TextEditingController();
   BuildContext? loginPageContext;
+  BuildContext? profileScreenContext;
 
   // otp screen declarations
   BuildContext? otpScreenContext;
@@ -326,6 +327,7 @@ class AuthProvider extends ChangeNotifier {
     cityController.clear();
     stateController.clear();
     postalCodeController.clear();
+    selectedImage = null;
     notifyListeners();
   }
 
@@ -378,6 +380,6 @@ class AuthProvider extends ChangeNotifier {
     editStoreEmailController.text = prefModel.userData!.emailId!;
     editStoreCommissionController.text = prefModel.userData!.storeCommissionPercent.toString();
     editDeliveryFeeController.text = prefModel.userData!.deliveryFee!.toString();
-    Navigator.pushNamed(editProfileScreenContext!, Routes.editProfile);
+    Navigator.pushNamed(profileScreenContext!, Routes.editProfile);
   }
 }

@@ -168,7 +168,7 @@ class _ProductSearchState extends State<ProductSearch> {
                                         // fontWeight: FontWeight.w600,
                                       ),
                                     ),Text(
-                                      'Discount : ${product.productDiscount}%',
+                                      'Discount : ${product.productDiscount}% (₹${product.productDiscountedValue})',
                                       style: const TextStyle(
                                         // color: AppColors.primaryColor,
                                         // fontSize: 20,
@@ -180,7 +180,7 @@ class _ProductSearchState extends State<ProductSearch> {
                           ),
                               GestureDetector(
                                 onTap: () {
-                                  productsProvider.setProductToEdit(product.toJson());
+                                  productsProvider.setProductToEdit(product);
                                   Navigator.pushNamed(context, Routes.editProductRoute).then((value) {
                                     setState(() {
                                       Navigator.pop(context);

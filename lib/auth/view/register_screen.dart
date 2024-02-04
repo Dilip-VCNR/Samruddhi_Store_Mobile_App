@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/auth/provider/auth_provider.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
+import 'package:samruddhi_store/utils/app_widgets.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -11,12 +12,17 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  bool firstTimeLoading = false;
 
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Consumer(
       builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        if (firstTimeLoading != true) {
+          authProvider.clearRegisterForm();
+          firstTimeLoading = true;
+        }
         authProvider.registerScreenContext = context;
         return Scaffold(
           appBar: AppBar(
@@ -67,13 +73,106 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(height: 15,),
                 Form(
                     key: authProvider.registerFormKey,
                     child: Column(
                       children: [
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Please enter valid store name';
+                            }
+                            return null;
+                          },
+                          controller: authProvider.storeNameController,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.store),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: AppColors.primaryColor),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              hintText: 'Store name',
+                              counterText: "",
+                              isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
+                          ),
+                        ),
+                        SizedBox(height: 15,),
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Please enter Store display name';
+                            }
+                            return null;
+                          },
+                          controller: authProvider.storeDisplayNameController,
+                          keyboardType: TextInputType.text,
+                          maxLength: 24,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.store),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            hintText: 'Display name',
+                            counterText: "",
+                            isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
+                          ),
+                        ),
+                        SizedBox(height: 15,),
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value!.trim().isEmpty) {
+                              return 'Please enter valid email';
+                            }
+                            return null;
+                          },
+                          controller: authProvider.storeEmailController,
+                          keyboardType: TextInputType.text,
+                          // maxLength: 10,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.email),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            hintText: 'Email',
+                            counterText: "",
+                            isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
+                          ),
+                        ),
+                        SizedBox(height: 15,),
                         InkWell(
                           onTap: () {
+                            FocusScope.of(context).unfocus();
                             showModalBottomSheet(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -139,189 +238,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               });
                             });
                           },
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            width: screenSize.width,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(10))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.delivery_dining),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: TextFormField(
-                                    textCapitalization: TextCapitalization.sentences,
-                                    enabled: false,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Please select valid Zone';
-                                      }
-                                      // if (authController.isNotValidPhone(value)) {
-                                      //   return "Please enter valid phone number";
-                                      // }
-                                      return null;
-                                    },
-                                    controller: authProvider.selectedZoneController,
-                                    keyboardType: TextInputType.number,
-                                    maxLength: 10,
-                                    decoration: const InputDecoration(
-                                        hintText: 'Zone',
-                                        counterText: "",
-                                        isCollapsed: true,
-                                        border: InputBorder.none),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                const Icon(Icons.keyboard_arrow_down),
-                              ],
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.sentences,
+                            enabled: false,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please select valid Zone';
+                              }
+                              // if (authController.isNotValidPhone(value)) {
+                              //   return "Please enter valid phone number";
+                              // }
+                              return null;
+                            },
+                            controller: authProvider.selectedZoneController,
+                            keyboardType: TextInputType.number,
+                            maxLength: 10,
+                            style: const TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.my_location),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: AppColors.primaryColor),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              hintText: 'Zone',
+                              counterText: "",
+                              isCollapsed: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
                             ),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.person_2_outlined),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.next,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid store name';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.storeNameController,
-                                  keyboardType: TextInputType.text,
-                                  // maxLength: 10,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Store name',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.display_settings),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.next,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter Store display name';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.storeDisplayNameController,
-                                  keyboardType: TextInputType.text,
-                                  maxLength: 24,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Display name',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.email_outlined),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.next,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid email';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.storeEmailController,
-                                  keyboardType: TextInputType.text,
-                                  // maxLength: 10,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Email',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        SizedBox(height: 15,),
                         InkWell(
                           onTap: () {
+                            FocusScope.of(context).unfocus();
                             List<String> isHeadquartersList = [
                               "Yes",
                               "No",
@@ -391,188 +356,154 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               });
                             });
                           },
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            width: screenSize.width,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(10))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.store),
-                                const SizedBox(
-                                  width: 10,
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.sentences,
+                            enabled: false,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Is the store a headquarter";
+                              }
+
+                              return null;
+                            },
+                            controller: authProvider.isHeadquartersController,
+                            keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.view_headline_rounded),
+                                suffixIcon: const Icon(Icons.keyboard_arrow_down_outlined),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(color: AppColors.primaryColor),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                Expanded(
-                                  child: TextFormField(
-                                    textCapitalization: TextCapitalization.sentences,
-                                    enabled: false,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Please select valid store type';
-                                      }
-                                      // if (authController.isNotValidPhone(value)) {
-                                      //   return "Please enter valid phone number";
-                                      // }
-                                      return null;
-                                    },
-                                    controller: authProvider.isHeadquartersController,
-                                    keyboardType: TextInputType.number,
-                                    decoration: const InputDecoration(
-                                        hintText: 'Headquarter',
-                                        counterText: "",
-                                        isCollapsed: true,
-                                        border: InputBorder.none),
-                                  ),
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.black, width: 2),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                const SizedBox(
-                                  width: 10,
+                                disabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.black, width: 1),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                const Icon(Icons.keyboard_arrow_down),
-                              ],
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.red, width: 1),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                hintText: 'Headquarter',
+                                counterText: "",
+                                isCollapsed: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 10),
+                              ),
+                          ),
+                        ),
+                        SizedBox(height: 15,),
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.done,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter valid gst number';
+                            }
+                            // if (authController.isNotValidPhone(value)) {
+                            //   return "Please enter valid phone number";
+                            // }
+                            return null;
+                          },
+                          controller: authProvider.gstController,
+                          keyboardType: TextInputType.text,
+                          maxLength: 15,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.sticky_note_2_sharp),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(8),
                             ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            hintText: 'Gst number',
+                            counterText: "",
+                            isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.receipt),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.done,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid gst number';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.gstController,
-                                  keyboardType: TextInputType.text,
-                                  maxLength: 15,
-                                  decoration: const InputDecoration(
-                                      hintText: 'GST Number',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
+                        SizedBox(height: 15,),
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.done,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter valid delivery fee';
+                            }
+                            // if (authController.isNotValidPhone(value)) {
+                            //   return "Please enter valid phone number";
+                            // }
+                            return null;
+                          },
+                          controller: authProvider.deliveryFeeController,
+                          keyboardType: TextInputType.text,
+                          maxLength: 15,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.delivery_dining_outlined),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            hintText: 'Delivery fee',
+                            counterText: "",
+                            isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.delivery_dining_outlined),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.done,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid delivery fee';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.deliveryFeeController,
-                                  keyboardType: TextInputType.text,
-                                  maxLength: 15,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Delivery fee controller',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
+                        SizedBox(height: 15,),
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.done,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter valid commission percentage';
+                            }
+                            // if (authController.isNotValidPhone(value)) {
+                            //   return "Please enter valid phone number";
+                            // }
+                            return null;
+                          },
+                          controller: authProvider.storeCommissionController,
+                          keyboardType: TextInputType.text,
+                          maxLength: 15,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.attach_money_rounded),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: AppColors.primaryColor),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            hintText: 'Store commission %',
+                            counterText: "",
+                            isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.delivery_dining_outlined),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.done,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid commission percentage';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.storeCommissionController,
-                                  keyboardType: TextInputType.text,
-                                  maxLength: 15,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Store commission %',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        SizedBox(height: 15,),
                         InkWell(
                           onTap: () {
+                            FocusScope.of(context).unfocus();
                             showModalBottomSheet(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -640,59 +571,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               }
                             });
                           },
-                          child: InkWell(
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              width: screenSize.width,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(10))),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(Icons.category),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: TextFormField(
-                                      textCapitalization: TextCapitalization.sentences,
-                                      enabled: false,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Please select valid category';
-                                        }
-                                        // if (authController.isNotValidPhone(value)) {
-                                        //   return "Please enter valid phone number";
-                                        // }
-                                        return null;
-                                      },
-                                      controller: authProvider.categoryController,
-                                      keyboardType: TextInputType.number,
-                                      maxLength: 10,
-                                      decoration: const InputDecoration(
-                                          hintText: 'Store Category',
-                                          counterText: "",
-                                          isCollapsed: true,
-                                          border: InputBorder.none),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_down),
-                                ],
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.sentences,
+                            enabled: false,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please select valid category';
+                              }
+                              // if (authController.isNotValidPhone(value)) {
+                              //   return "Please enter valid phone number";
+                              // }
+                              return null;
+                            },
+                            controller: authProvider.categoryController,
+                            keyboardType: TextInputType.number,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              suffixIcon: const Icon(Icons.keyboard_arrow_down_sharp),
+                              prefixIcon: const Icon(Icons.category),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: AppColors.primaryColor),
+                                borderRadius: BorderRadius.circular(8),
                               ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              hintText: 'Store category',
+                              counterText: "",
+                              isCollapsed: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
                             ),
                           ),
                         ),
+                        SizedBox(height: 15,),
                         InkWell(
                           onTap: () {
+                            FocusScope.of(context).unfocus();
                             List<String> homeDelivery = [
                               "Yes",
                               "No",
@@ -763,57 +690,56 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               });
                             });
                           },
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            width: screenSize.width,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(10))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.delivery_dining),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: TextFormField(
-                                    textCapitalization: TextCapitalization.sentences,
-                                    enabled: false,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Please select valid delivery type';
-                                      }
-                                      // if (authController.isNotValidPhone(value)) {
-                                      //   return "Please enter valid phone number";
-                                      // }
-                                      return null;
-                                    },
-                                    controller: authProvider.isHomeDeliveryController,
-                                    keyboardType: TextInputType.number,
-                                    maxLength: 10,
-                                    decoration: const InputDecoration(
-                                        hintText: 'Home Delivery ?',
-                                        counterText: "",
-                                        isCollapsed: true,
-                                        border: InputBorder.none),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                const Icon(Icons.keyboard_arrow_down),
-                              ],
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.sentences,
+                            enabled: false,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please select valid delivery type';
+                              }
+                              // if (authController.isNotValidPhone(value)) {
+                              //   return "Please enter valid phone number";
+                              // }
+                              return null;
+                            },
+                            controller: authProvider.isHomeDeliveryController,
+                            keyboardType: TextInputType.number,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              suffixIcon: Icon(Icons.keyboard_arrow_down_sharp),
+                              prefixIcon: const Icon(Icons.delivery_dining_outlined),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: AppColors.primaryColor),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              hintText: 'Home delivery',
+                              counterText: "",
+                              isCollapsed: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
                             ),
                           ),
                         ),
+                        SizedBox(height: 15,),
                         authProvider.isHomeDeliveryController.text=='Yes'?InkWell(
                           onTap: () {
+                            FocusScope.of(context).unfocus();
+
                             List<String> deliveryType = [
                               "Hub Delivery",
                               "Store Delivery",
@@ -883,57 +809,57 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               });
                             });
                           },
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            width: screenSize.width,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(10))),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.delivery_dining),
-                                const SizedBox(
-                                  width: 10,
+                          child: Expanded(
+                            child: TextFormField(
+                              textCapitalization: TextCapitalization.sentences,
+                              enabled: false,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please select valid delivery method';
+                                }
+                                // if (authController.isNotValidPhone(value)) {
+                                //   return "Please enter valid phone number";
+                                // }
+                                return null;
+                              },
+                              controller: authProvider.deliveryMethodController,
+                              keyboardType: TextInputType.number,
+                              maxLength: 10,
+                              decoration: InputDecoration(
+                                suffixIcon: const Icon(Icons.delivery_dining_outlined),
+                                prefixIcon: const Icon(Icons.category),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(color: AppColors.primaryColor),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                Expanded(
-                                  child: TextFormField(
-                                    textCapitalization: TextCapitalization.sentences,
-                                    enabled: false,
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return 'Please select valid delivery type';
-                                      }
-                                      // if (authController.isNotValidPhone(value)) {
-                                      //   return "Please enter valid phone number";
-                                      // }
-                                      return null;
-                                    },
-                                    controller: authProvider.deliveryMethodController,
-                                    keyboardType: TextInputType.number,
-                                    maxLength: 10,
-                                    decoration: const InputDecoration(
-                                        hintText: 'Delivery Type',
-                                        counterText: "",
-                                        isCollapsed: true,
-                                        border: InputBorder.none),
-                                  ),
+                                border: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.black, width: 2),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                const SizedBox(
-                                  width: 10,
+                                disabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.black, width: 1),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                const Icon(Icons.keyboard_arrow_down),
-                              ],
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.red, width: 1),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                hintText: 'Delivery method',
+                                counterText: "",
+                                isCollapsed: true,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 10),
+                              ),
                             ),
                           ),
                         ):const SizedBox(),
+                        SizedBox(height: 15,),
                         authProvider.isHomeDeliveryController.text=='Yes' && authProvider.deliveryMethodController.text == 'Hub Delivery'?InkWell(
                           onTap: () {
+                            FocusScope.of(context).unfocus();
                             showModalBottomSheet(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -1001,54 +927,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   }
                             });
                           },
-                          child: InkWell(
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              width: screenSize.width,
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius:
-                                  const BorderRadius.all(Radius.circular(10))),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Icon(Icons.category),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: TextFormField(
-                                      textCapitalization: TextCapitalization.sentences,
-                                      enabled: false,
-                                      validator: (value) {
-                                        if (value!.isEmpty) {
-                                          return 'Please select valid Hub';
-                                        }
-                                        // if (authController.isNotValidPhone(value)) {
-                                        //   return "Please enter valid phone number";
-                                        // }
-                                        return null;
-                                      },
-                                      controller: authProvider.hubController,
-                                      keyboardType: TextInputType.number,
-                                      maxLength: 10,
-                                      decoration: const InputDecoration(
-                                          hintText: 'Delivery Hub',
-                                          counterText: "",
-                                          isCollapsed: true,
-                                          border: InputBorder.none),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_down),
-                                ],
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.sentences,
+                            enabled: false,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please select valid Hub';
+                              }
+                              // if (authController.isNotValidPhone(value)) {
+                              //   return "Please enter valid phone number";
+                              // }
+                              return null;
+                            },
+                            controller: authProvider.hubController,
+                            keyboardType: TextInputType.number,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              suffixIcon: const Icon(Icons.delivery_dining_outlined),
+                              prefixIcon: const Icon(Icons.category),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: AppColors.primaryColor),
+                                borderRadius: BorderRadius.circular(8),
                               ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+
+                              hintText: 'Delivery Hub',
+                              counterText: "",
+                              isCollapsed: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
                             ),
                           ),
                         ):const SizedBox(),
@@ -1059,23 +980,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onTap: () async {
                             FocusScope.of(context).unfocus();
                             if (authProvider.registerFormKey.currentState!.validate()) {
+                              if(authProvider.selectedImage==null){
+                                showErrorToast(context, "Please select an image to proceed");
+                                return;
+                              }
                               // if (!authProvider.termsAndConditionsIsChecked) {
                               //   showErrorToast(context, "Please agree to terms and conditions and privacy policy");
                               //   return;
                               // }
                               await authProvider.getApproxLocation();
-                              // if (context.mounted) {
-                              //   Navigator.pushNamed(context, Routes.markLocationRoute,
-                              // arguments: {
-                              //   'name': authProvider.nameController.text,
-                              //   'email': authProvider.emailController.text,
-                              //   'storeReferralCode': authProvider.storeReferralCodeController.text,
-                              //   'operatorCode': authProvider.operatorCodeController.text,
-                              //   'cableSubscriberId': authProvider.cableSubscriberIdController.text,
-                              //   "currentLocation": currentPosition
-                              // }
-                              // );
-                              // }
                             }
                           },
                           child: Container(

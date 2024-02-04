@@ -88,7 +88,7 @@ class _MarkLocationState extends State<MarkLocation> {
                 initialCameraPosition: CameraPosition(
                   target:
                   LatLng(authProvider.currentPosition!.latitude, authProvider.currentPosition!.longitude),
-                  zoom: 14.0,
+                  zoom: 17.0,
                 ),
                 mapType: MapType.normal,
                 onMapCreated: (controller) {
@@ -131,7 +131,7 @@ class _MarkLocationState extends State<MarkLocation> {
                         ),
                         textEditingController: searchController,
                         googleAPIKey: UrlConstant.googleApiKey,
-                        debounceTime: 400,
+                        debounceTime: 100,
                         countries: const ["In"],
                         isLatLngRequired: true,
                         getPlaceDetailWithLatLng: (prediction) async {
@@ -326,6 +326,7 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
                       controller: authProvider.addressController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -353,6 +354,8 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
+
                       controller: authProvider.stateController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -380,6 +383,8 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
+
                       controller: authProvider.cityController,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -407,6 +412,9 @@ class _MarkLocationState extends State<MarkLocation> {
                       height: 20,
                     ),
                     TextFormField(
+                      textCapitalization: TextCapitalization.sentences,
+                      keyboardType: TextInputType.number,
+
                       controller: authProvider.postalCodeController,
                       validator: (value) {
                         if (value!.isEmpty) {

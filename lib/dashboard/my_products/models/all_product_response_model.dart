@@ -47,13 +47,13 @@ class ProductsResult {
   String? storeName;
   String? description;
   bool? isMrp;
-  int? sellingPrice;
+  double? sellingPrice;
   bool? isAvailable;
   String? productSku;
   String? productUom;
-  int? productTax;
-  int? productDiscount;
-  int? productDiscountedValue;
+  double? productTax;
+  double? productDiscount;
+  double? productDiscountedValue;
   int? productQuantity;
   int? addedCartQuantity;
   bool? isReturnable;
@@ -110,13 +110,13 @@ class ProductsResult {
     storeName: json["storeName"],
     description: json["description"],
     isMrp: json["isMrp"],
-    sellingPrice: json["sellingPrice"],
+    sellingPrice: json["sellingPrice"].toDouble(),
     isAvailable: json["isAvailable"],
     productSku: json["productSku"],
     productUom: json["productUom"],
-    productTax: json["productTax"],
-    productDiscount: json["productDiscount"],
-    productDiscountedValue: json["productDiscountedValue"],
+    productTax: json["productTax"].toDouble(),
+    productDiscount: json["productDiscount"].toDouble(),
+    productDiscountedValue: json["productDiscountedValue"].toDouble(),
     productQuantity: json["productQuantity"],
     addedCartQuantity: json["addedCartQuantity"],
     isReturnable: json["isReturnable"],

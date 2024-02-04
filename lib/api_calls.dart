@@ -78,8 +78,7 @@ class ApiCalls {
     var request =
         http.MultipartRequest('POST', Uri.parse(UrlConstant.registerStore));
     // Add form fields
-    request.fields['isHeadquarters'] =
-        isHeadquarters == "Yes" ? "true" : "false";
+    request.fields['isHeadquarters'] = isHeadquarters == "Yes" ? "true" : "false";
     request.fields['storeUuid'] = latestUid;
     request.fields['storeName'] = storeName!;
     request.fields['storeCategoryName'] = storeCategory!;
@@ -211,7 +210,6 @@ class ApiCalls {
     request.headers.addAll({
       "x-access-token": "${prefModel.userData!.storeAuthToken}",
     });
-    print(request.fields);
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
@@ -277,7 +275,6 @@ class ApiCalls {
     request.headers.addAll({
       "x-access-token": "${prefModel.userData!.storeAuthToken}",
     });
-    print(request.fields);
     var response = await request.send();
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
@@ -342,7 +339,6 @@ class ApiCalls {
     var request =
     http.MultipartRequest('POST', Uri.parse(UrlConstant.registerStore));
     // Add form fields
-
     request.fields['storeUuid'] = prefModel.userData!.storeUuid!;
     request.fields['storeName'] = storeName;
     request.fields['displayName'] = storeDisplayName;
@@ -368,5 +364,4 @@ class ApiCalls {
     var responseJson = json.decode(utf8.decode(responseData));
     return LoginResponseModel.fromJson(responseJson);
   }
-
 }

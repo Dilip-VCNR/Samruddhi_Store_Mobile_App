@@ -44,8 +44,8 @@ class _OtpScreenState extends State<OtpScreen> {
                   ),
                   const SizedBox(height: 10,),
                   Text(
-                    'We have sent a verification code to \n+91 ${authProvider.phoneNumberController.text}',
-                    style: TextStyle(
+                    'We have sent a verification code to \n+${authProvider.selectedCountryCode} ${authProvider.phoneNumberController.text}',
+                    style: const TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -105,6 +105,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                       InkWell(
                         onTap: () {
+                          authProvider.clearFieldData();
                           Navigator.pop(context);
                         },
                         child: const Text(

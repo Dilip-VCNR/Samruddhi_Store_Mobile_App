@@ -1,5 +1,5 @@
-import 'dart:developer';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +7,7 @@ import 'package:samruddhi_store/api_calls.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/add_product_response_model.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/product_sub_category_list_model.dart';
 import 'package:samruddhi_store/utils/app_widgets.dart';
+import 'package:samruddhi_store/utils/url_constants.dart';
 
 import '../models/all_product_response_model.dart';
 import '../models/product_category_list_model.dart';
@@ -118,33 +119,52 @@ class ProductsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setProductToEdit(element) {
-    log(element.toString());
-    lastEditProductId = element['productUuid'];
-    productSkuController.text = element['productSku'];
-    productNameController.text = element['productName'];
-    productCategoryController.text =
-        element['productCategory']['productCategoryName'];
-    productSubCategoryController.text =
-        element['productSubCategory']['productSubCategoryName'];
-    productQuantityController.text = element['productQuantity'].toString();
-    productUomController.text = element['productUom'];
-    productSellingPriceController.text = element['sellingPrice'].toString();
-    productDiscountController.text = element['productDiscount'].toString();
-    productTaxController.text = element['productTax'].toString();
-    productOfferController.text = element['productOffer'].toString();
-    productMinQtyController.text =
-        element['purchaseMinQuantity'].toString();
-    productManufacturerController.text = element['manufacturer'].toString();
-    productModelController.text = element['productModel'].toString();
-    addProductIsPerishable = element['isPerishable']??false;
-    addProductIsReturnable = element['isReturnable']?? false;
-    addProductAvailability = element['isAvailable']??false;
-    expiryDateController.text = element['productExpiryDate'] ?? "";
-    productHsnCodeController.text = element['productHsnCode'].toString();
-    productDescriptionController.text = element['description'].toString();
-    // selectedImage = File.fromUri(Uri.parse(UrlConstant.imageBaseUrl+element['productImgArray'][0]['imagePath']));
+  Future<void> setProductToEdit(ProductsResult product) async {
+    selectedImage=null;
+    lastEditProductId = product.productUuid;
+    productSkuController.text = product.productSku!;
+    productNameController.text = product.productName!;
+    productCategoryController.text = product.productCategory!.productCategoryName!;
+    productSubCategoryController.text = product.productSubCategory!.productSubCategoryName!;
+    productQuantityController.text = product.productQuantity.toString();
+    productUomController.text = product.productUom!;
+    productSellingPriceController.text = product.sellingPrice.toString();
+    productDiscountController.text = product.productDiscount.toString();
+    productTaxController.text = product.productTax.toString();
+    productManufacturerController.text = product.manufacturer.toString();
+    productModelController.text = product.productModel.toString();
+    addProductIsPerishable = product.isPerishable??false;
+    addProductIsReturnable = product.isReturnable?? false;
+    addProductAvailability = product.isAvailable??false;
+    expiryDateController.text = product.productExpiryDate ?? "";
+    productHsnCodeController.text = product.productHsnCode.toString();
+    productDescriptionController.text = product.description.toString();
+    selectedImage = await downloadImageAndReturnFilePath(UrlConstant.imageBaseUrl+product.productImgArray![0].imagePath!);
     notifyListeners();
+  }
+
+  Future<File?> downloadImageAndReturnFilePath(String imageUrl) async {
+    try {
+      // Fetch the image data
+      final response = await http.get(Uri.parse(imageUrl));
+
+      if (response.statusCode == 200) {
+        // Create a temporary file
+        File tempFile = File('${Directory.systemTemp.path}/temp_image_${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+        // Write the image data to the temporary file
+        await tempFile.writeAsBytes(response.bodyBytes);
+
+        // Return the path to the temporary file
+        return tempFile;
+      } else {
+        print('Failed to download image. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
   }
 
   Future<void> updateProduct() async {

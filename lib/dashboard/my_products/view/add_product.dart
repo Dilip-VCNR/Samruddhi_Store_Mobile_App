@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/dashboard/my_products/provider/products_provider.dart';
-
+import 'package:samruddhi_store/utils/app_widgets.dart';
 import '../../../utils/app_colors.dart';
 
 class AddProduct extends StatefulWidget {
@@ -218,6 +218,11 @@ class _AddProductState extends State<AddProduct> {
                                     borderRadius: BorderRadius.circular(10.0),
 
                                   ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.red, width: 1),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 16.0, horizontal: 10),
                                 ),
@@ -343,6 +348,12 @@ class _AddProductState extends State<AddProduct> {
                                   disabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
 
+                                  ),
+
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.red, width: 1),
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 16.0, horizontal: 10),
@@ -836,6 +847,16 @@ class _AddProductState extends State<AddProduct> {
                                     borderRadius: BorderRadius.circular(10.0),
                                     
                                   ),
+                                  disabledBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.black, width: 1),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.red, width: 1),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 16.0, horizontal: 16),
                                 ),
@@ -898,6 +919,10 @@ class _AddProductState extends State<AddProduct> {
                                 if (productsProvider
                                     .addProductFormKey.currentState!
                                     .validate()) {
+                                  if(productsProvider.selectedImage==null){
+                                    showErrorToast(context, "Please select product image");
+                                    return;
+                                  }
                                   productsProvider.addNewProduct();
                                 }
                               },

@@ -60,6 +60,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Size screenSize = MediaQuery.of(context).size;
     return Consumer(
       builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+        authProvider.profileScreenContext = context;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppColors.scaffoldBackground,
