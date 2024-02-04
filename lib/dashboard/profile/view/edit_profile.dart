@@ -16,7 +16,8 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Consumer(
-      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+      builder:
+          (BuildContext context, AuthProvider authProvider, Widget? child) {
         authProvider.editProfileScreenContext = context;
         return Scaffold(
           appBar: AppBar(
@@ -56,273 +57,239 @@ class _EditProfileState extends State<EditProfile> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Form(
                     key: authProvider.registerFormKey,
                     child: Column(
                       children: [
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.person_2_outlined),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.next,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid store name';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.editStoreNameController,
-                                  keyboardType: TextInputType.text,
-                                  // maxLength: 10,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Store name',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter valid store name';
+                            }
+                            // if (authController.isNotValidPhone(value)) {
+                            //   return "Please enter valid phone number";
+                            // }
+                            return null;
+                          },
+                          controller: authProvider.editStoreNameController,
+                          keyboardType: TextInputType.text,
+                          // maxLength: 10,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.store),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            labelText: 'Store name',
+                            hintText: 'Store name',
+                            counterText: "",
+                            isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.display_settings),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.next,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter Store display name';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.editStoreDisplayNameController,
-                                  keyboardType: TextInputType.text,
-                                  maxLength: 24,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Display name',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter Store display name';
+                            }
+                            // if (authController.isNotValidPhone(value)) {
+                            //   return "Please enter valid phone number";
+                            // }
+                            return null;
+                          },
+                          controller:
+                              authProvider.editStoreDisplayNameController,
+                          keyboardType: TextInputType.text,
+                          maxLength: 24,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.store),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            labelText: 'Display name',
+                            hintText: 'Display name',
+                            counterText: "",
+                            isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.email_outlined),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.next,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid email';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.editStoreEmailController,
-                                  keyboardType: TextInputType.text,
-                                  // maxLength: 10,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Email',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.next,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter valid email';
+                            }
+                            // if (authController.isNotValidPhone(value)) {
+                            //   return "Please enter valid phone number";
+                            // }
+                            return null;
+                          },
+                          controller: authProvider.editStoreEmailController,
+                          keyboardType: TextInputType.text,
+                          // maxLength: 10,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.email),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            labelText: 'Email',
+                            hintText: 'Email',
+                            counterText: "",
+                            isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.receipt),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.done,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid gst number';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.editGstController,
-                                  keyboardType: TextInputType.text,
-                                  maxLength: 15,
-                                  decoration: const InputDecoration(
-                                      hintText: 'GST Number',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.done,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter valid gst number';
+                            }
+                            // if (authController.isNotValidPhone(value)) {
+                            //   return "Please enter valid phone number";
+                            // }
+                            return null;
+                          },
+                          controller: authProvider.editGstController,
+                          keyboardType: TextInputType.text,
+                          maxLength: 15,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.sticky_note_2_sharp),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            labelText: 'Gst number',
+                            hintText: 'Gst number',
+                            counterText: "",
+                            isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.delivery_dining_outlined),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.done,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid delivery fee';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.editDeliveryFeeController,
-                                  keyboardType: TextInputType.text,
-                                  maxLength: 15,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Delivery fee controller',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.done,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter valid delivery fee';
+                            }
+                            // if (authController.isNotValidPhone(value)) {
+                            //   return "Please enter valid phone number";
+                            // }
+                            return null;
+                          },
+                          controller: authProvider.editDeliveryFeeController,
+                          keyboardType: TextInputType.text,
+                          maxLength: 15,
+                          decoration: InputDecoration(
+                            prefixIcon:
+                                const Icon(Icons.delivery_dining_outlined),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            labelText: 'Delivery fee',
+                            hintText: 'Delivery fee',
+                            counterText: "",
+                            isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
                           ),
                         ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius:
-                              const BorderRadius.all(Radius.circular(10))),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.delivery_dining_outlined),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: TextFormField(
-                                  textCapitalization: TextCapitalization.sentences,
-                                  textInputAction: TextInputAction.done,
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return 'Please enter valid commission percentage';
-                                    }
-                                    // if (authController.isNotValidPhone(value)) {
-                                    //   return "Please enter valid phone number";
-                                    // }
-                                    return null;
-                                  },
-                                  controller: authProvider.editStoreCommissionController,
-                                  keyboardType: TextInputType.text,
-                                  maxLength: 15,
-                                  decoration: const InputDecoration(
-                                      hintText: 'Store commission %',
-                                      counterText: "",
-                                      isCollapsed: true,
-                                      border: InputBorder.none),
-                                ),
-                              ),
-                            ],
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          textCapitalization: TextCapitalization.sentences,
+                          textInputAction: TextInputAction.done,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter valid commission percentage';
+                            }
+                            // if (authController.isNotValidPhone(value)) {
+                            //   return "Please enter valid phone number";
+                            // }
+                            return null;
+                          },
+                          controller:
+                              authProvider.editStoreCommissionController,
+                          keyboardType: TextInputType.text,
+                          maxLength: 15,
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.attach_money_rounded),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            labelText: 'Store commission %',
+                            hintText: 'Store commission %',
+                            counterText: "",
+                            isCollapsed: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 10),
                           ),
                         ),
                         const SizedBox(
@@ -331,7 +298,8 @@ class _EditProfileState extends State<EditProfile> {
                         InkWell(
                           onTap: () async {
                             FocusScope.of(context).unfocus();
-                            if (authProvider.registerFormKey.currentState!.validate()) {
+                            if (authProvider.registerFormKey.currentState!
+                                .validate()) {
                               await authProvider.updateProfile();
                             }
                           },

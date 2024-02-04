@@ -234,17 +234,21 @@ class OrderStatusTrackArray {
 
 class PaymentDetailsArray {
   String? modeOfPay;
+  String? paymentStatus;
 
   PaymentDetailsArray({
     this.modeOfPay,
+    this.paymentStatus,
   });
 
   factory PaymentDetailsArray.fromJson(Map<String, dynamic> json) => PaymentDetailsArray(
     modeOfPay: json["modeOfPay"],
+    paymentStatus: json["paymentStatus"],
   );
 
   Map<String, dynamic> toJson() => {
     "modeOfPay": modeOfPay,
+    "paymentStatus": paymentStatus,
   };
 }
 
@@ -259,7 +263,7 @@ class ProductDetail {
   String? storeName;
   String? description;
   bool? isMrp;
-  int? sellingPrice;
+  double? sellingPrice;
   bool? isAvailable;
   String? productSku;
   String? productUom;
@@ -276,7 +280,7 @@ class ProductDetail {
   bool? isDeleted;
   List<dynamic>? productImgArray;
   int? v;
-  int? taxableValue;
+  double? taxableValue;
   double? productTaxValue;
   double? productSubTotal;
   double? productGrandTotal;
@@ -326,7 +330,7 @@ class ProductDetail {
     storeName: json["storeName"],
     description: json["description"],
     isMrp: json["isMrp"],
-    sellingPrice: json["sellingPrice"],
+    sellingPrice: json["sellingPrice"].toDouble(),
     isAvailable: json["isAvailable"],
     productSku: json["productSku"],
     productUom: json["productUom"],
@@ -343,7 +347,7 @@ class ProductDetail {
     isDeleted: json["isDeleted"],
     productImgArray: json["productImgArray"] == null ? [] : List<dynamic>.from(json["productImgArray"]!.map((x) => x)),
     v: json["__v"],
-    taxableValue: json["taxableValue"],
+    taxableValue: json["taxableValue"].toDouble(),
     productTaxValue: json["productTaxValue"]?.toDouble(),
     productSubTotal: json["productSubTotal"].toDouble(),
     productGrandTotal: json["productGrandTotal"].toDouble(),

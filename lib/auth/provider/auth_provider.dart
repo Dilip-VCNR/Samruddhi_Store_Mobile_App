@@ -7,7 +7,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:samruddhi_store/api_calls.dart';
+import 'package:samruddhi_store/utils/url_constants.dart';
 import 'package:timer_count_down/timer_controller.dart';
+import 'package:http/http.dart' as http;
 
 import '../../database/app_pref.dart';
 import '../../utils/app_widgets.dart';
@@ -373,13 +375,39 @@ class AuthProvider extends ChangeNotifier {
     selectedImage=null;
   }
 
-  void moveToEditProfile() {
+  Future<void> moveToEditProfile() async {
     editStoreNameController.text = prefModel.userData!.storeName!;
     editStoreDisplayNameController.text = prefModel.userData!.displayName!;
     editGstController.text = prefModel.userData!.gstNo!;
     editStoreEmailController.text = prefModel.userData!.emailId!;
     editStoreCommissionController.text = prefModel.userData!.storeCommissionPercent.toString();
     editDeliveryFeeController.text = prefModel.userData!.deliveryFee!.toString();
+    selectedImage = await downloadImageAndReturnFilePath(UrlConstant.imageBaseUrl+prefModel.userData!.storeImgArray![0].imageUrl!);
     Navigator.pushNamed(profileScreenContext!, Routes.editProfile);
   }
+
+  Future<File?> downloadImageAndReturnFilePath(String imageUrl) async {
+    try {
+      // Fetch the image data
+      final response = await http.get(Uri.parse(imageUrl));
+
+      if (response.statusCode == 200) {
+        // Create a temporary file
+        File tempFile = File('${Directory.systemTemp.path}/temp_image_${DateTime.now().millisecondsSinceEpoch}.jpg');
+
+        // Write the image data to the temporary file
+        await tempFile.writeAsBytes(response.bodyBytes);
+
+        // Return the path to the temporary file
+        return tempFile;
+      } else {
+        print('Failed to download image. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
 }

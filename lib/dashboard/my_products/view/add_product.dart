@@ -666,8 +666,8 @@ class _AddProductState extends State<AddProduct> {
                                 return null;
                               },
                               decoration: InputDecoration(
-                                labelText: 'Product discount',
-                                hintText: 'Product discount',
+                                labelText: 'Product discount %',
+                                hintText: 'Product discount %',
                                 counterText: "",
                                 isCollapsed: true,
 

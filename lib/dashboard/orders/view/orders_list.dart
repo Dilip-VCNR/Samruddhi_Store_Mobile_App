@@ -274,6 +274,35 @@ class _OrdersListState extends State<OrdersList> {
                                             ),
                                           ),
                                           SizedBox(
+                                            width: 212,
+                                            child: Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  const TextSpan(
+                                                    text: 'Order type : ',
+                                                    style: TextStyle(
+                                                      color: Color(0xFF37474F),
+                                                      fontSize: 14,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                    text:
+                                                        '${snapshot.data!.result!.orders![index].orderDeliveryType}',
+                                                    style: const TextStyle(
+                                                      color: Color(0xFF37474F),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
                                             child: Text.rich(
                                               TextSpan(
                                                 children: [

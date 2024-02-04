@@ -44,7 +44,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   ),
                   const SizedBox(height: 10,),
                   Text(
-                    'We have sent a verification code to \n+${authProvider.selectedCountryCode} ${authProvider.phoneNumberController.text}',
+                    'We have sent a verification code to \n${authProvider.selectedCountryCode} ${authProvider.phoneNumberController.text}',
                     style: const TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 14,

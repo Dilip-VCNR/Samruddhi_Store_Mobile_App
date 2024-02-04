@@ -116,7 +116,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                   )
                 ],
               ),
-            ):SizedBox.shrink(),
+            ):const SizedBox.shrink(),
             const SizedBox(
               height: 10,
             ),
@@ -161,11 +161,24 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                 fontWeight: FontWeight.w600,
               ),
             ),
+            order['paymentDetailsArray']['paymentStatus']==null?
+            GestureDetector(
+              onTap: (){
+
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: AppColors.secondaryColor
+                ),
+                  margin:const EdgeInsets.symmetric(vertical: 10),child: const Center(child: Text('Confirm payment',style: TextStyle(color: Colors.white,fontSize: 18),))),
+            ):const SizedBox.shrink(),
             (activeStatus != "delivered" && nextStatus != '')?const SizedBox(
               height: 10,
             ):const SizedBox.shrink(),
             (activeStatus != "delivered" && nextStatus != '')?const Text(
-              'Status',
+              'Update status',
               style: TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 20,
@@ -225,7 +238,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
             //   ),
             // ):const SizedBox.shrink(),
             (activeStatus != "delivered" && nextStatus != '')?SlideAction(
-              outerColor: Color(0xFF86DF71),
+              outerColor: const Color(0xFF86DF71),
               text: "Move to "+nextStatus,
               key: _key,
               onSubmit: () async {
