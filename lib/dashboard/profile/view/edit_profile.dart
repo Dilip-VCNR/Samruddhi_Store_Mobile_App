@@ -99,7 +99,7 @@ class _EditProfileState extends State<EditProfile> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
@@ -138,7 +138,7 @@ class _EditProfileState extends State<EditProfile> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
@@ -176,7 +176,7 @@ class _EditProfileState extends State<EditProfile> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
@@ -214,7 +214,7 @@ class _EditProfileState extends State<EditProfile> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         TextFormField(
@@ -230,7 +230,7 @@ class _EditProfileState extends State<EditProfile> {
                             return null;
                           },
                           controller: authProvider.editDeliveryFeeController,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.number,
                           maxLength: 15,
                           decoration: InputDecoration(
                             prefixIcon:
@@ -253,45 +253,45 @@ class _EditProfileState extends State<EditProfile> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
-                          textInputAction: TextInputAction.done,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Please enter valid commission percentage';
-                            }
-                            // if (authController.isNotValidPhone(value)) {
-                            //   return "Please enter valid phone number";
-                            // }
-                            return null;
-                          },
-                          controller:
-                              authProvider.editStoreCommissionController,
-                          keyboardType: TextInputType.text,
-                          maxLength: 15,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.attach_money_rounded),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.black),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            border: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Colors.black, width: 2),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            labelText: 'Store commission %',
-                            hintText: 'Store commission %',
-                            counterText: "",
-                            isCollapsed: true,
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 10),
-                          ),
-                        ),
+                        // TextFormField(
+                        //   textCapitalization: TextCapitalization.sentences,
+                        //   textInputAction: TextInputAction.done,
+                        //   validator: (value) {
+                        //     if (value!.isEmpty) {
+                        //       return 'Please enter valid commission percentage';
+                        //     }
+                        //     // if (authController.isNotValidPhone(value)) {
+                        //     //   return "Please enter valid phone number";
+                        //     // }
+                        //     return null;
+                        //   },
+                        //   controller:
+                        //       authProvider.editStoreCommissionController,
+                        //   keyboardType: TextInputType.text,
+                        //   maxLength: 15,
+                        //   decoration: InputDecoration(
+                        //     prefixIcon: const Icon(Icons.attach_money_rounded),
+                        //     focusedBorder: OutlineInputBorder(
+                        //       borderSide: const BorderSide(
+                        //           color: Colors.black),
+                        //       borderRadius: BorderRadius.circular(8),
+                        //     ),
+                        //     border: OutlineInputBorder(
+                        //       borderSide: const BorderSide(
+                        //           color: Colors.black, width: 2),
+                        //       borderRadius: BorderRadius.circular(8),
+                        //     ),
+                        //     labelText: 'Store commission %',
+                        //     hintText: 'Store commission %',
+                        //     counterText: "",
+                        //     isCollapsed: true,
+                        //     contentPadding: const EdgeInsets.symmetric(
+                        //         vertical: 15, horizontal: 10),
+                        //   ),
+                        // ),
                         const SizedBox(
                           height: 20,
                         ),

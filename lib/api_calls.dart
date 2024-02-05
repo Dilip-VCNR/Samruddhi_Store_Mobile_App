@@ -11,6 +11,7 @@ import 'package:samruddhi_store/dashboard/my_products/models/add_product_respons
 import 'package:samruddhi_store/dashboard/my_products/models/all_product_response_model.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/product_category_list_model.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/product_sub_category_list_model.dart';
+import 'package:samruddhi_store/dashboard/orders/models/update_payment_status_model.dart';
 import 'package:samruddhi_store/utils/url_constants.dart';
 
 import 'auth/models/login_response_model.dart';
@@ -337,7 +338,7 @@ class ApiCalls {
 
   updateProfile({required String storeName, required String storeDisplayName, required String storeGst, required String storeEmail, required String storeCommission, required String storeDeliveryFee, File? selectedImage}) async {
     var request =
-    http.MultipartRequest('POST', Uri.parse(UrlConstant.registerStore));
+    http.MultipartRequest('POST', Uri.parse(UrlConstant.updateStore));
     // Add form fields
     request.fields['storeUuid'] = prefModel.userData!.storeUuid!;
     request.fields['storeName'] = storeName;
@@ -345,8 +346,8 @@ class ApiCalls {
     request.fields['gstNo'] = storeGst;
     request.fields['emailId'] = storeEmail;
     request.fields['deliveryFee'] = storeDeliveryFee;
-    request.fields['storeCommissionPercent'] = storeCommission;
-
+    // request.fields['storeCommissionPercent'] = storeCommission;
+    request.headers.addAll(getHeaders(true));
     if (selectedImage != null) {
       var picStream = http.ByteStream(selectedImage.openRead());
       var length = await selectedImage.length();
@@ -363,5 +364,12 @@ class ApiCalls {
     var responseData = await response.stream.toBytes();
     var responseJson = json.decode(utf8.decode(responseData));
     return LoginResponseModel.fromJson(responseJson);
+  }
+
+  confirmPayment(orderId) async {
+    http.Response response = await hitApi(true, UrlConstant.orderPaymentStatusUpdate,
+        jsonEncode({"orderId": orderId}));
+    return UpdatePaymentStatusModel.fromJson(json.decode(response.body));
+
   }
 }

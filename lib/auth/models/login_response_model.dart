@@ -57,9 +57,9 @@ class StoreInfo {
   String? storeCategoryName;
   String? zone;
   String? deliveryType;
-  int? deliveryFee;
+  double? deliveryFee;
   String? hubUuid;
-  int? storeCommissionPercent;
+  double? storeCommissionPercent;
   bool? isApproved;
   bool? isDeleted;
   bool? isHomeDelivery;
@@ -122,9 +122,9 @@ class StoreInfo {
     storeCategoryName: json["storeCategoryName"],
     zone: json["zone"],
     deliveryType: json["deliveryType"],
-    deliveryFee: json["deliveryFee"],
+    deliveryFee: json["deliveryFee"].toDouble(),
     hubUuid: json["hubUuid"],
-    storeCommissionPercent: json["storeCommissionPercent"],
+    storeCommissionPercent: json["storeCommissionPercent"].toDouble(),
     isApproved: json["isApproved"],
     isDeleted: json["isDeleted"],
     isHomeDelivery: json["isHomeDelivery"],

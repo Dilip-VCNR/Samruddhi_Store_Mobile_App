@@ -18,6 +18,7 @@ class UrlConstant {
 
   static const String storeDetails = "${apiBaseUrl}store/getStoreById";
   static const String registerStore = "${apiBaseUrl}store/createStore";
+  static const String updateStore = "${apiBaseUrl}store/updateStore";
   static const String storeCategoryList = "${apiBaseUrl}storeCategory/getstoreCategoryList";
   static const String productCategoryList = "${apiBaseUrl}productCategory/getProductCategoryList";
   static const String productSubCategoryList = "${apiBaseUrl}productSubCategory/getProductSubCategoryList";
@@ -29,6 +30,7 @@ class UrlConstant {
   static const String getOrderOnStatus = "${apiBaseUrl}order/viewOrdersOnStatus";
   static const String viewAllOrders = "${apiBaseUrl}order/viewAllOrders";
   static const String setOrderStatus = "${apiBaseUrl}order/updateOrderStatus";
+  static const String orderPaymentStatusUpdate = "${apiBaseUrl}order/orderPaymentStatusUpdate";
   static const String updateProduct = "${apiBaseUrl}product/updateProduct";
 
 }

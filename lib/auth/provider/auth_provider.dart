@@ -115,25 +115,95 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Position> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Check if location services are enabled
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled!) {
-      return Future.error('Location services are disabled.');
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+    if (!serviceEnabled) {
+      // Ask the user to enable location services
+      bool enableService = await askUserToEnableLocationService();
+      if (!enableService) {
+        // Return last known location if the user chooses not to enable location services
+        return getLastKnownLocation();
       }
     }
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+
+    // Check location permission
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      // Request location permission
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Return last known location if permission is denied
+        return getLastKnownLocation();
+      }
     }
-    Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+
+    if (permission == LocationPermission.deniedForever) {
+      // Return last known location if permission is permanently denied
+      return getLastKnownLocation();
+    }
+
+    // Get current position
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      return position;
+    } catch (e) {
+      // Handle any errors while getting current position
+      print('Error getting current position: $e');
+      // Return last known location if there is an error
+      return getLastKnownLocation();
+    }
+  }
+
+  Future<Position> getLastKnownLocation() async {
+    try {
+      Position? position = await Geolocator.getLastKnownPosition();
+      if (position != null) {
+        print('Using last known location');
+        return position;
+      } else {
+        throw Exception('No last known location available');
+      }
+    } catch (e) {
+      print('Error getting last known location: $e');
+      throw Exception('Error getting last known location');
+    }
+  }
+  Future<bool> askUserToEnableLocationService() async {
+    // You can use your preferred method to prompt the user to enable location services
+    // For example, show a dialog or navigate to the device settings
+    // Return true if the user enables location services, false otherwise
+
+    // Example using a simple dialog (this is just for illustration purposes):
+    // You should implement a proper UI for your application
+    bool userEnabledService = await showDialog(
+      context: registerScreenContext!,
+      // Implement your dialog here
+      builder: (context) => AlertDialog(
+        title: const Text("Enable Location Services"),
+        content: const Text("Please enable location services for better experience."),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, false); // User chose not to enable
+            },
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, true); // User chose to enable
+            },
+            child: const Text("Enable"),
+          ),
+        ],
+      ),
     );
-    return position;
+
+    return userEnabledService ;
   }
 
   Future<void> loginWithPhoneNumber() async {
@@ -357,6 +427,7 @@ class AuthProvider extends ChangeNotifier {
       await AppPref.setPref(prefModel);
       clearEditProfileFields();
       notifyListeners();
+      Navigator.pop(editProfileScreenContext!);
       Navigator.pop(editProfileScreenContext!);
       showSuccessToast(editProfileScreenContext!, response.message!);
     } else {

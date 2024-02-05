@@ -124,7 +124,7 @@ class NewOrderListArray {
   dynamic operatorUuid;
   bool? isActive;
   List<ProductDetail>? productDetails;
-  int? storeDeliverycharge;
+  double? storeDeliverycharge;
   List<dynamic>? additionalChargesArray;
   int? v;
 
@@ -173,7 +173,7 @@ class NewOrderListArray {
     operatorUuid: json["operatorUuid"],
     isActive: json["isActive"],
     productDetails: json["productDetails"] == null ? [] : List<ProductDetail>.from(json["productDetails"]!.map((x) => ProductDetail.fromJson(x))),
-    storeDeliverycharge: json["storeDeliverycharge"],
+    storeDeliverycharge: json["storeDeliverycharge"].toDouble(),
     additionalChargesArray: json["additionalChargesArray"] == null ? [] : List<dynamic>.from(json["additionalChargesArray"]!.map((x) => x)),
     v: json["__v"],
   );

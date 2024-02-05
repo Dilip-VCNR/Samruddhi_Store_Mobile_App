@@ -1,7 +1,9 @@
 
 
+
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:samruddhi_store/dashboard/orders/models/update_payment_status_model.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
 import 'package:samruddhi_store/utils/app_widgets.dart';
 import 'package:slide_to_act/slide_to_act.dart';
@@ -132,7 +134,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Ordered type : ${order['orderDeliveryType']}',
+              'Delivery type : ${order['orderDeliveryType']}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -154,7 +156,18 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Current status : ${activeStatus}',
+              'Current status : $activeStatus',
+              style: const TextStyle(
+                color: AppColors.fontColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              order['paymentDetailsArray']['paymentStatus']!=null?'Payment status : ${order['paymentDetailsArray']['paymentStatus']}':"Payment status : Pending",
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -163,8 +176,17 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
             ),
             order['paymentDetailsArray']['paymentStatus']==null?
             GestureDetector(
-              onTap: (){
-
+              onTap: () async {
+                showLoaderDialog(context);
+                UpdatePaymentStatusModel response = await ApiCalls().confirmPayment(order['orderId']);
+                Navigator.pop(context);
+                if(response.statusCode==200){
+                  Navigator.pop(context);
+                  showSuccessToast(context, response.message!);
+                }else{
+                  Navigator.pop(context);
+                  showErrorToast(context, response.message!);
+                }
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
