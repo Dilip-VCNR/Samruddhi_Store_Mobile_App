@@ -68,7 +68,7 @@ class _EditProfileState extends State<EditProfile> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
-                            if (value!.isEmpty) {
+                            if (value!.trim().isEmpty) {
                               return 'Please enter valid store name';
                             }
                             // if (authController.isNotValidPhone(value)) {
@@ -106,7 +106,7 @@ class _EditProfileState extends State<EditProfile> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
-                            if (value!.isEmpty) {
+                            if (value!.trim().isEmpty) {
                               return 'Please enter Store display name';
                             }
                             // if (authController.isNotValidPhone(value)) {
@@ -145,7 +145,7 @@ class _EditProfileState extends State<EditProfile> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
-                            if (value!.isEmpty) {
+                            if (value!.trim().isEmpty) {
                               return 'Please enter valid email';
                             }
                             // if (authController.isNotValidPhone(value)) {
@@ -183,7 +183,7 @@ class _EditProfileState extends State<EditProfile> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.done,
                           validator: (value) {
-                            if (value!.isEmpty) {
+                            if (value!.trim().isEmpty) {
                               return 'Please enter valid gst number';
                             }
                             // if (authController.isNotValidPhone(value)) {
@@ -221,8 +221,12 @@ class _EditProfileState extends State<EditProfile> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.done,
                           validator: (value) {
-                            if (value!.isEmpty) {
+                            if (value!.trim().isEmpty) {
                               return 'Please enter valid delivery fee';
+                            }
+                            RegExp regex = RegExp(r'^[0-9.]+$');
+                            if (!regex.hasMatch(value)) {
+                              return 'Special characters are not allowed';
                             }
                             // if (authController.isNotValidPhone(value)) {
                             //   return "Please enter valid phone number";
@@ -260,7 +264,7 @@ class _EditProfileState extends State<EditProfile> {
                         //   textCapitalization: TextCapitalization.sentences,
                         //   textInputAction: TextInputAction.done,
                         //   validator: (value) {
-                        //     if (value!.isEmpty) {
+                        //     if (value!.trim().isEmpty) {
                         //       return 'Please enter valid commission percentage';
                         //     }
                         //     // if (authController.isNotValidPhone(value)) {

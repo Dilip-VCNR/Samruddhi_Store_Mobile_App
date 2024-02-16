@@ -51,7 +51,7 @@ class _AddProductState extends State<AddProduct> {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Add product"),
+            title: const Text("Add Product"),
           ),
           body: productsProvider.subCategoriesList != null
               ? SingleChildScrollView(
@@ -197,7 +197,7 @@ class _AddProductState extends State<AddProduct> {
                                 controller:
                                 productsProvider.productCategoryController,
                                 validator: (value) {
-                                  if (value!.isEmpty) {
+                                  if (value!.trim().isEmpty) {
                                     return 'Please select category';
                                   }
                                   return null;
@@ -328,7 +328,7 @@ class _AddProductState extends State<AddProduct> {
                                 controller: productsProvider
                                     .productSubCategoryController,
                                 validator: (value) {
-                                  if (value!.isEmpty) {
+                                  if (value!.trim().isEmpty) {
                                     return 'Please select sub category';
                                   }
                                   return null;
@@ -368,7 +368,7 @@ class _AddProductState extends State<AddProduct> {
                               textInputAction: TextInputAction.next,
                               controller: productsProvider.productSkuController,
                               validator: (value) {
-                                if (value!.isEmpty) {
+                                if (value!.trim().isEmpty) {
                                   return 'Please enter product sku';
                                 }
                                 return null;
@@ -401,7 +401,7 @@ class _AddProductState extends State<AddProduct> {
                               controller:
                                   productsProvider.productNameController,
                               validator: (value) {
-                                if (value!.isEmpty) {
+                                if (value!.trim().isEmpty) {
                                   return 'Please enter product name';
                                 }
                                 return null;
@@ -436,7 +436,7 @@ class _AddProductState extends State<AddProduct> {
                               controller:
                               productsProvider.productDescriptionController,
                               validator: (value) {
-                                if (value!.isEmpty) {
+                                if (value!.trim().isEmpty) {
                                   return 'Please enter product description';
                                 }
                                 return null;
@@ -469,8 +469,11 @@ class _AddProductState extends State<AddProduct> {
                               controller:
                               productsProvider.productQuantityController,
                               validator: (value) {
-                                if (value!.isEmpty) {
+                                if (value!.trim().isEmpty) {
                                   return 'Please enter product quantity';
+                                }
+                                if (int.parse(value)==0) {
+                                  return 'Quantity should be greater than 1';
                                 }
                                 return null;
                               },
@@ -588,7 +591,7 @@ class _AddProductState extends State<AddProduct> {
                                 controller:
                                     productsProvider.productUomController,
                                 validator: (value) {
-                                  if (value!.isEmpty) {
+                                  if (value!.trim().isEmpty) {
                                     return 'Please select UOM';
                                   }
                                   return null;
@@ -627,7 +630,7 @@ class _AddProductState extends State<AddProduct> {
                               controller: productsProvider
                                   .productSellingPriceController,
                               validator: (value) {
-                                if (value!.isEmpty) {
+                                if (value!.trim().isEmpty) {
                                   return 'Please enter product selling price';
                                 }
                                 return null;
@@ -660,7 +663,7 @@ class _AddProductState extends State<AddProduct> {
                               controller:
                                   productsProvider.productDiscountController,
                               validator: (value) {
-                                if (value!.isEmpty) {
+                                if (value!.trim().isEmpty) {
                                   return 'Please enter product discount';
                                 }
                                 return null;
@@ -692,7 +695,7 @@ class _AddProductState extends State<AddProduct> {
                               textInputAction: TextInputAction.next,
                               controller: productsProvider.productTaxController,
                               validator: (value) {
-                                if (value!.isEmpty) {
+                                if (value!.trim().isEmpty) {
                                   return 'Please enter product tax';
                                 }
                                 return null;
@@ -724,7 +727,7 @@ class _AddProductState extends State<AddProduct> {
                               controller: productsProvider
                                   .productManufacturerController,
                               validator: (value) {
-                                if (value!.isEmpty) {
+                                if (value!.trim().isEmpty) {
                                   return 'Please enter product manufacturer';
                                 }
                                 return null;
@@ -758,7 +761,7 @@ class _AddProductState extends State<AddProduct> {
                               controller:
                               productsProvider.productHsnCodeController,
                               validator: (value) {
-                                if (value!.isEmpty) {
+                                if (value!.trim().isEmpty) {
                                   return 'Please enter product hsn';
                                 }
                                 return null;
@@ -791,7 +794,7 @@ class _AddProductState extends State<AddProduct> {
                               controller:
                                   productsProvider.productModelController,
                               validator: (value) {
-                                if (value!.isEmpty) {
+                                if (value!.trim().isEmpty) {
                                   return 'Please enter product model';
                                 }
                                 return null;
@@ -822,9 +825,9 @@ class _AddProductState extends State<AddProduct> {
 
                                 enabled: false,
                                 validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'Select expiry date';
-                                  }
+                                  // if (value!.trim().isEmpty) {
+                                  //   return 'Select expiry date';
+                                  // }
                                   // if (authController.isNotValidName(value)) {
                                   //   return "Please enter valid name";
                                   // }

@@ -257,7 +257,7 @@ class _MyProductsState extends State<MyProducts> {
                                             ],
                                           ),
                                           Text(
-                                            '₹${product.productSubCategory!.productSubCategoryName}',
+                                            '${product.productSubCategory!.productSubCategoryName}',
                                             style: const TextStyle(
                                               color: Color(0x8937474F),
                                               fontSize: 14,

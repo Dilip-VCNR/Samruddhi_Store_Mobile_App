@@ -70,7 +70,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Delivery address',
+                    'Delivery Address',
                     style: TextStyle(
                       color: AppColors.fontColor,
                       fontSize: 18,
@@ -123,7 +123,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Ordered on : ${order['orderDate']}',
+              'Ordered On : ${order['orderDate']}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -134,7 +134,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Delivery type : ${order['orderDeliveryType']}',
+              'Delivery Type : ${order['orderDeliveryType']}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -156,7 +156,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Current status : $activeStatus',
+              'Current Status : $activeStatus',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -167,7 +167,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              order['paymentDetailsArray']['paymentStatus']!=null?'Payment status : ${order['paymentDetailsArray']['paymentStatus']}':"Payment status : Pending",
+              order['paymentDetailsArray']['paymentStatus']!=null?'Payment Status : ${order['paymentDetailsArray']['paymentStatus']}':"Payment Status : Pending",
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -200,7 +200,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ):const SizedBox.shrink(),
             (activeStatus != "delivered" && nextStatus != '')?const Text(
-              'Update status',
+              'Update Status',
               style: TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 20,
@@ -262,6 +262,9 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
             (activeStatus != "delivered" && nextStatus != '')?SlideAction(
               outerColor: const Color(0xFF86DF71),
               text: "Move to "+nextStatus,
+              textStyle: TextStyle(
+                fontSize: 16
+              ),
               key: _key,
               onSubmit: () async {
                 showLoaderDialog(context);

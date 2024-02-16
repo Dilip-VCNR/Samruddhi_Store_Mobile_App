@@ -245,7 +245,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             textCapitalization: TextCapitalization.sentences,
                             enabled: false,
                             validator: (value) {
-                              if (value!.isEmpty) {
+                              if (value!.trim().isEmpty) {
                                 return 'Please select valid Zone';
                               }
                               // if (authController.isNotValidPhone(value)) {
@@ -364,7 +364,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             textCapitalization: TextCapitalization.sentences,
                             enabled: false,
                             validator: (value) {
-                              if (value!.isEmpty) {
+                              if (value!.trim().isEmpty) {
                                 return "Is the store a headquarter";
                               }
 
@@ -408,7 +408,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.done,
                           validator: (value) {
-                            if (value!.isEmpty) {
+                            if (value!.trim().isEmpty) {
                               return 'Please enter valid gst number';
                             }
                             // if (authController.isNotValidPhone(value)) {
@@ -442,8 +442,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.done,
                           validator: (value) {
-                            if (value!.isEmpty) {
+                            if (value!.trim().isEmpty) {
                               return 'Please enter valid delivery fee';
+                            }
+                            RegExp regex = RegExp(r'^[0-9.]+$');
+                            if (!regex.hasMatch(value)) {
+                              return 'Special characters are not allowed';
                             }
                             // if (authController.isNotValidPhone(value)) {
                             //   return "Please enter valid phone number";
@@ -451,7 +455,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           },
                           controller: authProvider.deliveryFeeController,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.number,
                           maxLength: 15,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.delivery_dining_outlined),
@@ -477,7 +481,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.done,
                           validator: (value) {
-                            if (value!.isEmpty) {
+                            if (value!.trim().isEmpty) {
                               return 'Please enter valid commission percentage';
                             }
                             // if (authController.isNotValidPhone(value)) {
@@ -486,7 +490,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           },
                           controller: authProvider.storeCommissionController,
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.number,
                           maxLength: 15,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.attach_money_rounded),
@@ -582,7 +586,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             textCapitalization: TextCapitalization.sentences,
                             enabled: false,
                             validator: (value) {
-                              if (value!.isEmpty) {
+                              if (value!.trim().isEmpty) {
                                 return 'Please select valid category';
                               }
                               // if (authController.isNotValidPhone(value)) {
@@ -702,7 +706,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             textCapitalization: TextCapitalization.sentences,
                             enabled: false,
                             validator: (value) {
-                              if (value!.isEmpty) {
+                              if (value!.trim().isEmpty) {
                                 return 'Please select valid delivery type';
                               }
                               // if (authController.isNotValidPhone(value)) {
@@ -818,51 +822,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               });
                             });
                           },
-                          child: Expanded(
-                            child: TextFormField(
-                              textCapitalization: TextCapitalization.sentences,
-                              enabled: false,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Please select valid delivery method';
-                                }
-                                // if (authController.isNotValidPhone(value)) {
-                                //   return "Please enter valid phone number";
-                                // }
-                                return null;
-                              },
-                              controller: authProvider.deliveryMethodController,
-                              keyboardType: TextInputType.number,
-                              maxLength: 10,
-                              decoration: InputDecoration(
-                                suffixIcon: const Icon(Icons.delivery_dining_outlined),
-                                prefixIcon: const Icon(Icons.category),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: AppColors.primaryColor),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.black, width: 2),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.black, width: 1),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.red, width: 1),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                labelText: 'Delivery method',
-                                hintText: 'Delivery method',
-                                counterText: "",
-                                isCollapsed: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 10),
+                          child: TextFormField(
+                            textCapitalization: TextCapitalization.sentences,
+                            enabled: false,
+                            validator: (value) {
+                              if (value!.trim().isEmpty) {
+                                return 'Please select valid delivery method';
+                              }
+                              // if (authController.isNotValidPhone(value)) {
+                              //   return "Please enter valid phone number";
+                              // }
+                              return null;
+                            },
+                            controller: authProvider.deliveryMethodController,
+                            keyboardType: TextInputType.number,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              suffixIcon: const Icon(Icons.delivery_dining_outlined),
+                              prefixIcon: const Icon(Icons.category),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: AppColors.primaryColor),
+                                borderRadius: BorderRadius.circular(8),
                               ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              labelText: 'Delivery method',
+                              hintText: 'Delivery method',
+                              counterText: "",
+                              isCollapsed: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
                             ),
                           ),
                         ):const SizedBox(),
@@ -941,7 +943,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             textCapitalization: TextCapitalization.sentences,
                             enabled: false,
                             validator: (value) {
-                              if (value!.isEmpty) {
+                              if (value!.trim().isEmpty) {
                                 return 'Please select valid Hub';
                               }
                               // if (authController.isNotValidPhone(value)) {

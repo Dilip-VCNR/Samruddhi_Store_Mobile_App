@@ -250,7 +250,7 @@ class _OrdersListState extends State<OrdersList> {
                                               TextSpan(
                                                 children: [
                                                   const TextSpan(
-                                                    text: 'Order value : ',
+                                                    text: 'Order Value : ',
                                                     style: TextStyle(
                                                       color: Color(0xFF37474F),
                                                       fontSize: 14,
@@ -279,7 +279,7 @@ class _OrdersListState extends State<OrdersList> {
                                               TextSpan(
                                                 children: [
                                                   const TextSpan(
-                                                    text: 'Order type : ',
+                                                    text: 'Order Type : ',
                                                     style: TextStyle(
                                                       color: Color(0xFF37474F),
                                                       fontSize: 14,

@@ -109,10 +109,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Form(
                               key: authProvider.loginFormKey,
                               child: TextFormField(
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 validator: (value) {
-                                  if (value!.isEmpty) {
+                                  if (value!.trim().isEmpty) {
                                     return 'Please enter valid phone number';
                                   }
                                   if (authProvider.isNotValidPhone(value)) {
@@ -127,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   hintText: 'Phone Number',
                                   counterText: "",
                                   isCollapsed: true,
+                                  errorMaxLines: 3,
                                   errorStyle: const TextStyle(
                                       color: AppColors.secondaryColor),
                                   border: OutlineInputBorder(

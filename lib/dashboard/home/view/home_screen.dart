@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             const Text(
-                              'Collections Today',
+                              "Today's Collection",
                               style: TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 22,
@@ -115,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "Today's \nOrders",
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -157,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "Pending\nOrders",
                                   style: TextStyle(
                                     color: AppColors.fontColor,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "Orders\nDelivered",
                                   style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 10,
                       ),
                       const Text(
-                        'New Orders Today',
+                        "Today's New Order",
                         style: TextStyle(
                           color: AppColors.fontColor,
                           fontSize: 22,
