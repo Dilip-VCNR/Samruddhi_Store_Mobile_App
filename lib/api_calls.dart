@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -51,6 +52,7 @@ class ApiCalls {
   Future<LoginResponseModel> getUserDetails(String uid, String fcmToken) async {
     http.Response response = await hitApi(false, UrlConstant.storeDetails,
         jsonEncode({"storeUuid": uid, "storeFcmToken": fcmToken}));
+    log(response.body.toString());
     return LoginResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -333,6 +335,7 @@ class ApiCalls {
     }
     http.Response response = await hitApi(true, UrlConstant.setOrderStatus,
         jsonEncode({"orderId": orderId, "orderStatus": statusType}));
+    print(response.body);
     return OrderStatusUpdateResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -369,6 +372,7 @@ class ApiCalls {
   confirmPayment(orderId) async {
     http.Response response = await hitApi(true, UrlConstant.orderPaymentStatusUpdate,
         jsonEncode({"orderId": orderId}));
+    print(response.body);
     return UpdatePaymentStatusModel.fromJson(json.decode(response.body));
 
   }

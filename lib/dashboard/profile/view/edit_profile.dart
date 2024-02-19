@@ -145,7 +145,7 @@ class _EditProfileState extends State<EditProfile> {
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
-                            if (value!.trim().isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Please enter valid email';
                             }
                             // if (authController.isNotValidPhone(value)) {

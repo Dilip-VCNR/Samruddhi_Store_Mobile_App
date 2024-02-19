@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/api_calls.dart';
@@ -84,41 +86,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Row(
                     children: [
                       CircleAvatar(
+                        key: ValueKey('${UrlConstant.imageBaseUrl}${prefModel.userData!.storeImgArray![0].imageUrl}'),
                         radius: 50,
                         backgroundImage:
-                        NetworkImage('${UrlConstant.imageBaseUrl}${prefModel.userData!.storeImgArray![0].imageUrl!}'),
+                        NetworkImage('${UrlConstant.imageBaseUrl}${prefModel.userData!.storeImgArray![0].imageUrl!}?v=${Random().nextInt(100)}'),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '${prefModel.userData!.displayName}',
-                            style: TextStyle(
-                              color: Color(0xFF3E3E3E),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                          SizedBox(
+                            width: screenSize.width/1.75,
+                            child: Text(
+                              '${prefModel.userData!.displayName}',
+                              style: const TextStyle(
+                                color: Color(0xFF3E3E3E),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                          Text(
-                            '${prefModel.userData!.mobile}',
-                            style: TextStyle(
-                              color: Color(0xFF545454),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              height: 1.53,
+                          SizedBox(
+                            width: screenSize.width/1.75,
+                            child: Text(
+                              '${prefModel.userData!.mobile}',
+                              style: const TextStyle(
+                                color: Color(0xFF545454),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                height: 1.53,
+                              ),
                             ),
                           ),
-                          Text(
-                            '${prefModel.userData!.emailId}',
-                            style: TextStyle(
-                              color: Color(0xFF545454),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
-                              height: 1.53,
+                          SizedBox(
+                            width: screenSize.width/1.75,
+                            child: Text(
+                              '${prefModel.userData!.emailId}',
+                              style: const TextStyle(
+                                color: Color(0xFF545454),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                height: 1.53,
+                              ),
                             ),
                           ),
                         ],

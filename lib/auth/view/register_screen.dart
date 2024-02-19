@@ -18,7 +18,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Consumer(
-      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+      builder:
+          (BuildContext context, AuthProvider authProvider, Widget? child) {
         if (firstTimeLoading != true) {
           authProvider.clearRegisterForm();
           firstTimeLoading = true;
@@ -73,58 +74,69 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 15,),
+                const SizedBox(
+                  height: 15,
+                ),
                 Form(
                     key: authProvider.registerFormKey,
                     child: Column(
                       children: [
                         TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
                               return 'Please enter valid store name';
                             }
+                            if (authProvider.isNotValidName(value.trim())) {
+                              return "Please enter valid store name";
+                            }
                             return null;
                           },
+                          maxLength: 75,
                           controller: authProvider.storeNameController,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.store),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: AppColors.primaryColor),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.black, width: 2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              labelText: 'Store name',
-                              hintText: 'Store name',
-                              counterText: "",
-                              isCollapsed: true,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            border: OutlineInputBorder(
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            labelText: 'Store name',
+                            hintText: 'Store name',
+                            counterText: "",
+                            isCollapsed: true,
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
                               return 'Please enter Store display name';
                             }
+                            if (authProvider.isNotValidName(value.trim())) {
+                              return "Please enter valid display name";
+                            }
                             return null;
                           },
                           controller: authProvider.storeDisplayNameController,
                           keyboardType: TextInputType.text,
-                          maxLength: 24,
+                          maxLength: 75,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.store),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: AppColors.primaryColor),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             border: OutlineInputBorder(
@@ -140,13 +152,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         TextFormField(
-                          textCapitalization: TextCapitalization.sentences,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+
+                          // textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.next,
                           validator: (value) {
-                            if (value!.trim().isEmpty) {
+                            if (value!.isEmpty) {
                               return 'Please enter valid email';
+                            }
+                            if (authProvider.isNotValidEmail(value)) {
+                              return "Please enter valid email";
                             }
                             return null;
                           },
@@ -156,7 +175,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.email),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: AppColors.primaryColor),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             border: OutlineInputBorder(
@@ -172,7 +190,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         InkWell(
                           onTap: () {
                             FocusScope.of(context).unfocus();
@@ -185,12 +205,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       children: [
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             const Text("Select Zone",
                                                 style: TextStyle(
                                                     fontSize: 20,
-                                                    fontWeight: FontWeight.bold)),
+                                                    fontWeight:
+                                                        FontWeight.bold)),
                                             IconButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
@@ -201,29 +222,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         Expanded(
                                           child: ListView.builder(
                                               shrinkWrap: true,
-                                              itemCount: authProvider.storeZoneList!.result!.length,
-                                              itemBuilder: (BuildContext context,
-                                                  int index) {
+                                              itemCount: authProvider
+                                                  .storeZoneList!
+                                                  .result!
+                                                  .length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return InkWell(
                                                   onTap: () async {
-                                                    authProvider.selectedZone = authProvider.storeZoneList!.result![index].name;
-                                                    await authProvider.getHubOnZone();
+                                                    authProvider.selectedZone =
+                                                        authProvider
+                                                            .storeZoneList!
+                                                            .result![index]
+                                                            .name;
+                                                    await authProvider
+                                                        .getHubOnZone();
                                                     Navigator.pop(context);
                                                   },
                                                   child: Column(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                        MainAxisAlignment.start,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Padding(
-                                                        padding: const EdgeInsets
-                                                            .symmetric(
-                                                            vertical: 10),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 10),
                                                         child: Text(
-                                                          authProvider.storeZoneList!.result![index].name!,
-                                                          style: const TextStyle(
-                                                              fontSize: 18),
+                                                          authProvider
+                                                              .storeZoneList!
+                                                              .result![index]
+                                                              .name!,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 18),
                                                         ),
                                                       ),
                                                       const Divider()
@@ -237,11 +273,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   );
                                 }).then((value) {
                               setState(() {
-                                authProvider.selectedZoneController.text = authProvider.selectedZone!;
+                                authProvider.selectedZoneController.text =
+                                    authProvider.selectedZone!;
                               });
                             });
                           },
                           child: TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             textCapitalization: TextCapitalization.sentences,
                             enabled: false,
                             validator: (value) {
@@ -260,7 +299,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.my_location),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: AppColors.primaryColor),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               border: OutlineInputBorder(
@@ -287,7 +325,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         InkWell(
                           onTap: () {
                             FocusScope.of(context).unfocus();
@@ -304,12 +344,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       children: [
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             const Text("Is this a headquarter?",
                                                 style: TextStyle(
                                                     fontSize: 20,
-                                                    fontWeight: FontWeight.bold)),
+                                                    fontWeight:
+                                                        FontWeight.bold)),
                                             IconButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
@@ -320,29 +361,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         Expanded(
                                           child: ListView.builder(
                                               shrinkWrap: true,
-                                              itemCount: isHeadquartersList.length,
-                                              itemBuilder: (BuildContext context,
-                                                  int index) {
+                                              itemCount:
+                                                  isHeadquartersList.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return InkWell(
                                                   onTap: () {
-                                                    authProvider.isHeadquarters =
-                                                    isHeadquartersList[index];
+                                                    authProvider
+                                                            .isHeadquarters =
+                                                        isHeadquartersList[
+                                                            index];
                                                     Navigator.pop(context);
                                                   },
                                                   child: Column(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                        MainAxisAlignment.start,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Padding(
-                                                        padding: const EdgeInsets
-                                                            .symmetric(
-                                                            vertical: 10),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 10),
                                                         child: Text(
-                                                          isHeadquartersList[index],
-                                                          style: const TextStyle(
-                                                              fontSize: 18),
+                                                          isHeadquartersList[
+                                                              index],
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 18),
                                                         ),
                                                       ),
                                                       const Divider()
@@ -356,11 +405,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   );
                                 }).then((value) {
                               setState(() {
-                                authProvider.isHeadquartersController.text = authProvider.isHeadquarters!;
+                                authProvider.isHeadquartersController.text =
+                                    authProvider.isHeadquarters!;
                               });
                             });
                           },
                           child: TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             textCapitalization: TextCapitalization.sentences,
                             enabled: false,
                             validator: (value) {
@@ -372,39 +424,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             },
                             controller: authProvider.isHeadquartersController,
                             keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(Icons.view_headline_rounded),
-                                suffixIcon: const Icon(Icons.keyboard_arrow_down_outlined),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(color: AppColors.primaryColor),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.black, width: 2),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                disabledBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.black, width: 1),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.red, width: 1),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                labelText: 'Headquarter',
-                                hintText: 'Headquarter',
-                                counterText: "",
-                                isCollapsed: true,
-                                contentPadding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 10),
+                            decoration: InputDecoration(
+                              prefixIcon:
+                                  const Icon(Icons.view_headline_rounded),
+                              suffixIcon: const Icon(
+                                  Icons.keyboard_arrow_down_outlined),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
                               ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              disabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 1),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              labelText: 'Headquarter',
+                              hintText: 'Headquarter',
+                              counterText: "",
+                              isCollapsed: true,
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 10),
+                            ),
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.done,
                           validator: (value) {
@@ -422,7 +478,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.sticky_note_2_sharp),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: AppColors.primaryColor),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             border: OutlineInputBorder(
@@ -437,8 +492,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.done,
                           validator: (value) {
@@ -458,9 +516,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           keyboardType: TextInputType.number,
                           maxLength: 15,
                           decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.delivery_dining_outlined),
+                            prefixIcon:
+                                const Icon(Icons.delivery_dining_outlined),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: AppColors.primaryColor),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             border: OutlineInputBorder(
@@ -476,13 +534,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           textCapitalization: TextCapitalization.sentences,
                           textInputAction: TextInputAction.done,
                           validator: (value) {
                             if (value!.trim().isEmpty) {
                               return 'Please enter valid commission percentage';
+                            }
+                            RegExp regex = RegExp(r'^[0-9.]+$');
+                            if (!regex.hasMatch(value)) {
+                              return 'Special characters are not allowed';
                             }
                             // if (authController.isNotValidPhone(value)) {
                             //   return "Please enter valid phone number";
@@ -495,7 +560,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.attach_money_rounded),
                             focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: AppColors.primaryColor),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             border: OutlineInputBorder(
@@ -511,7 +575,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         InkWell(
                           onTap: () {
                             FocusScope.of(context).unfocus();
@@ -524,12 +590,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       children: [
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             const Text("Select Store Category",
                                                 style: TextStyle(
                                                     fontSize: 20,
-                                                    fontWeight: FontWeight.bold)),
+                                                    fontWeight:
+                                                        FontWeight.bold)),
                                             IconButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
@@ -540,29 +607,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         Expanded(
                                           child: ListView.builder(
                                               shrinkWrap: true,
-                                              itemCount: authProvider.storeCategoryList!.result!.length,
-                                              itemBuilder: (BuildContext context,
-                                                  int index) {
+                                              itemCount: authProvider
+                                                  .storeCategoryList!
+                                                  .result!
+                                                  .length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return InkWell(
                                                   onTap: () {
-                                                    authProvider.selectedCategory =
-                                                        authProvider.storeCategoryList!.result![index].storeCategoryName;
+                                                    authProvider
+                                                            .selectedCategory =
+                                                        authProvider
+                                                            .storeCategoryList!
+                                                            .result![index]
+                                                            .storeCategoryName;
                                                     Navigator.pop(context);
                                                   },
                                                   child: Column(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                        MainAxisAlignment.start,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Padding(
-                                                        padding: const EdgeInsets
-                                                            .symmetric(
-                                                            vertical: 10),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 10),
                                                         child: Text(
-                                                          authProvider.storeCategoryList!.result![index].storeCategoryName!,
-                                                          style: const TextStyle(
-                                                              fontSize: 18),
+                                                          authProvider
+                                                              .storeCategoryList!
+                                                              .result![index]
+                                                              .storeCategoryName!,
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 18),
                                                         ),
                                                       ),
                                                       const Divider()
@@ -575,14 +656,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                   );
                                 }).then((value) {
-                              if(authProvider.selectedCategory!=null){
+                              if (authProvider.selectedCategory != null) {
                                 setState(() {
-                                  authProvider.categoryController.text = authProvider.selectedCategory!;
+                                  authProvider.categoryController.text =
+                                      authProvider.selectedCategory!;
                                 });
                               }
                             });
                           },
                           child: TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             textCapitalization: TextCapitalization.sentences,
                             enabled: false,
                             validator: (value) {
@@ -598,10 +682,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             keyboardType: TextInputType.number,
                             maxLength: 10,
                             decoration: InputDecoration(
-                              suffixIcon: const Icon(Icons.keyboard_arrow_down_sharp),
+                              suffixIcon:
+                                  const Icon(Icons.keyboard_arrow_down_sharp),
                               prefixIcon: const Icon(Icons.category),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: AppColors.primaryColor),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               border: OutlineInputBorder(
@@ -628,7 +712,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         InkWell(
                           onTap: () {
                             FocusScope.of(context).unfocus();
@@ -637,7 +723,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               "No",
                             ];
                             showModalBottomSheet(
-
                                 context: context,
                                 builder: (BuildContext context) {
                                   return Padding(
@@ -646,12 +731,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       children: [
                                         Row(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             const Text("Home Delivery ?",
                                                 style: TextStyle(
                                                     fontSize: 20,
-                                                    fontWeight: FontWeight.bold)),
+                                                    fontWeight:
+                                                        FontWeight.bold)),
                                             IconButton(
                                                 onPressed: () {
                                                   Navigator.pop(context);
@@ -663,28 +749,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           child: ListView.builder(
                                               shrinkWrap: true,
                                               itemCount: homeDelivery.length,
-                                              itemBuilder: (BuildContext context,
-                                                  int index) {
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
                                                 return InkWell(
                                                   onTap: () {
-                                                    authProvider.isHomeDelivery =
-                                                    homeDelivery[index];
+                                                    authProvider
+                                                            .isHomeDelivery =
+                                                        homeDelivery[index];
                                                     Navigator.pop(context);
                                                   },
                                                   child: Column(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                        MainAxisAlignment.start,
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Padding(
-                                                        padding: const EdgeInsets
-                                                            .symmetric(
-                                                            vertical: 10),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 10),
                                                         child: Text(
                                                           homeDelivery[index],
-                                                          style: const TextStyle(
-                                                              fontSize: 18),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 18),
                                                         ),
                                                       ),
                                                       const Divider()
@@ -698,11 +789,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   );
                                 }).then((value) {
                               setState(() {
-                                authProvider.isHomeDeliveryController.text = authProvider.isHomeDelivery!;
+                                authProvider.isHomeDeliveryController.text =
+                                    authProvider.isHomeDelivery!;
                               });
                             });
                           },
                           child: TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             textCapitalization: TextCapitalization.sentences,
                             enabled: false,
                             validator: (value) {
@@ -719,9 +813,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             maxLength: 10,
                             decoration: InputDecoration(
                               suffixIcon: Icon(Icons.keyboard_arrow_down_sharp),
-                              prefixIcon: const Icon(Icons.delivery_dining_outlined),
+                              prefixIcon:
+                                  const Icon(Icons.delivery_dining_outlined),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: AppColors.primaryColor),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               border: OutlineInputBorder(
@@ -748,253 +842,328 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 15,),
-                        authProvider.isHomeDeliveryController.text=='Yes'?InkWell(
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
+                        SizedBox(
+                          height: 15,
+                        ),
+                        authProvider.isHomeDeliveryController.text == 'Yes'
+                            ? InkWell(
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
 
-                            List<String> deliveryType = [
-                              "Hub Delivery",
-                              "Store Delivery",
-                            ];
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text("Select Delivery Method Type",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold)),
-                                            IconButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                icon: const Icon(Icons.close))
-                                          ],
-                                        ),
-                                        Expanded(
-                                          child: ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: deliveryType.length,
-                                              itemBuilder: (BuildContext context,
-                                                  int index) {
-                                                return InkWell(
-                                                  onTap: () {
-                                                    authProvider.deliveryType =
-                                                    deliveryType[index];
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets
-                                                            .symmetric(
-                                                            vertical: 10),
-                                                        child: Text(
-                                                          deliveryType[index],
-                                                          style: const TextStyle(
-                                                              fontSize: 18),
+                                  List<String> deliveryType = [
+                                    "Hub Delivery",
+                                    "Store Delivery",
+                                  ];
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                      "Select Delivery Method Type",
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      icon: const Icon(
+                                                          Icons.close))
+                                                ],
+                                              ),
+                                              Expanded(
+                                                child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemCount:
+                                                        deliveryType.length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return InkWell(
+                                                        onTap: () {
+                                                          authProvider
+                                                                  .deliveryType =
+                                                              deliveryType[
+                                                                  index];
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                      vertical:
+                                                                          10),
+                                                              child: Text(
+                                                                deliveryType[
+                                                                    index],
+                                                                style:
+                                                                    const TextStyle(
+                                                                        fontSize:
+                                                                            18),
+                                                              ),
+                                                            ),
+                                                            const Divider()
+                                                          ],
                                                         ),
-                                                      ),
-                                                      const Divider()
-                                                    ],
-                                                  ),
-                                                );
-                                              }),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }).then((value) {
-                              setState(() {
-                                authProvider.deliveryMethodController.text = authProvider.deliveryType!;
-                              });
-                            });
-                          },
-                          child: TextFormField(
-                            textCapitalization: TextCapitalization.sentences,
-                            enabled: false,
-                            validator: (value) {
-                              if (value!.trim().isEmpty) {
-                                return 'Please select valid delivery method';
-                              }
-                              // if (authController.isNotValidPhone(value)) {
-                              //   return "Please enter valid phone number";
-                              // }
-                              return null;
-                            },
-                            controller: authProvider.deliveryMethodController,
-                            keyboardType: TextInputType.number,
-                            maxLength: 10,
-                            decoration: InputDecoration(
-                              suffixIcon: const Icon(Icons.delivery_dining_outlined),
-                              prefixIcon: const Icon(Icons.category),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: AppColors.primaryColor),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.black, width: 2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.black, width: 1),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.red, width: 1),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              labelText: 'Delivery method',
-                              hintText: 'Delivery method',
-                              counterText: "",
-                              isCollapsed: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                            ),
-                          ),
-                        ):const SizedBox(),
-                        SizedBox(height: 15,),
-                        authProvider.isHomeDeliveryController.text=='Yes' && authProvider.deliveryMethodController.text == 'Hub Delivery'?InkWell(
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text("Select Hub",
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold)),
-                                            IconButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                icon: const Icon(Icons.close))
-                                          ],
-                                        ),
-                                        Expanded(
-                                          child: ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: authProvider.hubList!=null?authProvider.hubList!.result!.length:0,
-                                              itemBuilder: (BuildContext context,
-                                                  int index) {
-                                                return InkWell(
-                                                  onTap: () {
-                                                    authProvider.selectedHubUuid = authProvider.hubList!.result![index].hubUuid;
-                                                    authProvider.selectedHubName = authProvider.hubList!.result![index].hubName;
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets
-                                                            .symmetric(
-                                                            vertical: 10),
-                                                        child: Text(
-                                                          authProvider.hubList!.result![index].hubName!,
-                                                          style: const TextStyle(
-                                                              fontSize: 18),
-                                                        ),
-                                                      ),
-                                                      const Divider()
-                                                    ],
-                                                  ),
-                                                );
-                                              }),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }).then((value) {
-                                  if(authProvider.selectedCategory!=null){
+                                                      );
+                                                    }),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }).then((value) {
                                     setState(() {
-                                      authProvider.hubController.text = authProvider.selectedHubName!;
+                                      authProvider.deliveryMethodController
+                                          .text = authProvider.deliveryType!;
                                     });
-                                  }
-                            });
-                          },
-                          child: TextFormField(
-                            textCapitalization: TextCapitalization.sentences,
-                            enabled: false,
-                            validator: (value) {
-                              if (value!.trim().isEmpty) {
-                                return 'Please select valid Hub';
-                              }
-                              // if (authController.isNotValidPhone(value)) {
-                              //   return "Please enter valid phone number";
-                              // }
-                              return null;
-                            },
-                            controller: authProvider.hubController,
-                            keyboardType: TextInputType.number,
-                            maxLength: 10,
-                            decoration: InputDecoration(
-                              suffixIcon: const Icon(Icons.delivery_dining_outlined),
-                              prefixIcon: const Icon(Icons.category),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(color: AppColors.primaryColor),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              border: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.black, width: 2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              disabledBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.black, width: 1),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: const BorderSide(
-                                    color: Colors.red, width: 1),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-
-                              labelText: 'Delivery Hub',
-                              hintText: 'Delivery Hub',
-                              counterText: "",
-                              isCollapsed: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 10),
-                            ),
-                          ),
-                        ):const SizedBox(),
+                                  });
+                                },
+                                child: TextFormField(
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  enabled: false,
+                                  validator: (value) {
+                                    if (value!.trim().isEmpty) {
+                                      return 'Please select valid delivery method';
+                                    }
+                                    // if (authController.isNotValidPhone(value)) {
+                                    //   return "Please enter valid phone number";
+                                    // }
+                                    return null;
+                                  },
+                                  controller:
+                                      authProvider.deliveryMethodController,
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 10,
+                                  decoration: InputDecoration(
+                                    suffixIcon: const Icon(
+                                        Icons.delivery_dining_outlined),
+                                    prefixIcon: const Icon(Icons.category),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.red, width: 1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    labelText: 'Delivery method',
+                                    hintText: 'Delivery method',
+                                    counterText: "",
+                                    isCollapsed: true,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        authProvider.isHomeDeliveryController.text == 'Yes' &&
+                                authProvider.deliveryMethodController.text ==
+                                    'Hub Delivery'
+                            ? InkWell(
+                                onTap: () {
+                                  FocusScope.of(context).unfocus();
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Text("Select Hub",
+                                                      style: TextStyle(
+                                                          fontSize: 20,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      icon: const Icon(
+                                                          Icons.close))
+                                                ],
+                                              ),
+                                              authProvider.hubList!.result!
+                                                      .isNotEmpty
+                                                  ? Expanded(
+                                                      child: ListView.builder(
+                                                          shrinkWrap: true,
+                                                          itemCount: authProvider
+                                                                      .hubList !=
+                                                                  null
+                                                              ? authProvider
+                                                                  .hubList!
+                                                                  .result!
+                                                                  .length
+                                                              : 0,
+                                                          itemBuilder:
+                                                              (BuildContext
+                                                                      context,
+                                                                  int index) {
+                                                            return InkWell(
+                                                              onTap: () {
+                                                                authProvider
+                                                                        .selectedHubUuid =
+                                                                    authProvider
+                                                                        .hubList!
+                                                                        .result![
+                                                                            index]
+                                                                        .hubUuid;
+                                                                authProvider
+                                                                        .selectedHubName =
+                                                                    authProvider
+                                                                        .hubList!
+                                                                        .result![
+                                                                            index]
+                                                                        .hubName;
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets
+                                                                        .symmetric(
+                                                                        vertical:
+                                                                            10),
+                                                                    child: Text(
+                                                                      authProvider
+                                                                          .hubList!
+                                                                          .result![
+                                                                              index]
+                                                                          .hubName!,
+                                                                      style: const TextStyle(
+                                                                          fontSize:
+                                                                              18),
+                                                                    ),
+                                                                  ),
+                                                                  const Divider()
+                                                                ],
+                                                              ),
+                                                            );
+                                                          }),
+                                                    )
+                                                  : Center(
+                                                      child: Text(
+                                                          "No hub found for selected zone"),
+                                                    ),
+                                            ],
+                                          ),
+                                        );
+                                      }).then((value) {
+                                    if (authProvider.selectedCategory != null) {
+                                      setState(() {
+                                        authProvider.hubController.text =
+                                            authProvider.selectedHubName!;
+                                      });
+                                    }
+                                  });
+                                },
+                                child: TextFormField(
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  enabled: false,
+                                  validator: (value) {
+                                    if (value!.trim().isEmpty) {
+                                      return 'Please select valid Hub';
+                                    }
+                                    // if (authController.isNotValidPhone(value)) {
+                                    //   return "Please enter valid phone number";
+                                    // }
+                                    return null;
+                                  },
+                                  controller: authProvider.hubController,
+                                  keyboardType: TextInputType.number,
+                                  maxLength: 10,
+                                  decoration: InputDecoration(
+                                    suffixIcon: const Icon(
+                                        Icons.delivery_dining_outlined),
+                                    prefixIcon: const Icon(Icons.category),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    disabledBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.red, width: 1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    labelText: 'Delivery Hub',
+                                    hintText: 'Delivery Hub',
+                                    counterText: "",
+                                    isCollapsed: true,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                  ),
+                                ),
+                              )
+                            : const SizedBox(),
                         const SizedBox(
                           height: 20,
                         ),
                         InkWell(
                           onTap: () async {
                             FocusScope.of(context).unfocus();
-                            if (authProvider.registerFormKey.currentState!.validate()) {
-                              if(authProvider.selectedImage==null){
-                                showErrorToast(context, "Please select an image to proceed");
+                            if (authProvider.registerFormKey.currentState!
+                                .validate()) {
+                              if (authProvider.selectedImage == null) {
+                                showErrorToast(context,
+                                    "Please select an image to proceed");
                                 return;
                               }
                               // if (!authProvider.termsAndConditionsIsChecked) {

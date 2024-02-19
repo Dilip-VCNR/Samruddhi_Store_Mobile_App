@@ -114,6 +114,22 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  bool isNotValidName(String name) {
+    // Regular expression pattern to validate name format
+    const nameRegex = r'^[a-zA-Z\s]+$';
+
+    // Use RegExp to check if the name matches the pattern
+    final regExp = RegExp(nameRegex);
+    if (!regExp.hasMatch(name)) {
+      return true;
+    }
+
+    // Check if the name contains any numbers
+    final containsNumbers = name.contains(RegExp(r'[0-9]'));
+    return containsNumbers;
+  }
+
+
   Future<Position> getCurrentLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -265,10 +281,10 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+
   apiCallForStoreDetails(String uid) async {
     String? fcmToken = await FirebaseMessaging.instance.getToken();
-    LoginResponseModel authResponse =
-        await apiCalls.getUserDetails(uid, fcmToken!);
+    LoginResponseModel authResponse = await apiCalls.getUserDetails(uid, fcmToken!);
     if (authResponse.statusCode == 200) {
       otpCode = "";
       notifyListeners();

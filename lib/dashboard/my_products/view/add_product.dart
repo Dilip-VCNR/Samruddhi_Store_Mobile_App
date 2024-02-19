@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/dashboard/my_products/provider/products_provider.dart';
 import 'package:samruddhi_store/utils/app_widgets.dart';
+
 import '../../../utils/app_colors.dart';
 
 class AddProduct extends StatefulWidget {
@@ -16,8 +17,8 @@ class _AddProductState extends State<AddProduct> {
   bool? firstTimeLoading;
   DateTime? selectedDate;
 
-
-  Future<void> selectDate(BuildContext context, ProductsProvider productsProvider) async {
+  Future<void> selectDate(
+      BuildContext context, ProductsProvider productsProvider) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
@@ -29,9 +30,8 @@ class _AddProductState extends State<AddProduct> {
     if (pickedDate != null && pickedDate != selectedDate) {
       setState(() {
         selectedDate = pickedDate;
-        productsProvider.expiryDateController.text=DateFormat("dd/MM/yyyy").format(
-            DateTime.parse(selectedDate
-                .toString()));
+        productsProvider.expiryDateController.text = DateFormat("dd/MM/yyyy")
+            .format(DateTime.parse(selectedDate.toString()));
       });
     }
   }
@@ -113,20 +113,20 @@ class _AddProductState extends State<AddProduct> {
                                           children: [
                                             Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Text("Select Category",
                                                     style: TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
-                                                        FontWeight.bold)),
+                                                            FontWeight.bold)),
                                                 IconButton(
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                     },
                                                     icon:
-                                                    const Icon(Icons.close))
+                                                        const Icon(Icons.close))
                                               ],
                                             ),
                                             Expanded(
@@ -138,42 +138,42 @@ class _AddProductState extends State<AddProduct> {
                                                       .length,
                                                   itemBuilder:
                                                       (BuildContext context,
-                                                      int index) {
+                                                          int index) {
                                                     return InkWell(
                                                       onTap: () {
                                                         productsProvider
-                                                            .productCategoryController
-                                                            .text =
-                                                        productsProvider
-                                                            .categoriesList!
-                                                            .result![index]
-                                                            .productCategoryName!;
+                                                                .productCategoryController
+                                                                .text =
+                                                            productsProvider
+                                                                .categoriesList!
+                                                                .result![index]
+                                                                .productCategoryName!;
                                                         Navigator.pop(context);
                                                       },
                                                       child: Column(
                                                         mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                            MainAxisAlignment
+                                                                .start,
                                                         crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Padding(
                                                             padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical:
-                                                                10),
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        10),
                                                             child: Text(
                                                               productsProvider
                                                                   .categoriesList!
                                                                   .result![
-                                                              index]
+                                                                      index]
                                                                   .productCategoryName!,
                                                               style:
-                                                              const TextStyle(
-                                                                  fontSize:
-                                                                  18),
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          18),
                                                             ),
                                                           ),
                                                           const Divider()
@@ -190,12 +190,14 @@ class _AddProductState extends State<AddProduct> {
                                 });
                               },
                               child: TextFormField(
-                                textCapitalization: TextCapitalization.sentences,
-
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
                                 style: const TextStyle(color: Colors.black),
                                 enabled: false,
                                 controller:
-                                productsProvider.productCategoryController,
+                                    productsProvider.productCategoryController,
                                 validator: (value) {
                                   if (value!.trim().isEmpty) {
                                     return 'Please select category';
@@ -208,15 +210,12 @@ class _AddProductState extends State<AddProduct> {
                                   hintText: 'Select product category',
                                   counterText: "",
                                   isCollapsed: true,
-
                                   fillColor: AppColors.inputFieldColor,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-
                                   ),
                                   disabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
@@ -243,21 +242,21 @@ class _AddProductState extends State<AddProduct> {
                                           children: [
                                             Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment
-                                                  .spaceBetween,
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 const Text(
                                                     "Select Sub Category",
                                                     style: TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
-                                                        FontWeight.bold)),
+                                                            FontWeight.bold)),
                                                 IconButton(
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                     },
                                                     icon:
-                                                    const Icon(Icons.close))
+                                                        const Icon(Icons.close))
                                               ],
                                             ),
                                             Expanded(
@@ -269,42 +268,42 @@ class _AddProductState extends State<AddProduct> {
                                                       .length,
                                                   itemBuilder:
                                                       (BuildContext context,
-                                                      int index) {
+                                                          int index) {
                                                     return InkWell(
                                                       onTap: () {
                                                         productsProvider
-                                                            .productSubCategoryController
-                                                            .text =
-                                                        productsProvider
-                                                            .subCategoriesList!
-                                                            .result![index]
-                                                            .productSubCategoryName!;
+                                                                .productSubCategoryController
+                                                                .text =
+                                                            productsProvider
+                                                                .subCategoriesList!
+                                                                .result![index]
+                                                                .productSubCategoryName!;
                                                         Navigator.pop(context);
                                                       },
                                                       child: Column(
                                                         mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
+                                                            MainAxisAlignment
+                                                                .start,
                                                         crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                            CrossAxisAlignment
+                                                                .start,
                                                         children: [
                                                           Padding(
                                                             padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical:
-                                                                10),
+                                                                const EdgeInsets
+                                                                    .symmetric(
+                                                                    vertical:
+                                                                        10),
                                                             child: Text(
                                                               productsProvider
                                                                   .subCategoriesList!
                                                                   .result![
-                                                              index]
+                                                                      index]
                                                                   .productSubCategoryName!,
                                                               style:
-                                                              const TextStyle(
-                                                                  fontSize:
-                                                                  18),
+                                                                  const TextStyle(
+                                                                      fontSize:
+                                                                          18),
                                                             ),
                                                           ),
                                                           const Divider()
@@ -321,8 +320,10 @@ class _AddProductState extends State<AddProduct> {
                                 });
                               },
                               child: TextFormField(
-                                textCapitalization: TextCapitalization.sentences,
-
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
                                 style: const TextStyle(color: Colors.black),
                                 enabled: false,
                                 controller: productsProvider
@@ -339,17 +340,13 @@ class _AddProductState extends State<AddProduct> {
                                   hintText: 'Select product sub category',
                                   counterText: "",
                                   isCollapsed: true,
-
                                   fillColor: AppColors.inputFieldColor,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-
                                   ),
                                   disabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-
                                   ),
-
                                   errorBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
                                         color: Colors.red, width: 1),
@@ -361,8 +358,12 @@ class _AddProductState extends State<AddProduct> {
                                 textAlignVertical: TextAlignVertical.center,
                               ),
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.sentences,
                               style: const TextStyle(color: Colors.black),
                               textInputAction: TextInputAction.next,
@@ -375,15 +376,12 @@ class _AddProductState extends State<AddProduct> {
                               },
                               decoration: InputDecoration(
                                 labelText: "Product SKU",
-
                                 hintText: 'Product SKU',
                                 counterText: "",
                                 isCollapsed: true,
-
                                 fillColor: AppColors.inputFieldColor,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 16.0, horizontal: 10),
@@ -394,8 +392,9 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.sentences,
-
                               style: const TextStyle(color: Colors.black),
                               textInputAction: TextInputAction.next,
                               controller:
@@ -411,11 +410,9 @@ class _AddProductState extends State<AddProduct> {
                                 hintText: 'Product name',
                                 counterText: "",
                                 isCollapsed: true,
-
                                 fillColor: AppColors.inputFieldColor,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 16.0, horizontal: 10),
@@ -426,19 +423,21 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.sentences,
-
                               textAlign: TextAlign.start,
                               style: const TextStyle(color: Colors.black),
                               maxLines: 3,
                               minLines: 3,
                               textInputAction: TextInputAction.next,
                               controller:
-                              productsProvider.productDescriptionController,
+                                  productsProvider.productDescriptionController,
                               validator: (value) {
                                 if (value!.trim().isEmpty) {
                                   return 'Please enter product description';
                                 }
+
                                 return null;
                               },
                               decoration: InputDecoration(
@@ -446,34 +445,35 @@ class _AddProductState extends State<AddProduct> {
                                 hintText: 'Product description',
                                 counterText: "",
                                 isCollapsed: true,
-
                                 fillColor: AppColors.inputFieldColor,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 16.0, horizontal: 10),
                               ),
                               textAlignVertical: TextAlignVertical.center,
                             ),
-
                             const SizedBox(
                               height: 10,
                             ),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.sentences,
-
                               style: const TextStyle(color: Colors.black),
                               textInputAction: TextInputAction.next,
                               controller:
-                              productsProvider.productQuantityController,
+                                  productsProvider.productQuantityController,
                               validator: (value) {
                                 if (value!.trim().isEmpty) {
                                   return 'Please enter product quantity';
                                 }
-                                if (int.parse(value)==0) {
+                                if (value == '0') {
                                   return 'Quantity should be greater than 1';
+                                }
+                                if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                                  return 'Please enter only numbers'; // Return an error message otherwise
                                 }
                                 return null;
                               },
@@ -483,18 +483,15 @@ class _AddProductState extends State<AddProduct> {
                                 hintText: 'Product quantity',
                                 counterText: "",
                                 isCollapsed: true,
-
                                 fillColor: AppColors.inputFieldColor,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 16.0, horizontal: 10),
                               ),
                               textAlignVertical: TextAlignVertical.center,
                             ),
-
                             const SizedBox(
                               height: 10,
                             ),
@@ -584,8 +581,10 @@ class _AddProductState extends State<AddProduct> {
                                 });
                               },
                               child: TextFormField(
-                                textCapitalization: TextCapitalization.sentences,
-
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
                                 style: const TextStyle(color: Colors.black),
                                 enabled: false,
                                 controller:
@@ -597,20 +596,16 @@ class _AddProductState extends State<AddProduct> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
-
                                   suffixIcon: const Icon(
                                       Icons.keyboard_arrow_down_sharp),
                                   hintText: 'Select product UOM',
                                   counterText: "",
                                   isCollapsed: true,
-
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-
                                   ),
                                   disabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-
                                   ),
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 16.0, horizontal: 10),
@@ -621,10 +616,10 @@ class _AddProductState extends State<AddProduct> {
                             const SizedBox(
                               height: 10,
                             ),
-
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.sentences,
-
                               style: const TextStyle(color: Colors.black),
                               textInputAction: TextInputAction.next,
                               controller: productsProvider
@@ -632,6 +627,10 @@ class _AddProductState extends State<AddProduct> {
                               validator: (value) {
                                 if (value!.trim().isEmpty) {
                                   return 'Please enter product selling price';
+                                }
+                                RegExp regex = RegExp(r'^[0-9.]+$');
+                                if (!regex.hasMatch(value)) {
+                                  return 'Special characters are not allowed';
                                 }
                                 return null;
                               },
@@ -641,7 +640,6 @@ class _AddProductState extends State<AddProduct> {
                                 hintText: 'Product selling price',
                                 counterText: "",
                                 isCollapsed: true,
-
                                 fillColor: AppColors.inputFieldColor,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -655,8 +653,9 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.sentences,
-
                               style: const TextStyle(color: Colors.black),
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.next,
@@ -666,6 +665,10 @@ class _AddProductState extends State<AddProduct> {
                                 if (value!.trim().isEmpty) {
                                   return 'Please enter product discount';
                                 }
+                                RegExp regex = RegExp(r'^[0-9.]+$');
+                                if (!regex.hasMatch(value)) {
+                                  return 'Special characters are not allowed';
+                                }
                                 return null;
                               },
                               decoration: InputDecoration(
@@ -673,11 +676,9 @@ class _AddProductState extends State<AddProduct> {
                                 hintText: 'Product discount %',
                                 counterText: "",
                                 isCollapsed: true,
-
                                 fillColor: AppColors.inputFieldColor,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 16.0, horizontal: 10),
@@ -688,8 +689,9 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.sentences,
-
                               style: const TextStyle(color: Colors.black),
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.next,
@@ -698,6 +700,10 @@ class _AddProductState extends State<AddProduct> {
                                 if (value!.trim().isEmpty) {
                                   return 'Please enter product tax';
                                 }
+                                RegExp regex = RegExp(r'^[0-9.]+$');
+                                if (!regex.hasMatch(value)) {
+                                  return 'Special characters are not allowed';
+                                }
                                 return null;
                               },
                               decoration: InputDecoration(
@@ -705,11 +711,9 @@ class _AddProductState extends State<AddProduct> {
                                 hintText: 'Product tax %',
                                 counterText: "",
                                 isCollapsed: true,
-
                                 fillColor: AppColors.inputFieldColor,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 16.0, horizontal: 10),
@@ -720,8 +724,9 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.sentences,
-
                               style: const TextStyle(color: Colors.black),
                               textInputAction: TextInputAction.next,
                               controller: productsProvider
@@ -730,6 +735,7 @@ class _AddProductState extends State<AddProduct> {
                                 if (value!.trim().isEmpty) {
                                   return 'Please enter product manufacturer';
                                 }
+
                                 return null;
                               },
                               decoration: InputDecoration(
@@ -737,11 +743,9 @@ class _AddProductState extends State<AddProduct> {
                                 hintText: 'Product manufacturer',
                                 counterText: "",
                                 isCollapsed: true,
-
                                 fillColor: AppColors.inputFieldColor,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 16.0, horizontal: 10),
@@ -752,14 +756,14 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               keyboardType: TextInputType.number,
                               textCapitalization: TextCapitalization.sentences,
-
                               style: const TextStyle(color: Colors.black),
-
                               textInputAction: TextInputAction.next,
                               controller:
-                              productsProvider.productHsnCodeController,
+                                  productsProvider.productHsnCodeController,
                               validator: (value) {
                                 if (value!.trim().isEmpty) {
                                   return 'Please enter product hsn';
@@ -771,11 +775,9 @@ class _AddProductState extends State<AddProduct> {
                                 hintText: 'Product hsn',
                                 counterText: "",
                                 isCollapsed: true,
-
                                 fillColor: AppColors.inputFieldColor,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 16.0, horizontal: 10),
@@ -786,10 +788,10 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.sentences,
-
                               style: const TextStyle(color: Colors.black),
-
                               textInputAction: TextInputAction.next,
                               controller:
                                   productsProvider.productModelController,
@@ -804,11 +806,9 @@ class _AddProductState extends State<AddProduct> {
                                 hintText: 'Product model',
                                 counterText: "",
                                 isCollapsed: true,
-
                                 fillColor: AppColors.inputFieldColor,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-
                                 ),
                                 contentPadding: const EdgeInsets.symmetric(
                                     vertical: 16.0, horizontal: 10),
@@ -819,10 +819,13 @@ class _AddProductState extends State<AddProduct> {
                               height: 10,
                             ),
                             GestureDetector(
-                              onTap: () => selectDate(context,productsProvider),
+                              onTap: () =>
+                                  selectDate(context, productsProvider),
                               child: TextFormField(
-                                textCapitalization: TextCapitalization.sentences,
-
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
                                 enabled: false,
                                 validator: (value) {
                                   // if (value!.trim().isEmpty) {
@@ -834,7 +837,8 @@ class _AddProductState extends State<AddProduct> {
                                   return null;
                                 },
                                 style: const TextStyle(color: Colors.black),
-                                controller: productsProvider.expiryDateController,
+                                controller:
+                                    productsProvider.expiryDateController,
                                 decoration: InputDecoration(
                                   suffixIcon: const Icon(
                                     Icons.calendar_month_outlined,
@@ -844,11 +848,9 @@ class _AddProductState extends State<AddProduct> {
                                   hintText: 'Select expiry date',
                                   counterText: "",
                                   isCollapsed: true,
-                                  
                                   fillColor: AppColors.inputFieldColor,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10.0),
-                                    
                                   ),
                                   disabledBorder: OutlineInputBorder(
                                     borderSide: const BorderSide(
@@ -874,14 +876,19 @@ class _AddProductState extends State<AddProduct> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const Text("Is it available now?"),
-                                Switch(value: productsProvider.addProductAvailability, onChanged: (val){
-                                  setState(() {
-                                    productsProvider.addProductAvailability = !productsProvider.addProductAvailability;
-                                  });
-                                })
+                                Switch(
+                                    value:
+                                        productsProvider.addProductAvailability,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        productsProvider
+                                                .addProductAvailability =
+                                            !productsProvider
+                                                .addProductAvailability;
+                                      });
+                                    })
                               ],
                             ),
-
                             const SizedBox(
                               height: 20,
                             ),
@@ -890,14 +897,19 @@ class _AddProductState extends State<AddProduct> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const Text("Is it returnable ?"),
-                                Switch(value: productsProvider.addProductIsReturnable, onChanged: (val){
-                                  setState(() {
-                                    productsProvider.addProductIsReturnable = !productsProvider.addProductIsReturnable;
-                                  });
-                                })
+                                Switch(
+                                    value:
+                                        productsProvider.addProductIsReturnable,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        productsProvider
+                                                .addProductIsReturnable =
+                                            !productsProvider
+                                                .addProductIsReturnable;
+                                      });
+                                    })
                               ],
                             ),
-
                             const SizedBox(
                               height: 20,
                             ),
@@ -906,24 +918,31 @@ class _AddProductState extends State<AddProduct> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const Text("Is it perishable ?"),
-                                Switch(value: productsProvider.addProductIsPerishable, onChanged: (val){
-                                  setState(() {
-                                    productsProvider.addProductIsPerishable = !productsProvider.addProductIsPerishable;
-                                  });
-                                })
+                                Switch(
+                                    value:
+                                        productsProvider.addProductIsPerishable,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        productsProvider
+                                                .addProductIsPerishable =
+                                            !productsProvider
+                                                .addProductIsPerishable;
+                                      });
+                                    })
                               ],
                             ),
-
                             const SizedBox(
                               height: 20,
                             ),
                             InkWell(
                               onTap: () async {
+                                FocusScope.of(context).unfocus();
                                 if (productsProvider
                                     .addProductFormKey.currentState!
                                     .validate()) {
-                                  if(productsProvider.selectedImage==null){
-                                    showErrorToast(context, "Please select product image");
+                                  if (productsProvider.selectedImage == null) {
+                                    showErrorToast(
+                                        context, "Please select product image");
                                     return;
                                   }
                                   productsProvider.addNewProduct();

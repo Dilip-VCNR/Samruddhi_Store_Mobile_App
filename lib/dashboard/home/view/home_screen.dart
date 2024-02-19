@@ -107,27 +107,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )
                               ],
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Today's \nOrders",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown, // Use BoxFit.scaleDown to scale down the text if needed
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Today's\nOrders",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  '${dashboardProvider.homeResponse!.result!.counterArray![0].allOrderCount}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              ],
+                                  Text(
+                                    '${dashboardProvider.homeResponse!.result!.counterArray![0].allOrderCount}',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           Container(
@@ -149,27 +152,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )
                               ],
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Pending\nOrders",
-                                  style: TextStyle(
-                                    color: AppColors.fontColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown, // Use BoxFit.scaleDown to scale down the text if needed
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Pending\nOrders",
+                                    style: TextStyle(
+                                      color: AppColors.fontColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  '${dashboardProvider.homeResponse!.result!.counterArray![0].pendingOrdersCount}',
-                                  style: const TextStyle(
-                                    color: AppColors.fontColor,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              ],
+                                  Text(
+                                    '${dashboardProvider.homeResponse!.result!.counterArray![0].pendingOrdersCount}',
+                                    style: const TextStyle(
+                                      color: AppColors.fontColor,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                           Container(
@@ -191,27 +197,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )
                               ],
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  "Orders\nDelivered",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown, // Use BoxFit.scaleDown to scale down the text if needed
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Orders\nDelivered",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  '${dashboardProvider.homeResponse!.result!.counterArray![0].ordersDelivered}',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              ],
+                                  Text(
+                                    '${dashboardProvider.homeResponse!.result!.counterArray![0].ordersDelivered}',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           )
                         ],
@@ -292,17 +301,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                             SizedBox(
                                               width: screenSize.width - 60,
                                               child: Row(
+                                                mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Text(
-                                                    'Order - #${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderId}',
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w700,
+                                                  SizedBox(
+                                                    width: screenSize.width/1.65,
+                                                    child: Text(
+                                                      'Order - #${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderId}',
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
                                                     ),
                                                   ),
                                                   Container(
@@ -347,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 TextSpan(
                                                   children: [
                                                     const TextSpan(
-                                                      text: 'Order value : ',
+                                                      text: 'Order Value : ',
                                                       style: TextStyle(
                                                         color:
                                                             Color(0xFF37474F),
@@ -366,6 +379,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         fontSize: 14,
                                                         fontWeight:
                                                             FontWeight.w700,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 212,
+                                              child: Text.rich(
+                                                TextSpan(
+                                                  children: [
+                                                    const TextSpan(
+                                                      text: 'Order Type : ',
+                                                      style: TextStyle(
+                                                        color: Color(0xFF37474F),
+                                                        fontSize: 14,
+                                                        fontFamily: 'Poppins',
+                                                        fontWeight:
+                                                        FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    TextSpan(
+                                                      text:
+                                                      '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderDeliveryType}',
+                                                      style: const TextStyle(
+                                                        color: Color(0xFF37474F),
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                        FontWeight.w700,
                                                       ),
                                                     ),
                                                   ],

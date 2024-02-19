@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:samruddhi_store/dashboard/orders/models/update_payment_status_model.dart';
@@ -31,18 +28,22 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
         <String, dynamic>{}) as Map;
     Map order = arguments['orderDetails'];
     activeStatus = arguments['orderDetails']['orderStatus'];
-    if(activeStatus=="new"){
+    if (activeStatus == "new") {
       nextStatus = "accepted";
-    }else if(activeStatus=="accepted"){
+    } else if (activeStatus == "accepted") {
       nextStatus = "processing";
-    }else if(activeStatus=="processing"){
+    } else if (activeStatus == "processing") {
       nextStatus = "ready";
-    }else if(activeStatus=="ready" && order['orderDeliveryType']=="selfPickUp"){
+    } else if (activeStatus == "ready" &&
+        order['orderDeliveryType'] == "selfPickUp") {
+      nextStatus = "delivered";
+    } else if (activeStatus == "ready" &&
+        prefModel.userData!.deliveryType == "storeDelivery") {
       nextStatus = "delivered";
     }
     return Scaffold(
       appBar: AppBar(
-        title:  Text(
+        title: Text(
           '#${order['orderId']}',
           style: const TextStyle(
             color: AppColors.fontColor,
@@ -56,69 +57,81 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            order['deliveryAddress']!=null?Container(
-              padding: const EdgeInsets.all(20),
-              width: screenSize.width,
-              decoration: ShapeDecoration(
-                color: const Color(0xFFE5E5E7),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Delivery Address',
-                    style: TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+            order['deliveryAddress'] != null
+                ? Container(
+                    padding: const EdgeInsets.all(20),
+                    width: screenSize.width,
+                    decoration: ShapeDecoration(
+                      color: const Color(0xFFE5E5E7),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
                     ),
-                  ),
-                  Text(
-                    '${order['deliveryAddress']['completeAddress']}',
-                    style: const TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Text(
-                    '${order['deliveryAddress']['city']}',
-                    style: const TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Text(
-                    '${order['deliveryAddress']['state']}',
-                    style: const TextStyle(
-                      color: AppColors.fontColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  GestureDetector(
-                    onTap: (){
-                      double latitude = order['deliveryAddress']['lat'];
-                      double longitude = order['deliveryAddress']['lng'];
-                      MapsLauncher.launchCoordinates(latitude, longitude);
-                    },
-                    child: Container(
-                      width: screenSize.width/3,
-                      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                      decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: AppColors.primaryColor),
-                      child: const Center(child: Text("Navigate",style: TextStyle(color: Colors.white),),),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Delivery Address',
+                          style: TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${order['deliveryAddress']['completeAddress']}',
+                          style: const TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Text(
+                          '${order['deliveryAddress']['city']}',
+                          style: const TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Text(
+                          '${order['deliveryAddress']['state']}',
+                          style: const TextStyle(
+                            color: AppColors.fontColor,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            double latitude = order['deliveryAddress']['lat'];
+                            double longitude = order['deliveryAddress']['lng'];
+                            MapsLauncher.launchCoordinates(latitude, longitude);
+                          },
+                          child: Container(
+                            width: screenSize.width / 3,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 5),
+                            decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                color: AppColors.primaryColor),
+                            child: const Center(
+                              child: Text(
+                                "Navigate",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   )
-                ],
-              ),
-            ):const SizedBox.shrink(),
+                : const SizedBox.shrink(),
             const SizedBox(
               height: 10,
             ),
@@ -167,49 +180,102 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              order['paymentDetailsArray']['paymentStatus']!=null?'Payment Status : ${order['paymentDetailsArray']['paymentStatus']}':"Payment Status : Pending",
+              order['paymentDetailsArray']['paymentStatus'] != null
+                  ? 'Payment Status : ${order['paymentDetailsArray']['paymentStatus']}'
+                  : "Payment Status : Pending",
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            order['paymentDetailsArray']['paymentStatus']==null?
-            GestureDetector(
-              onTap: () async {
-                showLoaderDialog(context);
-                UpdatePaymentStatusModel response = await ApiCalls().confirmPayment(order['orderId']);
-                Navigator.pop(context);
-                if(response.statusCode==200){
-                  Navigator.pop(context);
-                  showSuccessToast(context, response.message!);
-                }else{
-                  Navigator.pop(context);
-                  showErrorToast(context, response.message!);
-                }
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  color: AppColors.secondaryColor
-                ),
-                  margin:const EdgeInsets.symmetric(vertical: 10),child: const Center(child: Text('Confirm payment',style: TextStyle(color: Colors.white,fontSize: 18),))),
-            ):const SizedBox.shrink(),
-            (activeStatus != "delivered" && nextStatus != '')?const SizedBox(
-              height: 10,
-            ):const SizedBox.shrink(),
-            (activeStatus != "delivered" && nextStatus != '')?const Text(
-              'Update Status',
-              style: TextStyle(
-                color: AppColors.fontColor,
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-            ):const SizedBox.shrink(),
-            (activeStatus != "delivered" && nextStatus != '')?const SizedBox(
-              height: 10,
-            ):const SizedBox.shrink(),
+            (order['paymentDetailsArray']['paymentStatus'] == null && activeStatus!='rejected' && activeStatus!='new')
+                ? GestureDetector(
+                    onTap: () async {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text("Are you sure ?"),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  const Text("Confirm payment for order"),
+                                  Text(
+                                    '#${order['orderId']}',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("No")),
+                                TextButton(
+                                    onPressed: () async {
+                                      Navigator.pop(context);
+                                      showLoaderDialog(context);
+                                      UpdatePaymentStatusModel response =
+                                          await ApiCalls()
+                                              .confirmPayment(order['orderId']);
+                                      Navigator.pop(context);
+                                      if (response.statusCode == 200) {
+                                        Navigator.pop(context);
+                                        showSuccessToast(
+                                            context, response.message!);
+                                      } else {
+                                        Navigator.pop(context);
+                                        showErrorToast(
+                                            context, response.message!);
+                                      }
+                                    },
+                                    child: const Text("Yes"))
+                              ],
+                            );
+                          });
+                    },
+                    child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: AppColors.secondaryColor),
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        child: const Center(
+                            child: Text(
+                          'Confirm Payment',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ))),
+                  )
+                : const SizedBox.shrink(),
+            (activeStatus != "delivered" && nextStatus != '')
+                ? const SizedBox(
+                    height: 10,
+                  )
+                : const SizedBox.shrink(),
+            (activeStatus != "delivered" && nextStatus != '')
+                ? const Text(
+                    'Update Status',
+                    style: TextStyle(
+                      color: AppColors.fontColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
+                : const SizedBox.shrink(),
+            (activeStatus != "delivered" && nextStatus != '')
+                ? const SizedBox(
+                    height: 10,
+                  )
+                : const SizedBox.shrink(),
 
             // (activeStatus != "delivered" && nextStatus != '')?GestureDetector(
             //   onTap: () async {
@@ -259,27 +325,58 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
             //     ),
             //   ),
             // ):const SizedBox.shrink(),
-            (activeStatus != "delivered" && nextStatus != '')?SlideAction(
-              outerColor: const Color(0xFF86DF71),
-              text: "Move to "+nextStatus,
-              textStyle: TextStyle(
-                fontSize: 16
-              ),
-              key: _key,
-              onSubmit: () async {
-                showLoaderDialog(context);
-                OrderStatusUpdateResponseModel res = await ApiCalls().setOrderStatus(nextStatus,order['orderId']);
-                Navigator.pop(context);
-                Navigator.pop(context);
-                if(res.statusCode==200){
-                  activeStatus = nextStatus;
-                  showSuccessToast(context, res.message!);
-                }else{
-                  showErrorToast(context, res.message!);
-                }
-                _key.currentState!.reset();
-              },
-            ):const SizedBox.shrink(),
+            (activeStatus != "delivered" && nextStatus != '')
+                ? SlideAction(
+                    outerColor: const Color(0xFF86DF71),
+                    text: "Move to $nextStatus",
+                    textStyle: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                    key: _key,
+                    onSubmit: () async {
+                      showLoaderDialog(context);
+                      OrderStatusUpdateResponseModel res = await ApiCalls()
+                          .setOrderStatus(nextStatus, order['orderId']);
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                      if (res.statusCode == 200) {
+                        activeStatus = nextStatus;
+                        showSuccessToast(context, res.message!);
+                      } else {
+                        showErrorToast(context, res.message!);
+                      }
+                      _key.currentState!.reset();
+                    },
+                  )
+                : const SizedBox.shrink(),
+
+            (activeStatus == "new")
+                ? Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    child: SlideAction(
+                      outerColor: Colors.red,
+                      text: "Reject order",
+                      textStyle: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                      // key: _key,
+                      onSubmit: () async {
+                        showLoaderDialog(context);
+                        OrderStatusUpdateResponseModel res = await ApiCalls()
+                            .setOrderStatus('rejected', order['orderId']);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        if (res.statusCode == 200) {
+                          activeStatus = nextStatus;
+                          showSuccessToast(context, res.message!);
+                        } else {
+                          showErrorToast(context, res.message!);
+                        }
+                        _key.currentState!.reset();
+                      },
+                    ),
+                  )
+                : const SizedBox.shrink(),
 
             const SizedBox(
               height: 10,
@@ -332,8 +429,8 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                             '${order['productDetails'][index]['productName']}',
                             style: const TextStyle(
                               color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
@@ -363,7 +460,8 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: '₹${order['productDetails'][index]['productGrandTotal']}',
+                                  text:
+                                      '₹${order['productDetails'][index]['productGrandTotal']}',
                                   style: const TextStyle(
                                     color: Color(0xFF37474F),
                                     fontSize: 14,
