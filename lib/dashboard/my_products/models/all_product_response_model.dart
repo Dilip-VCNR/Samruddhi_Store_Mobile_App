@@ -48,6 +48,7 @@ class ProductsResult {
   String? description;
   bool? isMrp;
   double? sellingPrice;
+  double? buyingPrice;
   bool? isAvailable;
   String? productSku;
   String? productUom;
@@ -79,6 +80,7 @@ class ProductsResult {
     this.description,
     this.isMrp,
     this.sellingPrice,
+    this.buyingPrice,
     this.isAvailable,
     this.productSku,
     this.productUom,
@@ -111,6 +113,7 @@ class ProductsResult {
     description: json["description"],
     isMrp: json["isMrp"],
     sellingPrice: json["sellingPrice"].toDouble(),
+    buyingPrice: json["buyingPrice"].toDouble(),
     isAvailable: json["isAvailable"],
     productSku: json["productSku"],
     productUom: json["productUom"],
@@ -143,6 +146,7 @@ class ProductsResult {
     "description": description,
     "isMrp": isMrp,
     "sellingPrice": sellingPrice,
+    "buyingPrice": buyingPrice,
     "isAvailable": isAvailable,
     "productSku": productSku,
     "productUom": productUom,

@@ -6,6 +6,7 @@ import 'package:samruddhi_store/dashboard/my_products/provider/products_provider
 import 'package:samruddhi_store/utils/url_constants.dart';
 
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_widgets.dart';
 import '../../../utils/routes.dart';
 import '../models/all_product_response_model.dart';
 
@@ -71,59 +72,35 @@ class _MyProductsState extends State<MyProducts> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: ShapeDecoration(
-                            image: DecorationImage(
-                              image: prefModel.userData!.storeImgArray!.isNotEmpty
-                                  ? NetworkImage(
-                                      "${UrlConstant.imageBaseUrl}${prefModel.userData!.storeImgArray![0].imageUrl}")
-                                  : const NetworkImage(
-                                      "https://via.placeholder.com/110x125"),
-                              fit: BoxFit.fill,
-                            ),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
+                        SizedBox(
+                          width: screenSize.width / 1.75,
+                          child: Text(
+                            textAlign:TextAlign.center,
+                            '${prefModel.userData!.displayName}',
+                            style: const TextStyle(
+                              color: AppColors.fontColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: screenSize.width / 1.75,
-                              child: Text(
-                                '${prefModel.userData!.displayName}',
-                                style: const TextStyle(
-                                  color: AppColors.fontColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                        SizedBox(
+                          width: screenSize.width / 1.75,
+                          child: Text(
+                            textAlign:TextAlign.center,
+                            "${prefModel.userData!.addressArray!.completeAddress} ${prefModel.userData!.addressArray!.state} ${prefModel.userData!.addressArray!.city} ${prefModel.userData!.addressArray!.zipCode}",
+                            style: const TextStyle(
+                              color: AppColors.fontColor,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                             ),
-                            SizedBox(
-                              width: screenSize.width / 1.75,
-                              child: Text(
-                                "${prefModel.userData!.addressArray!.completeAddress} ${prefModel.userData!.addressArray!.state} ${prefModel.userData!.addressArray!.city} ${prefModel.userData!.addressArray!.zipCode}",
-                                style: const TextStyle(
-                                  color: AppColors.fontColor,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -185,162 +162,166 @@ class _MyProductsState extends State<MyProducts> {
                         // Get the category name from the element
                         String categoryName =
                             element['productCategory']['productCategoryName'];
-
                         // Check if the category is visible, if not, return an empty container
                         if (categoryVisibility[categoryName] == false) {
                           return Container();
                         }
                         ProductsResult product =
                             ProductsResult.fromJson(element);
-                        return Column(
-                          children: [
-                            Container(
-                              width: screenSize.width,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: screenSize.width / 3.75,
-                                    height: screenSize.width / 3.75,
-                                    decoration: ShapeDecoration(
-                                      image: DecorationImage(
-                                        image: product
-                                                .productImgArray!.isNotEmpty
-                                            ? NetworkImage(
-                                                "${UrlConstant.imageBaseUrl}${product.productImgArray![0].imagePath}")
-                                            : const NetworkImage(
-                                                "https://via.placeholder.com/115x111"),
-                                        fit: BoxFit.fill,
-                                      ),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(9),
+                        return GestureDetector(
+                          onTap: (){
+                            showProductDetailsModal(product,context,screenSize);
+                          },
+                          child: Column(
+                            children: [
+                              Container(
+                                width: screenSize.width,
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: screenSize.width / 3.75,
+                                      height: screenSize.width / 3.75,
+                                      decoration: ShapeDecoration(
+                                        image: DecorationImage(
+                                          image: product
+                                                  .productImgArray!.isNotEmpty
+                                              ? NetworkImage(
+                                                  "${UrlConstant.imageBaseUrl}${product.productImgArray![0].imagePath}")
+                                              : const NetworkImage(
+                                                  "https://via.placeholder.com/115x111"),
+                                          fit: BoxFit.fill,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(9),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            SizedBox(
-                                              width: screenSize.width / 2.5,
-                                              child: Text(
-                                                "${product.productName}",
-                                                style: const TextStyle(
-                                                  color: AppColors.fontColor,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
-                                                  letterSpacing: 0.60,
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: screenSize.width / 2.5,
+                                                child: Text(
+                                                  "${product.productName}",
+                                                  style: const TextStyle(
+                                                    color: AppColors.fontColor,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w500,
+                                                    letterSpacing: 0.60,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                productsProvider
-                                                    .setProductToEdit(
-                                                        product);
-                                                Navigator.pushNamed(
-                                                        context,
-                                                        Routes
-                                                            .editProductRoute)
-                                                    .then((value) {
-                                                  setState(() {
-                                                    isLoaded = false;
+                                              GestureDetector(
+                                                onTap: () {
+                                                  productsProvider
+                                                      .setProductToEdit(
+                                                          product);
+                                                  Navigator.pushNamed(
+                                                          context,
+                                                          Routes
+                                                              .editProductRoute)
+                                                      .then((value) {
+                                                    setState(() {
+                                                      isLoaded = false;
+                                                    });
+                                                    return null;
                                                   });
-                                                  return null;
-                                                });
-                                              },
-                                              child: const Row(
-                                                children: [
-                                                  Text(
-                                                    "Edit",
-                                                    style: TextStyle(
-                                                      decoration:
-                                                          TextDecoration
-                                                              .underline,
-                                                      color:
-                                                          AppColors.fontColor,
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      letterSpacing: 0.60,
+                                                },
+                                                child: const Row(
+                                                  children: [
+                                                    Text(
+                                                      "Edit",
+                                                      style: TextStyle(
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                        color:
+                                                            AppColors.fontColor,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        letterSpacing: 0.60,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Icon(
-                                                    Icons.edit_outlined,
-                                                    size: 15,
-                                                  )
-                                                ],
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Icon(
+                                                      Icons.edit_outlined,
+                                                      size: 15,
+                                                    )
+                                                  ],
+                                                ),
                                               ),
+                                            ],
+                                          ),
+                                          Text(
+                                            '${product.productSubCategory!.productSubCategoryName}',
+                                            style: const TextStyle(
+                                              color: Color(0x8937474F),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              // decoration: TextDecoration.lineThrough,
                                             ),
-                                          ],
-                                        ),
-                                        Text(
-                                          '${product.productSubCategory!.productSubCategoryName}',
-                                          style: const TextStyle(
-                                            color: Color(0x8937474F),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            // decoration: TextDecoration.lineThrough,
                                           ),
-                                        ),
-                                        Text(
-                                          '₹${product.sellingPrice}',
-                                          style: const TextStyle(
-                                            color: AppColors.primaryColor,
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600,
+                                          Text(
+                                            '₹${product.sellingPrice}',
+                                            style: const TextStyle(
+                                              color: AppColors.primaryColor,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          'UOM : ${product.productUom}',
-                                          style: const TextStyle(
-                                              // color: AppColors.primaryColor,
-                                              // fontSize: 20,
-                                              // fontWeight: FontWeight.w600,
-                                              ),
-                                        ),
-                                        Text(
-                                          'Tax : ${product.productTax}%',
-                                          style: const TextStyle(
-                                              // color: AppColors.primaryColor,
-                                              // fontSize: 20,
-                                              // fontWeight: FontWeight.w600,
-                                              ),
-                                        ),
-                                        Text(
-                                          'Discount : ${product.productDiscount}% (₹${product.productDiscountedValue})',
-                                          style: const TextStyle(
-                                              // color: AppColors.primaryColor,
-                                              // fontSize: 20,
-                                              // fontWeight: FontWeight.w600,
-                                              ),
-                                        ),
-                                      ],
+                                          Text(
+                                            'UOM : ${product.productUom}',
+                                            style: const TextStyle(
+                                                // color: AppColors.primaryColor,
+                                                // fontSize: 20,
+                                                // fontWeight: FontWeight.w600,
+                                                ),
+                                          ),
+                                          Text(
+                                            'Tax : ${product.productTax}%',
+                                            style: const TextStyle(
+                                                // color: AppColors.primaryColor,
+                                                // fontSize: 20,
+                                                // fontWeight: FontWeight.w600,
+                                                ),
+                                          ),
+                                          Text(
+                                            'Discount : ${product.productDiscount}% (₹${product.productDiscountedValue})',
+                                            style: const TextStyle(
+                                                // color: AppColors.primaryColor,
+                                                // fontSize: 20,
+                                                // fontWeight: FontWeight.w600,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
-                              child: Divider(),
-                            )
-                          ],
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                child: Divider(),
+                              )
+                            ],
+                          ),
                         );
                       },
                       // itemComparator: (item1, item2) => item1['name'].compareTo(item2['name']), // optional

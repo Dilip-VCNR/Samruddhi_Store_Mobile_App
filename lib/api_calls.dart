@@ -162,6 +162,7 @@ class ApiCalls {
     String? productCategoryName,
     String? description,
     String? sellingPrice,
+    String? buyingPrice,
     String? productTax,
     String? productUom,
     String? productDiscount,
@@ -186,6 +187,7 @@ class ApiCalls {
     request.fields['description'] = description!;
     request.fields['isMrp'] = "true";
     request.fields['sellingPrice'] = sellingPrice!;
+    request.fields['buyingPrice'] = buyingPrice!;
     request.fields['productTax'] = productTax!;
     request.fields['productUom'] = productUom!;
     request.fields['productDiscount'] = productDiscount!;
@@ -226,6 +228,7 @@ class ApiCalls {
     String? productCategoryName,
     String? description,
     String? sellingPrice,
+    String? buyingPrice,
     String? productTax,
     String? productUom,
     String? productDiscount,
@@ -251,6 +254,7 @@ class ApiCalls {
     request.fields['description'] = description!;
     request.fields['isMrp'] = "true";
     request.fields['sellingPrice'] = sellingPrice!;
+    request.fields['buyingPrice'] = buyingPrice!;
     request.fields['productTax'] = productTax!;
     request.fields['productUom'] = productUom!;
     request.fields['productDiscount'] = productDiscount!;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/app_colors.dart';
+import '../../../utils/app_widgets.dart';
 import '../../../utils/routes.dart';
 import '../../../utils/url_constants.dart';
 import '../models/all_product_response_model.dart';
@@ -78,143 +79,148 @@ class _ProductSearchState extends State<ProductSearch> {
                   itemCount: filteredProducts.length,
                   itemBuilder: (context, index) {
                     ProductsResult product = ProductsResult.fromJson(filteredProducts[index]);
-                    return Column(
-                      children: [
-                        Container(
-                          width: screenSize.width,
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Container(
-                                width: screenSize.width*.25,
-                                height: screenSize.width*.25,
-                                decoration: ShapeDecoration(
-                                  image: DecorationImage(
-                                    image: product
-                                        .productImgArray!
-                                        .isEmpty
-                                        ? const NetworkImage(
-                                        "https://via.placeholder.com/115x111")
-                                        : NetworkImage(
-                                        '${UrlConstant.imageBaseUrl}${product.productImgArray![0].imagePath!}'),
-                                    fit: BoxFit.fill,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(9),
+                    return GestureDetector(
+                      onTap: (){
+                        showProductDetailsModal(product,context,screenSize);
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            width: screenSize.width,
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Container(
+                                  width: screenSize.width*.25,
+                                  height: screenSize.width*.25,
+                                  decoration: ShapeDecoration(
+                                    image: DecorationImage(
+                                      image: product
+                                          .productImgArray!
+                                          .isEmpty
+                                          ? const NetworkImage(
+                                          "https://via.placeholder.com/115x111")
+                                          : NetworkImage(
+                                          '${UrlConstant.imageBaseUrl}${product.productImgArray![0].imagePath!}'),
+                                      fit: BoxFit.fill,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(9),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              SizedBox(
-                                width: screenSize.width*.5,
-                                child: Column(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      product
-                                          .productName!,
-                                      style: const TextStyle(
-                                        color: AppColors.fontColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.60,
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                SizedBox(
+                                  width: screenSize.width*.5,
+                                  child: Column(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        product
+                                            .productName!,
+                                        style: const TextStyle(
+                                          color: AppColors.fontColor,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          letterSpacing: 0.60,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      product
-                                          .productSubCategory!
-                                          .productSubCategoryName!,
-                                      style: const TextStyle(
-                                        color: Color(0x8937474F),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        // decoration:
-                                        //     TextDecoration.lineThrough,
-                                      ),
-                                    ),
-                                    Text(
-                                      "UOM : ${product
-                                          .productUom!}",
-                                      style: const TextStyle(
-                                        color: Color(0x8937474F),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        // decoration:
-                                        //     TextDecoration.lineThrough,
-                                      ),
-                                    ),
-                                    Text(
-                                      '₹${product.sellingPrice!}/${product.productUom!}',
-                                      style: const TextStyle(
-                                          color: AppColors.primaryColor,
+                                      Text(
+                                        product
+                                            .productSubCategory!
+                                            .productSubCategoryName!,
+                                        style: const TextStyle(
+                                          color: Color(0x8937474F),
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
-                                          // decoration: TextDecoration.lineThrough,
-                                          decorationColor: AppColors.secondaryColor
+                                          // decoration:
+                                          //     TextDecoration.lineThrough,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      'Tax : ${product.productTax}%',
-                                      style: const TextStyle(
-                                        // color: AppColors.primaryColor,
-                                        // fontSize: 20,
-                                        // fontWeight: FontWeight.w600,
+                                      Text(
+                                        "UOM : ${product
+                                            .productUom!}",
+                                        style: const TextStyle(
+                                          color: Color(0x8937474F),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                          // decoration:
+                                          //     TextDecoration.lineThrough,
+                                        ),
                                       ),
-                                    ),Text(
-                                      'Discount : ${product.productDiscount}% (₹${product.productDiscountedValue})',
-                                      style: const TextStyle(
-                                        // color: AppColors.primaryColor,
-                                        // fontSize: 20,
-                                        // fontWeight: FontWeight.w600,
+                                      Text(
+                                        '₹${product.sellingPrice!}/${product.productUom!}',
+                                        style: const TextStyle(
+                                            color: AppColors.primaryColor,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            // decoration: TextDecoration.lineThrough,
+                                            decorationColor: AppColors.secondaryColor
+                                        ),
                                       ),
-                                    ),
-                                ]
-                              ),
-                          ),
-                              GestureDetector(
-                                onTap: () {
-                                  productsProvider.setProductToEdit(product);
-                                  Navigator.pushNamed(context, Routes.editProductRoute).then((value) {
-                                    setState(() {
-                                      Navigator.pop(context);
-                                    });
-                                    return null;
-                                  });
-                                },
-                                child: const Row(
-                                  children: [
-                                    Text(
-                                      "Edit",
-                                      style: TextStyle(
-                                        decoration:
-                                        TextDecoration.underline,
-                                        color: AppColors.fontColor,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.60,
+                                      Text(
+                                        'Tax : ${product.productTax}%',
+                                        style: const TextStyle(
+                                          // color: AppColors.primaryColor,
+                                          // fontSize: 20,
+                                          // fontWeight: FontWeight.w600,
+                                        ),
+                                      ),Text(
+                                        'Discount : ${product.productDiscount}% (₹${product.productDiscountedValue})',
+                                        style: const TextStyle(
+                                          // color: AppColors.primaryColor,
+                                          // fontSize: 20,
+                                          // fontWeight: FontWeight.w600,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Icon(
-                                      Icons.edit_outlined,
-                                      size: 15,
-                                    )
-                                  ],
+                                  ]
                                 ),
-                              )
+                            ),
+                                GestureDetector(
+                                  onTap: () {
+                                    productsProvider.setProductToEdit(product);
+                                    Navigator.pushNamed(context, Routes.editProductRoute).then((value) {
+                                      setState(() {
+                                        Navigator.pop(context);
+                                      });
+                                      return null;
+                                    });
+                                  },
+                                  child: const Row(
+                                    children: [
+                                      Text(
+                                        "Edit",
+                                        style: TextStyle(
+                                          decoration:
+                                          TextDecoration.underline,
+                                          color: AppColors.fontColor,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          letterSpacing: 0.60,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Icon(
+                                        Icons.edit_outlined,
+                                        size: 15,
+                                      )
+                                    ],
+                                  ),
+                                )
 
-                      ],
-                    )
-                    )]);
+                        ],
+                      )
+                      )]),
+                    );
                   },
                 )
               ],

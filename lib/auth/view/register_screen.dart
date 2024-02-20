@@ -604,54 +604,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 icon: const Icon(Icons.close))
                                           ],
                                         ),
-                                        Expanded(
-                                          child: ListView.builder(
-                                              shrinkWrap: true,
-                                              itemCount: authProvider
-                                                  .storeCategoryList!
-                                                  .result!
-                                                  .length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return InkWell(
-                                                  onTap: () {
-                                                    authProvider
-                                                            .selectedCategory =
+                                        ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: authProvider
+                                                .storeCategoryList!
+                                                .result!
+                                                .length,
+                                            itemBuilder:
+                                                (BuildContext context,
+                                                    int index) {
+                                              return InkWell(
+                                                onTap: () {
+                                                  authProvider
+                                                          .selectedCategory =
+                                                      authProvider
+                                                          .storeCategoryList!
+                                                          .result![index]
+                                                          .storeCategoryName;
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment
+                                                          .start,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              vertical: 10),
+                                                      child: Text(
                                                         authProvider
                                                             .storeCategoryList!
                                                             .result![index]
-                                                            .storeCategoryName;
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                vertical: 10),
-                                                        child: Text(
-                                                          authProvider
-                                                              .storeCategoryList!
-                                                              .result![index]
-                                                              .storeCategoryName!,
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 18),
-                                                        ),
+                                                            .storeCategoryName!,
+                                                        style:
+                                                            const TextStyle(
+                                                                fontSize: 18),
                                                       ),
-                                                      const Divider()
-                                                    ],
-                                                  ),
-                                                );
-                                              }),
-                                        ),
+                                                    ),
+                                                    const Divider()
+                                                  ],
+                                                ),
+                                              );
+                                            }),
                                       ],
                                     ),
                                   );

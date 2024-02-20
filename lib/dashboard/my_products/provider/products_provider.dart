@@ -24,6 +24,7 @@ class ProductsProvider extends ChangeNotifier {
   TextEditingController productDescriptionController = TextEditingController();
   TextEditingController productUomController = TextEditingController();
   TextEditingController productSellingPriceController = TextEditingController();
+  TextEditingController productBuyingPriceController = TextEditingController();
   TextEditingController productDiscountController = TextEditingController();
   TextEditingController productMinQtyController = TextEditingController();
   TextEditingController productManufacturerController = TextEditingController();
@@ -82,6 +83,7 @@ class ProductsProvider extends ChangeNotifier {
         productCategoryName: productCategoryController.text,
         description: productDescriptionController.text,
         sellingPrice: productSellingPriceController.text,
+        buyingPrice: productBuyingPriceController.text,
         productTax: productTaxController.text,
         productUom: productUomController.text,
         productDiscount: productDiscountController.text,
@@ -129,6 +131,7 @@ class ProductsProvider extends ChangeNotifier {
     productQuantityController.text = product.productQuantity.toString();
     productUomController.text = product.productUom!;
     productSellingPriceController.text = product.sellingPrice.toString();
+    productBuyingPriceController.text = product.buyingPrice.toString();
     productDiscountController.text = product.productDiscount.toString();
     productTaxController.text = product.productTax.toString();
     productManufacturerController.text = product.manufacturer.toString();
@@ -176,6 +179,7 @@ class ProductsProvider extends ChangeNotifier {
         productCategoryName: productCategoryController.text,
         description: productDescriptionController.text,
         sellingPrice: productSellingPriceController.text,
+        buyingPrice: productBuyingPriceController.text,
         productTax: productTaxController.text,
         productUom: productUomController.text,
         productDiscount: productDiscountController.text,
@@ -212,6 +216,7 @@ class ProductsProvider extends ChangeNotifier {
      productSubCategoryController.clear();
      productDescriptionController.clear();
      productUomController.clear();
+     productBuyingPriceController.clear();
      productSellingPriceController.clear();
      productDiscountController.clear();
      productMinQtyController.clear();

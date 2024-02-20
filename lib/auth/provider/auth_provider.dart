@@ -164,7 +164,7 @@ class AuthProvider extends ChangeNotifier {
     // Get current position
     try {
       Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        desiredAccuracy: LocationAccuracy.medium,
       );
       return position;
     } catch (e) {

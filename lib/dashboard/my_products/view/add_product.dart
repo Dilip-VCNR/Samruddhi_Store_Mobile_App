@@ -618,6 +618,42 @@ class _AddProductState extends State<AddProduct> {
                             ),
                             TextFormField(
                               autovalidateMode:
+                              AutovalidateMode.onUserInteraction,
+                              textCapitalization: TextCapitalization.sentences,
+                              style: const TextStyle(color: Colors.black),
+                              textInputAction: TextInputAction.next,
+                              controller: productsProvider
+                                  .productBuyingPriceController,
+                              validator: (value) {
+                                if (value!.trim().isEmpty) {
+                                  return 'Please enter product Buying price';
+                                }
+                                RegExp regex = RegExp(r'^[0-9.]+$');
+                                if (!regex.hasMatch(value)) {
+                                  return 'Special characters are not allowed';
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                labelText: "Product buying price",
+                                hintText: 'Product buying price',
+                                counterText: "",
+                                isCollapsed: true,
+                                fillColor: AppColors.inputFieldColor,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 16.0, horizontal: 10),
+                              ),
+                              textAlignVertical: TextAlignVertical.center,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            TextFormField(
+                              autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.sentences,
                               style: const TextStyle(color: Colors.black),
