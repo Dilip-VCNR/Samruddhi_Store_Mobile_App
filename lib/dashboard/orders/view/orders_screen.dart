@@ -5,6 +5,7 @@ import 'package:samruddhi_store/utils/app_colors.dart';
 
 import '../../../utils/routes.dart';
 import '../models/order_on_status_response_model.dart';
+import '../models/payment_pending_orders_response_model.dart';
 
 class OrdersScreen extends StatefulWidget {
   const OrdersScreen({Key? key}) : super(key: key);
@@ -20,7 +21,7 @@ class _OrdersScreenState extends State<OrdersScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 6, initialIndex: 0, vsync: this);
+    _tabController = TabController(length: 8, initialIndex: 0, vsync: this);
   }
 
   @override
@@ -91,7 +92,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
-                            width: screenSize.width / 3 - 25,
+                            width: screenSize.width / 2 - 25,
                             height: screenSize.width / 4 - 25,
                             padding: const EdgeInsets.all(10),
                             decoration: ShapeDecoration(
@@ -123,7 +124,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                             ),
                           ),
                           Container(
-                            width: screenSize.width / 3 - 25,
+                            width: screenSize.width / 2 - 25,
                             height: screenSize.width / 4 - 25,
                             padding: const EdgeInsets.all(10),
                             decoration: ShapeDecoration(
@@ -154,8 +155,14 @@ class _OrdersScreenState extends State<OrdersScreen>
                               ),
                             ),
                           ),
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                           Container(
-                            width: screenSize.width / 3 - 25,
+                            width: screenSize.width / 2 - 25,
                             height: screenSize.width / 4 - 25,
                             padding: const EdgeInsets.all(10),
                             decoration: ShapeDecoration(
@@ -185,7 +192,40 @@ class _OrdersScreenState extends State<OrdersScreen>
                                 ),
                               ),
                             ),
+                          ),
+                          Container(
+                            width: screenSize.width / 2 - 25,
+                            height: screenSize.width / 4 - 25,
+                            padding: const EdgeInsets.all(10),
+                            decoration: ShapeDecoration(
+                              color: Colors.red.shade600,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              // Use BoxFit.scaleDown to scale down the text if needed
+                              child: Text(
+                                'Payment pending\n${dashboardProvider.pendingPaymentCount}',
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                           )
+
                         ],
                       ),
                       const SizedBox(
@@ -209,10 +249,13 @@ class _OrdersScreenState extends State<OrdersScreen>
                     indicatorColor: AppColors.primaryColor,
                     tabs: const [
                       Tab(
-                        text: "All orders",
+                        text: "All Orders",
                       ),
                       Tab(
-                        text: "New orders",
+                        text: "New Orders",
+                      ),
+                      Tab(
+                        text: "Rejected Orders",
                       ),
                       Tab(
                         text: "Accepted",
@@ -226,6 +269,9 @@ class _OrdersScreenState extends State<OrdersScreen>
                       Tab(
                         text: "Delivered",
                       ),
+                      Tab(
+                        text: "Payment Pending",
+                      ),
                     ],
                   ),
                 ),
@@ -236,6 +282,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                     children: [
                       ordersListView(ordersType: "all", screenSize: screenSize),
                       ordersListView(ordersType: "new", screenSize: screenSize),
+                      ordersListView(ordersType: "rejected", screenSize: screenSize),
                       ordersListView(
                           ordersType: "accepted", screenSize: screenSize),
                       ordersListView(
@@ -244,6 +291,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                           ordersType: "ready", screenSize: screenSize),
                       ordersListView(
                           ordersType: "delivered", screenSize: screenSize),
+                      paymentPendingOrdersListView(screenSize: screenSize),
                     ],
                   ),
                 )
@@ -477,6 +525,280 @@ class _OrdersScreenState extends State<OrdersScreen>
                                               TextSpan(
                                                 text:
                                                     '${snapshot.data!.result!.orders![index].orderTime}',
+                                                style: const TextStyle(
+                                                  color:
+                                                      Color(0xFF37474F),
+                                                  fontSize: 14,
+                                                  fontWeight:
+                                                      FontWeight.w700,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const Divider();
+                        },
+                      );
+                } else {
+                  return const Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: Text("No orders Yet"),
+                        ));
+                }
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('${snapshot.error}'),
+                    ],
+                  ),
+                );
+              }
+              return const Center(
+                child: Text("Loading..."),
+              );
+            });
+      },
+    );
+  }
+
+
+
+  paymentPendingOrdersListView({required Size screenSize}) {
+    return Consumer(
+      builder: (BuildContext context, DashboardProvider dashboardProvider,
+          Widget? child) {
+        return FutureBuilder<PaymentPendingOrdersResponseModel>(
+            future: dashboardProvider.getPaymentPendingOrders(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasData) {
+                if (snapshot.data!.result!.isNotEmpty) {
+                  return ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.result!.length,
+                        scrollDirection: Axis.vertical,
+                        // physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Routes.viewOrderDetailRoute,
+                                  arguments: {
+                                    'orderDetails': snapshot
+                                        .data!.result![index]
+                                        .toJson()
+                                  }).then((value) {
+                                setState(() {
+                                  dashboardProvider
+                                      .getPaymentPendingOrders();
+                                });
+                                return null;
+                              });
+                            },
+                            child: Container(
+                              // color: Colors.black,
+                              width: screenSize.width,
+                              decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(8)),
+                                  color: AppColors.storeBackground),
+                              padding: const EdgeInsets.all(8),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.start,
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        width: screenSize.width - 60,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                          children: [
+                                            SizedBox(
+                                              width:
+                                                  screenSize.width / 1.65,
+                                              child: Text(
+                                                '#${snapshot.data!.result![index].orderId}',
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                  fontWeight:
+                                                      FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: 100,
+                                              height: 25,
+                                              decoration: ShapeDecoration(
+                                                color: AppColors
+                                                    .primaryColor,
+                                                shape:
+                                                    RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius
+                                                          .circular(15),
+                                                ),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '${snapshot.data!.result![index].orderStatus}',
+                                                  style: const TextStyle(
+                                                      color:
+                                                          Colors.white),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: screenSize.width / 1.7,
+                                        child: Text(
+                                          '${snapshot.data!.result![index].productDetails![0].productName} and ${snapshot.data!.result![index].productDetails!.length - 1} other products',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 212,
+                                        child: Text.rich(
+                                          TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                text: 'Order Value : ',
+                                                style: TextStyle(
+                                                  color:
+                                                      Color(0xFF37474F),
+                                                  fontSize: 14,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight:
+                                                      FontWeight.w500,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text:
+                                                    '₹ ${snapshot.data!.result![index].orderGrandTotal}',
+                                                style: const TextStyle(
+                                                  color:
+                                                      Color(0xFF37474F),
+                                                  fontSize: 14,
+                                                  fontWeight:
+                                                      FontWeight.w700,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 212,
+                                        child: Text.rich(
+                                          TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                text: 'Order Type : ',
+                                                style: TextStyle(
+                                                  color:
+                                                      Color(0xFF37474F),
+                                                  fontSize: 14,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight:
+                                                      FontWeight.w500,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text:
+                                                    '${snapshot.data!.result![index].orderDeliveryType}',
+                                                style: const TextStyle(
+                                                  color:
+                                                      Color(0xFF37474F),
+                                                  fontSize: 14,
+                                                  fontWeight:
+                                                      FontWeight.w700,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: Text.rich(
+                                          TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                text: 'Order Date : ',
+                                                style: TextStyle(
+                                                  color:
+                                                      Color(0xFF37474F),
+                                                  fontSize: 14,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight:
+                                                      FontWeight.w500,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text:
+                                                    '${snapshot.data!.result![index].orderDate!.day}-${snapshot.data!.result![index].orderDate!.month}-${snapshot.data!.result![index].orderDate!.year}',
+                                                style: const TextStyle(
+                                                  color:
+                                                      Color(0xFF37474F),
+                                                  fontSize: 14,
+                                                  fontWeight:
+                                                      FontWeight.w700,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        child: Text.rich(
+                                          TextSpan(
+                                            children: [
+                                              const TextSpan(
+                                                text: 'Order Time : ',
+                                                style: TextStyle(
+                                                  color:
+                                                      Color(0xFF37474F),
+                                                  fontSize: 14,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight:
+                                                      FontWeight.w500,
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text:
+                                                    '${snapshot.data!.result![index].orderTime}',
                                                 style: const TextStyle(
                                                   color:
                                                       Color(0xFF37474F),

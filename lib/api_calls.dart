@@ -20,6 +20,7 @@ import 'auth/models/register_response_model.dart';
 import 'dashboard/home/models/home_data_model.dart';
 import 'dashboard/orders/models/order_on_status_response_model.dart';
 import 'dashboard/orders/models/order_status_update_response_model.dart';
+import 'dashboard/orders/models/payment_pending_orders_response_model.dart';
 import 'database/app_pref.dart';
 import 'database/models/pref_model.dart';
 
@@ -379,5 +380,17 @@ class ApiCalls {
     print(response.body);
     return UpdatePaymentStatusModel.fromJson(json.decode(response.body));
 
+  }
+
+  Future<PaymentPendingOrdersResponseModel> getPaymentPendingOrders() async {
+    http.Response response = await hitApi(
+        true,
+        UrlConstant.getPaymentPendingOrders,
+        jsonEncode({
+          "storeUuid": prefModel.userData!.storeUuid!,
+          "paymentStatus": 'pending'
+        }));
+    log(response.body);
+    return PaymentPendingOrdersResponseModel.fromJson(json.decode(response.body));
   }
 }

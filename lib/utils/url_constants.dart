@@ -8,7 +8,6 @@ class UrlConstant {
   static const String about = "${websiteBaseUrl}p/t-c";
 
 
-
   // static const String imageBaseUrl = "http://103.208.228.42:8020/";
   // static const String apiBaseUrl = "http://103.208.228.42:8020/api/";
 
@@ -38,13 +37,13 @@ class UrlConstant {
   static const String productSubCategoryList = "${apiBaseUrl}productSubCategory/getProductSubCategoryList";
   static const String storeZoneList = "${apiBaseUrl}zone/getZoneList";
   static const String createProduct = "${apiBaseUrl}product/createProduct";
-  static const String getAvailableProducts = "${apiBaseUrl}product/getAvailableProducts";
+  static const String getAvailableProducts = "${apiBaseUrl}product/getAllProducts";
   static const String getHubOnZone = "${apiBaseUrl}deliveryHub/getHubOnZone";
   static const String storeDashBoard = "${apiBaseUrl}store/storeDashBoard";
   static const String getOrderOnStatus = "${apiBaseUrl}order/viewOrdersOnStatus";
+  static const String getPaymentPendingOrders = "${apiBaseUrl}order/OrdersListOnPayment";
   static const String viewAllOrders = "${apiBaseUrl}order/viewAllOrders";
   static const String setOrderStatus = "${apiBaseUrl}order/updateOrderStatus";
   static const String orderPaymentStatusUpdate = "${apiBaseUrl}order/orderPaymentStatusUpdate";
   static const String updateProduct = "${apiBaseUrl}product/updateProduct";
-
 }

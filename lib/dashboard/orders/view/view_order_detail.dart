@@ -189,7 +189,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            (order['paymentDetailsArray']['paymentStatus'] == null && activeStatus!='rejected' && activeStatus!='new')
+            (order['paymentDetailsArray']['paymentStatus'] == 'pending' && activeStatus!='rejected' && activeStatus!='new')
                 ? GestureDetector(
                     onTap: () async {
                       showDialog(

@@ -115,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         TextFormField(
@@ -152,7 +152,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         TextFormField(
@@ -190,7 +190,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         InkWell(
@@ -219,7 +219,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 icon: const Icon(Icons.close))
                                           ],
                                         ),
-                                        Expanded(
+
+                                        authProvider.storeZoneList!.result!.isNotEmpty?Expanded(
                                           child: ListView.builder(
                                               shrinkWrap: true,
                                               itemCount: authProvider
@@ -267,6 +268,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   ),
                                                 );
                                               }),
+                                        ):const Center(
+                                          child: Text(
+                                              "No zones found"),
                                         ),
                                       ],
                                     ),
@@ -325,7 +329,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         InkWell(
@@ -456,7 +460,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         TextFormField(
@@ -492,7 +496,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         TextFormField(
@@ -534,7 +538,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         TextFormField(
@@ -575,7 +579,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 vertical: 15, horizontal: 10),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         InkWell(
@@ -604,6 +608,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 icon: const Icon(Icons.close))
                                           ],
                                         ),
+                                        authProvider.storeCategoryList!.result!.isNotEmpty?
                                         ListView.builder(
                                             shrinkWrap: true,
                                             itemCount: authProvider
@@ -649,7 +654,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   ],
                                                 ),
                                               );
-                                            }),
+                                            }):const Center(
+                                          child: Text(
+                                              "No store categories found"),
+                                        ),
                                       ],
                                     ),
                                   );
@@ -710,7 +718,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         InkWell(
@@ -810,7 +818,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             keyboardType: TextInputType.number,
                             maxLength: 10,
                             decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.keyboard_arrow_down_sharp),
+                              suffixIcon: const Icon(Icons.keyboard_arrow_down_sharp),
                               prefixIcon:
                                   const Icon(Icons.delivery_dining_outlined),
                               focusedBorder: OutlineInputBorder(
@@ -840,7 +848,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         authProvider.isHomeDeliveryController.text == 'Yes'
@@ -985,7 +993,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                               )
                             : const SizedBox(),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         authProvider.isHomeDeliveryController.text == 'Yes' &&
@@ -1085,7 +1093,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                             );
                                                           }),
                                                     )
-                                                  : Center(
+                                                  : const Center(
                                                       child: Text(
                                                           "No hub found for selected zone"),
                                                     ),
