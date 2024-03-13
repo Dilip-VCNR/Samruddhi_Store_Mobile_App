@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/api_calls.dart';
+import 'package:samruddhi_store/utils/app_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../auth/provider/auth_provider.dart';
@@ -12,7 +13,6 @@ import '../../../utils/routes.dart';
 import '../../../utils/url_constants.dart';
 
 class ProfileScreen extends StatefulWidget {
-
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
@@ -20,7 +20,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   List options = [
     {'title': 'Edit Profile', 'icon': Icons.edit, 'clickType': 'edit_profile'},
     // {
@@ -61,7 +60,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Consumer(
-      builder: (BuildContext context, AuthProvider authProvider, Widget? child) {
+      builder:
+          (BuildContext context, AuthProvider authProvider, Widget? child) {
         authProvider.profileScreenContext = context;
         return Scaffold(
           appBar: AppBar(
@@ -86,10 +86,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Row(
                     children: [
                       CircleAvatar(
-                        key: ValueKey('${UrlConstant.imageBaseUrl}${prefModel.userData!.storeImgArray![0].imageUrl}'),
+                        key: ValueKey(
+                            '${UrlConstant.imageBaseUrl}${prefModel.userData!.storeImgArray![0].imageUrl}'),
                         radius: 50,
-                        backgroundImage:
-                        NetworkImage('${UrlConstant.imageBaseUrl}${prefModel.userData!.storeImgArray![0].imageUrl!}?v=${Random().nextInt(100)}'),
+                        backgroundImage: NetworkImage(
+                            '${UrlConstant.imageBaseUrl}${prefModel.userData!.storeImgArray![0].imageUrl!}?v=${Random().nextInt(100)}'),
                       ),
                       const SizedBox(
                         width: 20,
@@ -99,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: screenSize.width/1.75,
+                            width: screenSize.width / 1.75,
                             child: Text(
                               '${prefModel.userData!.displayName}',
                               style: const TextStyle(
@@ -110,7 +111,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           SizedBox(
-                            width: screenSize.width/1.75,
+                            width: screenSize.width / 1.75,
                             child: Text(
                               '${prefModel.userData!.mobile}',
                               style: const TextStyle(
@@ -122,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           SizedBox(
-                            width: screenSize.width/1.75,
+                            width: screenSize.width / 1.75,
                             child: Text(
                               '${prefModel.userData!.emailId}',
                               style: const TextStyle(
@@ -188,9 +189,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 });
                             break;
                           case 'logout':
-                            AppPref.clearPref();
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                Routes.loginRoute, (route) => false);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return LogoutConfirmationDialog();
+                              },
+                            ).then((confirmed) {
+                              if (confirmed == true) {
+                                prefModel.userData=null;
+                                prefModel.selectedAddress=null;
+                                AppPref.setPref(prefModel);
+                                showSuccessToast(context, "Logout successful");
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    Routes.loginRoute, (route) => false);
+                              }
+                            });
                             break;
                           default:
                         }
@@ -237,6 +250,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         );
       },
+    );
+  }
+}
+
+class LogoutConfirmationDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Confirm Logout'),
+      content: const Text('Are you sure you want to logout?'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context)
+                .pop(false); // Dismiss the dialog and return false
+          },
+          child: const Text('Cancel'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context)
+                .pop(true); // Dismiss the dialog and return true
+          },
+          child: const Text('Logout'),
+        ),
+      ],
     );
   }
 }

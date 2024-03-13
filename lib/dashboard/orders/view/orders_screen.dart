@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/dashboard/dashboard_provider.dart';
@@ -360,15 +361,14 @@ class _OrdersScreenState extends State<OrdersScreen>
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        width: screenSize.width - 60,
+                                        width: screenSize.width - 40,
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment
                                                   .spaceBetween,
                                           children: [
                                             SizedBox(
-                                              width:
-                                                  screenSize.width / 1.65,
+                                              width: screenSize.width*0.6,
                                               child: Text(
                                                 '#${snapshot.data!.result!.orders![index].orderId}',
                                                 style: const TextStyle(
@@ -380,7 +380,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                               ),
                                             ),
                                             Container(
-                                              width: 100,
+                                              width: screenSize.width*0.25,
                                               height: 25,
                                               decoration: ShapeDecoration(
                                                 color: AppColors
@@ -634,15 +634,14 @@ class _OrdersScreenState extends State<OrdersScreen>
                                         CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        width: screenSize.width - 60,
+                                        width: screenSize.width - 40,
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment
                                                   .spaceBetween,
                                           children: [
                                             SizedBox(
-                                              width:
-                                                  screenSize.width / 1.65,
+                                              width: screenSize.width*0.6,
                                               child: Text(
                                                 '#${snapshot.data!.result![index].orderId}',
                                                 style: const TextStyle(
@@ -654,7 +653,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                               ),
                                             ),
                                             Container(
-                                              width: 100,
+                                              width: screenSize.width*0.25,
                                               height: 25,
                                               decoration: ShapeDecoration(
                                                 color: AppColors

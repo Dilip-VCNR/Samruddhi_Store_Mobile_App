@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/dashboard/dashboard_provider.dart';
@@ -263,218 +264,195 @@ class _HomeScreenState extends State<HomeScreen> {
                                     });
                                   },
                                   child: Container(
-                                    // color: Colors.black,
                                     width: screenSize.width,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(8)),
                                         color: AppColors.storeBackground),
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     margin: const EdgeInsets.symmetric(
                                         vertical: 10),
-                                    child: Row(
+                                    child: Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.center,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.start,
                                       children: [
-                                        // Container(
-                                        //   width: 100,
-                                        //   height: 100,
-                                        //   decoration: ShapeDecoration(
-                                        //     image: const DecorationImage(
-                                        //       image: NetworkImage("https://via.placeholder.com/100x100"),
-                                        //       fit: BoxFit.fill,
-                                        //     ),
-                                        //     shape: RoundedRectangleBorder(
-                                        //       borderRadius: BorderRadius.circular(20),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                        // const SizedBox(width: 10,),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: screenSize.width - 60,
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  SizedBox(
-                                                    width: screenSize.width/1.65,
-                                                    child: Text(
-                                                      'Order - #${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderId}',
-                                                      style: const TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    width: 100,
-                                                    height: 25,
-                                                    decoration: ShapeDecoration(
-                                                      color: AppColors
-                                                          .primaryColor,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                      ),
-                                                    ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderStatus}',
-                                                        style: const TextStyle(
-                                                            color:
-                                                                Colors.white),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: screenSize.width / 1.7,
-                                              child: Text(
-                                                '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails![0].productName} and ${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails!.length - 1} other products',
-                                                style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 212,
-                                              child: Text.rich(
-                                                TextSpan(
-                                                  children: [
-                                                    const TextSpan(
-                                                      text: 'Order Value : ',
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF37474F),
-                                                        fontSize: 14,
-                                                        fontFamily: 'Poppins',
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                    TextSpan(
-                                                      text:
-                                                          '₹${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderGrandTotal}',
-                                                      style: const TextStyle(
-                                                        color:
-                                                            Color(0xFF37474F),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 212,
-                                              child: Text.rich(
-                                                TextSpan(
-                                                  children: [
-                                                    const TextSpan(
-                                                      text: 'Order Type : ',
-                                                      style: TextStyle(
-                                                        color: Color(0xFF37474F),
-                                                        fontSize: 14,
-                                                        fontFamily: 'Poppins',
-                                                        fontWeight:
-                                                        FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                    TextSpan(
-                                                      text:
-                                                      '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderDeliveryType}',
-                                                      style: const TextStyle(
-                                                        color: Color(0xFF37474F),
-                                                        fontSize: 14,
-                                                        fontWeight:
+                                        SizedBox(
+                                          width: screenSize.width - 60,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: screenSize.width*0.6,
+                                                child: Text(
+                                                  'Order - #${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderId}',
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 15,
+                                                    fontWeight:
                                                         FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
                                               ),
+                                              Container(
+                                                width: screenSize.width*0.25,
+                                                height: 25,
+                                                decoration: ShapeDecoration(
+                                                  color: AppColors
+                                                      .primaryColor,
+                                                  shape:
+                                                      RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius
+                                                            .circular(15),
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderStatus}',
+                                                    style: const TextStyle(
+                                                        color:
+                                                            Colors.white),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: screenSize.width / 1.7,
+                                          child: Text(
+                                            '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails![0].productName} and ${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails!.length - 1} other products',
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
                                             ),
-                                            SizedBox(
-                                              child: Text.rich(
-                                                TextSpan(
-                                                  children: [
-                                                    const TextSpan(
-                                                      text: 'Order Date : ',
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF37474F),
-                                                        fontSize: 14,
-                                                        fontFamily: 'Poppins',
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                    TextSpan(
-                                                      text:
-                                                          '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderDate!.day}-${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderDate!.month}-${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderDate!.year}',
-                                                      style: const TextStyle(
-                                                        color:
-                                                            Color(0xFF37474F),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 212,
+                                          child: Text.rich(
+                                            TextSpan(
+                                              children: [
+                                                const TextSpan(
+                                                  text: 'Order Value : ',
+                                                  style: TextStyle(
+                                                    color:
+                                                        Color(0xFF37474F),
+                                                    fontSize: 14,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight:
+                                                        FontWeight.w500,
+                                                  ),
                                                 ),
-                                              ),
+                                                TextSpan(
+                                                  text:
+                                                      '₹${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderGrandTotal}',
+                                                  style: const TextStyle(
+                                                    color:
+                                                        Color(0xFF37474F),
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            SizedBox(
-                                              child: Text.rich(
-                                                TextSpan(
-                                                  children: [
-                                                    const TextSpan(
-                                                      text: 'Order Time : ',
-                                                      style: TextStyle(
-                                                        color:
-                                                            Color(0xFF37474F),
-                                                        fontSize: 14,
-                                                        fontFamily: 'Poppins',
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                    TextSpan(
-                                                      text:
-                                                          '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderTime}',
-                                                      style: const TextStyle(
-                                                        color:
-                                                            Color(0xFF37474F),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ],
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 212,
+                                          child: Text.rich(
+                                            TextSpan(
+                                              children: [
+                                                const TextSpan(
+                                                  text: 'Order Type : ',
+                                                  style: TextStyle(
+                                                    color: Color(0xFF37474F),
+                                                    fontSize: 14,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight:
+                                                    FontWeight.w500,
+                                                  ),
                                                 ),
-                                              ),
-                                            )
-                                          ],
+                                                TextSpan(
+                                                  text:
+                                                  '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderDeliveryType}',
+                                                  style: const TextStyle(
+                                                    color: Color(0xFF37474F),
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                    FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          child: Text.rich(
+                                            TextSpan(
+                                              children: [
+                                                const TextSpan(
+                                                  text: 'Order Date : ',
+                                                  style: TextStyle(
+                                                    color:
+                                                        Color(0xFF37474F),
+                                                    fontSize: 14,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight:
+                                                        FontWeight.w500,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text:
+                                                      '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderDate!.day}-${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderDate!.month}-${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderDate!.year}',
+                                                  style: const TextStyle(
+                                                    color:
+                                                        Color(0xFF37474F),
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          child: Text.rich(
+                                            TextSpan(
+                                              children: [
+                                                const TextSpan(
+                                                  text: 'Order Time : ',
+                                                  style: TextStyle(
+                                                    color:
+                                                        Color(0xFF37474F),
+                                                    fontSize: 14,
+                                                    fontFamily: 'Poppins',
+                                                    fontWeight:
+                                                        FontWeight.w500,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text:
+                                                      '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderTime}',
+                                                  style: const TextStyle(
+                                                    color:
+                                                        Color(0xFF37474F),
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         )
                                       ],
                                     ),
