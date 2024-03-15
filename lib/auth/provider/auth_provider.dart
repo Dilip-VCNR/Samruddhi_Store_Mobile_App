@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:samruddhi_store/api_calls.dart';
 import 'package:samruddhi_store/utils/url_constants.dart';
@@ -12,6 +13,7 @@ import 'package:timer_count_down/timer_controller.dart';
 import 'package:http/http.dart' as http;
 
 import '../../database/app_pref.dart';
+import '../../utils/app_colors.dart';
 import '../../utils/app_widgets.dart';
 import '../../utils/routes.dart';
 import '../models/hub_list_response_model.dart';
@@ -169,7 +171,6 @@ class AuthProvider extends ChangeNotifier {
       return position;
     } catch (e) {
       // Handle any errors while getting current position
-      print('Error getting current position: $e');
       // Return last known location if there is an error
       return getLastKnownLocation();
     }
@@ -179,13 +180,11 @@ class AuthProvider extends ChangeNotifier {
     try {
       Position? position = await Geolocator.getLastKnownPosition();
       if (position != null) {
-        print('Using last known location');
         return position;
       } else {
         throw Exception('No last known location available');
       }
     } catch (e) {
-      print('Error getting last known location: $e');
       throw Exception('Error getting last known location');
     }
   }
@@ -342,9 +341,35 @@ class AuthProvider extends ChangeNotifier {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      selectedImage = File(pickedFile.path);
+      CroppedFile croppedFile = await getCroppedImage(pickedFile.path);
+      selectedImage = File(croppedFile.path);
       notifyListeners();
     }
+  }
+
+  getCroppedImage(String path) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: AppColors.primaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+    return croppedFile;
   }
 
   registerNewStore() async {
@@ -488,11 +513,9 @@ class AuthProvider extends ChangeNotifier {
         // Return the path to the temporary file
         return tempFile;
       } else {
-        print('Failed to download image. Status code: ${response.statusCode}');
         return null;
       }
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }

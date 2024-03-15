@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/dashboard/dashboard_provider.dart';
@@ -331,10 +330,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                         .data!.result!.orders![index]
                                         .toJson()
                                   }).then((value) {
-                                setState(() {
-                                  dashboardProvider
-                                      .getOrdersOnStatus(ordersType);
-                                });
+                                dashboardProvider.getOrdersOnStatus(ordersType);
                                 return null;
                               });
                             },
@@ -604,6 +600,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                         .data!.result![index]
                                         .toJson()
                                   }).then((value) {
+                                dashboardProvider.getOrdersOnStatus('pending');
                                 setState(() {
                                   dashboardProvider
                                       .getPaymentPendingOrders();

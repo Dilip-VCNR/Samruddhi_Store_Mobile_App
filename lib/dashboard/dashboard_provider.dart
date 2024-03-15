@@ -40,6 +40,7 @@ class DashboardProvider extends ChangeNotifier{
         }
       }
     }
+    notifyListeners();
     return res;
   }
 

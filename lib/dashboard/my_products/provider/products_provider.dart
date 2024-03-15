@@ -1,7 +1,8 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:flutter/cupertino.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:samruddhi_store/api_calls.dart';
 import 'package:samruddhi_store/dashboard/my_products/models/add_product_response_model.dart';
@@ -9,6 +10,7 @@ import 'package:samruddhi_store/dashboard/my_products/models/product_sub_categor
 import 'package:samruddhi_store/utils/app_widgets.dart';
 import 'package:samruddhi_store/utils/url_constants.dart';
 
+import '../../../utils/app_colors.dart';
 import '../models/all_product_response_model.dart';
 import '../models/product_category_list_model.dart';
 
@@ -60,9 +62,34 @@ class ProductsProvider extends ChangeNotifier {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      selectedImage = File(pickedFile.path);
+      CroppedFile croppedFile = await getCroppedImage(pickedFile.path);
+      selectedImage = File(croppedFile.path);
       notifyListeners();
     }
+  }
+  getCroppedImage(String path) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: AppColors.primaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+    return croppedFile;
   }
 
   getCategoriesDropDownData() async {
@@ -161,11 +188,9 @@ class ProductsProvider extends ChangeNotifier {
         // Return the path to the temporary file
         return tempFile;
       } else {
-        print('Failed to download image. Status code: ${response.statusCode}');
         return null;
       }
     } catch (e) {
-      print('Error: $e');
       return null;
     }
   }
