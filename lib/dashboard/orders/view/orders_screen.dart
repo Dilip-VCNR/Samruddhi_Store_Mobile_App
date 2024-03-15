@@ -330,7 +330,9 @@ class _OrdersScreenState extends State<OrdersScreen>
                                         .data!.result!.orders![index]
                                         .toJson()
                                   }).then((value) {
-                                dashboardProvider.getOrdersOnStatus(ordersType);
+                                    setState(() {
+                                      dashboardProvider.getOrdersOnStatus(ordersType);
+                                    });
                                 return null;
                               });
                             },
@@ -600,10 +602,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                                         .data!.result![index]
                                         .toJson()
                                   }).then((value) {
-                                dashboardProvider.getOrdersOnStatus('pending');
                                 setState(() {
-                                  dashboardProvider
-                                      .getPaymentPendingOrders();
+                                  dashboardProvider.getPaymentPendingOrders();
                                 });
                                 return null;
                               });

@@ -324,6 +324,7 @@ class ApiCalls {
           "storeUuid": prefModel.userData!.storeUuid!,
           "orderStatus": orderStatus
         }));
+    print(response.body);
     return OrderOnStatusResponseModel.fromJson(json.decode(response.body));
   }
 
@@ -375,7 +376,6 @@ class ApiCalls {
     http.Response response = await hitApi(true, UrlConstant.orderPaymentStatusUpdate,
         jsonEncode({"orderId": orderId}));
     return UpdatePaymentStatusModel.fromJson(json.decode(response.body));
-
   }
 
   Future<PaymentPendingOrdersResponseModel> getPaymentPendingOrders() async {

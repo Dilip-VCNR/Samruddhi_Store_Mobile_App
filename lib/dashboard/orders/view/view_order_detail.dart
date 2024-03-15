@@ -220,15 +220,14 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                     onPressed: () async {
                                       Navigator.pop(context);
                                       showLoaderDialog(context);
-                                      UpdatePaymentStatusModel response =
-                                          await ApiCalls()
-                                              .confirmPayment(order['orderId']);
-                                      Navigator.pop(context);
+                                      UpdatePaymentStatusModel response = await ApiCalls().confirmPayment(order['orderId']);
                                       if (response.statusCode == 200) {
+                                        Navigator.pop(context);
                                         Navigator.pop(context);
                                         showSuccessToast(
                                             context, response.message!);
                                       } else {
+                                        Navigator.pop(context);
                                         Navigator.pop(context);
                                         showErrorToast(
                                             context, response.message!);

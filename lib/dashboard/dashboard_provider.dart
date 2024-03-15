@@ -40,12 +40,31 @@ class DashboardProvider extends ChangeNotifier{
         }
       }
     }
-    notifyListeners();
     return res;
+  }
+
+  setOrderCount() async {
+    OrderOnStatusResponseModel res = await apiCalls.getOrdersOnStatus('all');
+    PaymentPendingOrdersResponseModel paymentPendingOrdersRes = await apiCalls.getPaymentPendingOrders();
+    allOrdersCount = 0;
+    pendingCount = 0;
+    completedCount = 0;
+    pendingPaymentCount = paymentPendingOrdersRes.result!.length;
+    allOrdersCount =res.result!.orders!.length;
+    for(int i = 0;i<res.result!.orders!.length;i++){
+      if(res.result!.orders![i].orderStatus!="delivered" && res.result!.orders![i].orderStatus!="new"){
+        pendingCount  = pendingCount+1;
+      }
+      if(res.result!.orders![i].orderStatus=="delivered"){
+        completedCount  = completedCount+1;
+      }
+    }
+    notifyListeners();
   }
 
   Future<PaymentPendingOrdersResponseModel> getPaymentPendingOrders() async {
     PaymentPendingOrdersResponseModel paymentPendingOrdersRes = await apiCalls.getPaymentPendingOrders();
+    pendingPaymentCount = paymentPendingOrdersRes.result!.length;
     return paymentPendingOrdersRes;
   }
 }
