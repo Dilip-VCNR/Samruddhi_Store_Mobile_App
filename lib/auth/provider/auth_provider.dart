@@ -317,15 +317,15 @@ class AuthProvider extends ChangeNotifier {
     try {
       currentPosition = await getCurrentLocation();
     } catch (e) {
-      currentPosition = const Position(
+      currentPosition = Position(
           latitude: 10.1632,
           longitude: 76.6413,
-          timestamp: null,
+          timestamp: DateTime.now(),
           accuracy: 100,
           altitude: 0,
           heading: 0,
           speed: 0,
-          speedAccuracy: 0);
+          speedAccuracy: 0, altitudeAccuracy: 100, headingAccuracy: 100);
     }
     Navigator.pop(registerScreenContext!);
     Navigator.pushNamed(registerScreenContext!, Routes.markLocationRoute);

@@ -110,7 +110,7 @@ class _MarkLocationState extends State<MarkLocation> {
                     padding: const EdgeInsets.all(20),
                     child: GooglePlacesAutoCompleteTextFormField(
                         textAlignVertical: TextAlignVertical.center,
-                        inputDecoration: InputDecoration(
+                        decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.search),
                           suffixIcon: InkWell(
                               onTap: () {
