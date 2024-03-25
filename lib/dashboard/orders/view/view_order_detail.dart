@@ -194,7 +194,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                     onTap: () async {
                       showDialog(
                           context: context,
-                          builder: (BuildContext context) {
+                          builder: (BuildContext dialogContext) {
                             return AlertDialog(
                               title: const Text("Are you sure ?"),
                               content: Column(
@@ -213,15 +213,15 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                               actions: [
                                 TextButton(
                                     onPressed: () {
-                                      Navigator.pop(context);
+                                      Navigator.pop(dialogContext);
                                     },
                                     child: const Text("No")),
                                 TextButton(
                                     onPressed: () async {
+                                      Navigator.pop(dialogContext);
                                       showLoaderDialog(context);
                                       UpdatePaymentStatusModel response = await ApiCalls().confirmPayment(order['orderId']);
                                       if (response.statusCode == 200) {
-                                        Navigator.pop(context);
                                         Navigator.pop(context);
                                         Navigator.pop(context);
                                         showSuccessToast(
