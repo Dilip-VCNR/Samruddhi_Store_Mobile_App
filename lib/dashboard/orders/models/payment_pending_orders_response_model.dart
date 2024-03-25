@@ -315,14 +315,14 @@ class ProductDetail {
   String? storeName;
   String? description;
   bool? isMrp;
-  int? sellingPrice;
+  double? sellingPrice;
   bool? isAvailable;
   String? productSku;
   String? productUom;
-  int? productTax;
-  int? productDiscount;
+  double? productTax;
+  double? productDiscount;
   double? productDiscountedValue;
-  int? productQuantity;
+  double? productQuantity;
   double? addedCartQuantity;
   bool? isReturnable;
   bool? isPerishable;
@@ -332,7 +332,7 @@ class ProductDetail {
   bool? isDeleted;
   List<ProductImgArray>? productImgArray;
   int? v;
-  int? taxableValue;
+  double? taxableValue;
   double? productTaxValue;
   double? productSubTotal;
   double? productGrandTotal;
@@ -382,14 +382,14 @@ class ProductDetail {
     storeName: json["storeName"],
     description: json["description"],
     isMrp: json["isMrp"],
-    sellingPrice: json["sellingPrice"],
+    sellingPrice: json["sellingPrice"]?.toDouble(),
     isAvailable: json["isAvailable"],
     productSku: json["productSku"],
     productUom: json["productUom"],
-    productTax: json["productTax"],
-    productDiscount: json["productDiscount"],
+    productTax: json["productTax"]?.toDouble(),
+    productDiscount: json["productDiscount"]?.toDouble(),
     productDiscountedValue: json["productDiscountedValue"]?.toDouble(),
-    productQuantity: json["productQuantity"],
+    productQuantity: json["productQuantity"]?.toDouble(),
     addedCartQuantity: json["addedCartQuantity"]?.toDouble(),
     isReturnable: json["isReturnable"],
     isPerishable: json["isPerishable"],
@@ -399,7 +399,7 @@ class ProductDetail {
     isDeleted: json["isDeleted"],
     productImgArray: json["productImgArray"] == null ? [] : List<ProductImgArray>.from(json["productImgArray"]!.map((x) => ProductImgArray.fromJson(x))),
     v: json["__v"],
-    taxableValue: json["taxableValue"],
+    taxableValue: json["taxableValue"]?.toDouble(),
     productTaxValue: json["productTaxValue"]?.toDouble(),
     productSubTotal: json["productSubTotal"]?.toDouble(),
     productGrandTotal: json["productGrandTotal"]?.toDouble(),

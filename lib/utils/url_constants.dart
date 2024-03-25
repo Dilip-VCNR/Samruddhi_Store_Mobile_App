@@ -15,7 +15,7 @@ class UrlConstant {
   // static const String apiBaseUrl = "http://103.120.63.7:8020/api/";
 
 
-  // static const String imageBaseUrl = "https://app.winkatbuy.com/";
+  // static const String imageBaseUrl = "http://app.winkatbuy.com:8012";
   // static const String apiBaseUrl = "https://app.winkatbuy.com/api/";
 
   // static const String imageBaseUrl = "http://103.208.228.42:8019/";

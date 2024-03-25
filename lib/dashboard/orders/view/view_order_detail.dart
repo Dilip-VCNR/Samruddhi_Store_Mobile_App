@@ -218,10 +218,10 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                     child: const Text("No")),
                                 TextButton(
                                     onPressed: () async {
-                                      Navigator.pop(context);
                                       showLoaderDialog(context);
                                       UpdatePaymentStatusModel response = await ApiCalls().confirmPayment(order['orderId']);
                                       if (response.statusCode == 200) {
+                                        Navigator.pop(context);
                                         Navigator.pop(context);
                                         Navigator.pop(context);
                                         showSuccessToast(

@@ -76,9 +76,14 @@ class Order {
   dynamic operatorUuid;
   bool? isActive;
   List<ProductDetail>? productDetails;
+  int? redeemPoints;
+  int? redeemPointValue;
   double? storeDeliverycharge;
+  int? rewardPoint;
+  double? storeCommissionAmount;
   List<dynamic>? additionalChargesArray;
   int? v;
+  double? overallDiscount;
 
   Order({
     this.id,
@@ -100,9 +105,14 @@ class Order {
     this.operatorUuid,
     this.isActive,
     this.productDetails,
+    this.redeemPoints,
+    this.redeemPointValue,
     this.storeDeliverycharge,
+    this.rewardPoint,
+    this.storeCommissionAmount,
     this.additionalChargesArray,
     this.v,
+    this.overallDiscount,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -125,9 +135,14 @@ class Order {
     operatorUuid: json["operatorUuid"],
     isActive: json["isActive"],
     productDetails: json["productDetails"] == null ? [] : List<ProductDetail>.from(json["productDetails"]!.map((x) => ProductDetail.fromJson(x))),
-    storeDeliverycharge: json["storeDeliverycharge"].toDouble(),
+    redeemPoints: json["redeemPoints"],
+    redeemPointValue: json["redeemPointValue"],
+    storeDeliverycharge: json["storeDeliverycharge"]?.toDouble(),
+    rewardPoint: json["rewardPoint"],
+    storeCommissionAmount: json["storeCommissionAmount"]?.toDouble(),
     additionalChargesArray: json["additionalChargesArray"] == null ? [] : List<dynamic>.from(json["additionalChargesArray"]!.map((x) => x)),
     v: json["__v"],
+    overallDiscount: json["overallDiscount"]?.toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -150,9 +165,14 @@ class Order {
     "operatorUuid": operatorUuid,
     "isActive": isActive,
     "productDetails": productDetails == null ? [] : List<dynamic>.from(productDetails!.map((x) => x.toJson())),
+    "redeemPoints": redeemPoints,
+    "redeemPointValue": redeemPointValue,
     "storeDeliverycharge": storeDeliverycharge,
+    "rewardPoint": rewardPoint,
+    "storeCommissionAmount": storeCommissionAmount,
     "additionalChargesArray": additionalChargesArray == null ? [] : List<dynamic>.from(additionalChargesArray!.map((x) => x)),
     "__v": v,
+    "overallDiscount": overallDiscount,
   };
 }
 
@@ -282,7 +302,7 @@ class ProductDetail {
   double? productTax;
   double? productDiscount;
   double? productDiscountedValue;
-  int? productQuantity;
+  double? productQuantity;
   double? addedCartQuantity;
   bool? isReturnable;
   bool? isPerishable;
@@ -349,7 +369,7 @@ class ProductDetail {
     productTax: json["productTax"].toDouble(),
     productDiscount: json["productDiscount"].toDouble(),
     productDiscountedValue: json["productDiscountedValue"]?.toDouble(),
-    productQuantity: json["productQuantity"],
+    productQuantity: json["productQuantity"].toDouble(),
     addedCartQuantity: json["addedCartQuantity"]?.toDouble(),
     isReturnable: json["isReturnable"],
     isPerishable: json["isPerishable"],
@@ -359,7 +379,7 @@ class ProductDetail {
     isDeleted: json["isDeleted"],
     productImgArray: json["productImgArray"] == null ? [] : List<ProductImgArray>.from(json["productImgArray"]!.map((x) => ProductImgArray.fromJson(x))),
     v: json["__v"],
-    taxableValue: json["taxableValue"].toDouble(),
+    taxableValue: json["taxableValue"]?.toDouble(),
     productTaxValue: json["productTaxValue"]?.toDouble(),
     productSubTotal: json["productSubTotal"]?.toDouble(),
     productGrandTotal: json["productGrandTotal"]?.toDouble(),

@@ -307,6 +307,8 @@ class _OrdersScreenState extends State<OrdersScreen>
     return Consumer(
       builder: (BuildContext context, DashboardProvider dashboardProvider,
           Widget? child) {
+        // dashboardProvider.getOrdersOnStatus(ordersType);
+        // return Container();
         return FutureBuilder<OrderOnStatusResponseModel>(
             future: dashboardProvider.getOrdersOnStatus(ordersType),
             builder: (context, snapshot) {
