@@ -166,7 +166,7 @@ showProductDetailsModal(
                         ),
                       ),
                       TextSpan(
-                        text: product.description!,
+                        text: product.productCategory!.productCategoryName!,
                         style: const TextStyle(
                           color: Colors.black,
                           fontSize: 18,
