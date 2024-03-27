@@ -147,7 +147,29 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
+              'Order Value : ₹${order['orderGrandTotal']}',
+              style: const TextStyle(
+                color: AppColors.fontColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
               'Delivery Type : ${order['orderDeliveryType']}',
+              style: const TextStyle(
+                color: AppColors.fontColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              'Delivery Fee : ₹${order['storeDeliverycharge']}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -436,7 +458,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                         SizedBox(
                           width: screenSize.width / 1.7,
                           child: Text(
-                            '${order['productDetails'][index]['addedCartQuantity']} Quantity',
+                            '${order['productDetails'][index]['addedCartQuantity']} ${order['productDetails'][index]['productUom']}',
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -450,7 +472,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                             TextSpan(
                               children: [
                                 const TextSpan(
-                                  text: 'Order value ',
+                                  text: 'Product Grand Total ',
                                   style: TextStyle(
                                     color: Color(0xFF37474F),
                                     fontSize: 14,

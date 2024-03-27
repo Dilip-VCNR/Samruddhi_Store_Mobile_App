@@ -255,9 +255,6 @@ class _OrdersScreenState extends State<OrdersScreen>
                         text: "New Orders",
                       ),
                       Tab(
-                        text: "Rejected Orders",
-                      ),
-                      Tab(
                         text: "Accepted",
                       ),
                       Tab(
@@ -272,6 +269,9 @@ class _OrdersScreenState extends State<OrdersScreen>
                       Tab(
                         text: "Payment Pending",
                       ),
+                      Tab(
+                        text: "Rejected Orders",
+                      ),
                     ],
                   ),
                 ),
@@ -282,7 +282,6 @@ class _OrdersScreenState extends State<OrdersScreen>
                     children: [
                       ordersListView(ordersType: "all", screenSize: screenSize),
                       ordersListView(ordersType: "new", screenSize: screenSize),
-                      ordersListView(ordersType: "rejected", screenSize: screenSize),
                       ordersListView(
                           ordersType: "accepted", screenSize: screenSize),
                       ordersListView(
@@ -292,6 +291,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                       ordersListView(
                           ordersType: "delivered", screenSize: screenSize),
                       paymentPendingOrdersListView(screenSize: screenSize),
+                      ordersListView(ordersType: "rejected", screenSize: screenSize),
                     ],
                   ),
                 )
@@ -407,7 +407,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                       SizedBox(
                                         width: screenSize.width / 1.7,
                                         child: Text(
-                                          '${snapshot.data!.result!.orders![index].productDetails![0].productName} and ${snapshot.data!.result!.orders![index].productDetails!.length - 1} other products',
+                                          '${snapshot.data!.result!.orders![index].productDetails![0].productName}${snapshot.data!.result!.orders![index].productDetails!.length > 1 ? " and ${snapshot.data!.result!.orders![index].productDetails!.length - 1} other products" : ""}',
                                           style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 14,
@@ -679,7 +679,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                       SizedBox(
                                         width: screenSize.width / 1.7,
                                         child: Text(
-                                          '${snapshot.data!.result![index].productDetails![0].productName} and ${snapshot.data!.result![index].productDetails!.length - 1} other products',
+                                          '${snapshot.data!.result![index].productDetails![0].productName}${snapshot.data!.result![index].productDetails!.length > 1 ? " and ${snapshot.data!.result![index].productDetails!.length - 1} other products" : ""}',
                                           style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 14,
