@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -445,8 +446,7 @@ class _EditProductState extends State<EditProduct> {
                               height: 10,
                             ),
                             TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.sentences,
                               style: const TextStyle(color: Colors.black),
                               textInputAction: TextInputAction.next,
@@ -456,9 +456,16 @@ class _EditProductState extends State<EditProduct> {
                                 if (value!.trim().isEmpty) {
                                   return 'Please enter product quantity';
                                 }
-                                if (double.parse(value) == 0) {
-                                  return 'Quantity should be greater than 1';
+                                try{
+                                  if (double.parse(value) == 0) {
+                                    return 'Quantity should be greater than 1';
+                                  }
+                                }catch (e){
+                                  if (kDebugMode) {
+                                    print(e);
+                                  }
                                 }
+
                                 if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
                                   return 'Please enter only numbers'; // Return an error message otherwise
                                 }

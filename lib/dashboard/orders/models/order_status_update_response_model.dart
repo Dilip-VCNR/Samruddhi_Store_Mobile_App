@@ -13,7 +13,7 @@ class OrderStatusUpdateResponseModel {
   int? statusCode;
   String? message;
   Result? result;
-  int? rewardPoint;
+  double? rewardPoint;
 
   OrderStatusUpdateResponseModel({
     this.status,
@@ -28,7 +28,7 @@ class OrderStatusUpdateResponseModel {
     statusCode: json["statusCode"],
     message: json["message"],
     result: json["result"] == null ? null : Result.fromJson(json["result"]),
-    rewardPoint: json["rewardPoint"],
+    rewardPoint: json["rewardPoint"]?.toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -63,7 +63,7 @@ class Result {
   double? storeDeliverycharge;
   List<dynamic>? additionalChargesArray;
   int? v;
-  int? rewardPoint;
+  double? rewardPoint;
 
   Result({
     this.deliveryAddress,
@@ -114,7 +114,7 @@ class Result {
     storeDeliverycharge: json["storeDeliverycharge"].toDouble(),
     additionalChargesArray: json["additionalChargesArray"] == null ? [] : List<dynamic>.from(json["additionalChargesArray"]!.map((x) => x)),
     v: json["__v"],
-    rewardPoint: json["rewardPoint"],
+    rewardPoint: json["rewardPoint"]?.toDouble(),
   );
 
   Map<String, dynamic> toJson() => {
@@ -270,7 +270,7 @@ class ProductDetail {
   double? productTax;
   double? productDiscount;
   double? productDiscountedValue;
-  int? productQuantity;
+  double? productQuantity;
   double? addedCartQuantity;
   bool? isReturnable;
   bool? isPerishable;
@@ -337,7 +337,7 @@ class ProductDetail {
     productTax: json["productTax"].toDouble(),
     productDiscount: json["productDiscount"].toDouble(),
     productDiscountedValue: json["productDiscountedValue"].toDouble(),
-    productQuantity: json["productQuantity"],
+    productQuantity: json["productQuantity"].toDouble(),
     addedCartQuantity: json["addedCartQuantity"].toDouble(),
     isReturnable: json["isReturnable"],
     isPerishable: json["isPerishable"],

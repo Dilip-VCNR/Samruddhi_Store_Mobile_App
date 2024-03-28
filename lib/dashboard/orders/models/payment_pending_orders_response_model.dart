@@ -58,7 +58,7 @@ class Result {
   List<ProductDetail>? productDetails;
   double? totalTaxValue;
   double? totalCartValue;
-  int? totalDeliveryCharge;
+  double? totalDeliveryCharge;
   bool? isDeleted;
   String? createdAt;
   String? updatedAt;
@@ -123,7 +123,7 @@ class Result {
     productDetails: json["productDetails"] == null ? [] : List<ProductDetail>.from(json["productDetails"]!.map((x) => ProductDetail.fromJson(x))),
     totalTaxValue: json["totalTaxValue"]?.toDouble(),
     totalCartValue: json["totalCartValue"]?.toDouble(),
-    totalDeliveryCharge: json["totalDeliveryCharge"],
+    totalDeliveryCharge: json["totalDeliveryCharge"]?.toDouble(),
     isDeleted: json["isDeleted"],
     createdAt: json["createdAt"],
     updatedAt: json["updatedAt"],

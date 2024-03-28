@@ -55,7 +55,7 @@ class Result {
   double? productDiscount;
   int? productTaxValue;
   double? productOffer;
-  int? productQuantity;
+  double? productQuantity;
   int? addedCartQuantity;
   int? purchaseMinQuantity;
   int? productHsnCode;
@@ -118,7 +118,7 @@ class Result {
     productDiscount: json["productDiscount"]?.toDouble(),
     productTaxValue: json["productTaxValue"],
     productOffer: json["productOffer"]?.toDouble(),
-    productQuantity: json["productQuantity"],
+    productQuantity: json["productQuantity"].toDouble(),
     addedCartQuantity: json["addedCartQuantity"],
     purchaseMinQuantity: json["purchaseMinQuantity"],
     productHsnCode: json["productHsnCode"],

@@ -76,10 +76,10 @@ class Order {
   dynamic operatorUuid;
   bool? isActive;
   List<ProductDetail>? productDetails;
-  int? redeemPoints;
-  int? redeemPointValue;
+  double? redeemPoints;
+  double? redeemPointValue;
   double? storeDeliverycharge;
-  int? rewardPoint;
+  double? rewardPoint;
   double? storeCommissionAmount;
   List<dynamic>? additionalChargesArray;
   int? v;
@@ -135,10 +135,10 @@ class Order {
     operatorUuid: json["operatorUuid"],
     isActive: json["isActive"],
     productDetails: json["productDetails"] == null ? [] : List<ProductDetail>.from(json["productDetails"]!.map((x) => ProductDetail.fromJson(x))),
-    redeemPoints: json["redeemPoints"],
-    redeemPointValue: json["redeemPointValue"],
+    redeemPoints: json["redeemPoints"]?.toDouble(),
+    redeemPointValue: json["redeemPointValue"]?.toDouble(),
     storeDeliverycharge: json["storeDeliverycharge"]?.toDouble(),
-    rewardPoint: json["rewardPoint"],
+    rewardPoint: json["rewardPoint"]?.toDouble(),
     storeCommissionAmount: json["storeCommissionAmount"]?.toDouble(),
     additionalChargesArray: json["additionalChargesArray"] == null ? [] : List<dynamic>.from(json["additionalChargesArray"]!.map((x) => x)),
     v: json["__v"],
@@ -362,14 +362,14 @@ class ProductDetail {
     storeName: json["storeName"],
     description: json["description"],
     isMrp: json["isMrp"],
-    sellingPrice: json["sellingPrice"].toDouble(),
+    sellingPrice: json["sellingPrice"]?.toDouble(),
     isAvailable: json["isAvailable"],
     productSku: json["productSku"],
     productUom: json["productUom"],
-    productTax: json["productTax"].toDouble(),
-    productDiscount: json["productDiscount"].toDouble(),
+    productTax: json["productTax"]?.toDouble(),
+    productDiscount: json["productDiscount"]?.toDouble(),
     productDiscountedValue: json["productDiscountedValue"]?.toDouble(),
-    productQuantity: json["productQuantity"].toDouble(),
+    productQuantity: json["productQuantity"]?.toDouble(),
     addedCartQuantity: json["addedCartQuantity"]?.toDouble(),
     isReturnable: json["isReturnable"],
     isPerishable: json["isPerishable"],
