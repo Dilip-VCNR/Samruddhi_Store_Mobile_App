@@ -22,13 +22,11 @@ class UrlConstant {
   // static const String apiBaseUrl = "http://103.208.228.42:8019/api/";
 
 
+  static const String imageBaseUrl = "http://103.208.228.42:8018/";
+  static const String apiBaseUrl = "http://103.208.228.42:8018/api/";
 
-  static const String imageBaseUrl = "http://192.168.1.153:8018/";
-  static const String apiBaseUrl = "http://192.168.1.153:8018/api/";
-
-  // static const String imageBaseUrl = "http://192.168.1.2:8012/";
-  // static const String apiBaseUrl = "http://192.168.1.2:8012/api/";
-
+  // static const String imageBaseUrl = "http://app.winkatbuy.com:8012";
+  // static const String apiBaseUrl = "https://app.winkatbuy.com/api/";
 
   static const String storeDetails = "${apiBaseUrl}store/getStoreById";
   static const String registerStore = "${apiBaseUrl}store/createStore";

@@ -326,7 +326,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           width: screenSize.width / 1.7,
                                           child: Text(
-                                            '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails![0].productName} and ${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails!.length - 1} other products',
+                                            '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails![0].productName}${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails!.length > 1 ? " and ${dashboardProvider.homeResponse!.result!.newOrderListArray![index].productDetails!.length - 1} other products" : ""}',
                                             style: const TextStyle(
                                               color: Colors.black,
                                               fontSize: 14,

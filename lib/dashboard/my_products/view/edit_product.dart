@@ -453,21 +453,13 @@ class _EditProductState extends State<EditProduct> {
                               controller:
                                   productsProvider.productQuantityController,
                               validator: (value) {
+
                                 if (value!.trim().isEmpty) {
                                   return 'Please enter product quantity';
                                 }
-                                try{
-                                  if (double.parse(value) == 0) {
-                                    return 'Quantity should be greater than 1';
-                                  }
-                                }catch (e){
-                                  if (kDebugMode) {
-                                    print(e);
-                                  }
-                                }
-
-                                if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                                  return 'Please enter only numbers'; // Return an error message otherwise
+                                RegExp regex = RegExp(r'^[0-9.]+$');
+                                if (!regex.hasMatch(value)) {
+                                  return 'Special characters are not allowed';
                                 }
                                 return null;
                               },
