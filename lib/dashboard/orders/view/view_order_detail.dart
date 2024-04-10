@@ -18,33 +18,37 @@ class ViewOrderDetail extends StatefulWidget {
 class _ViewOrderDetailState extends State<ViewOrderDetail> {
   String activeStatus = "";
   String nextStatus = "";
-
+  Map? order;
   final GlobalKey<SlideActionState> _key = GlobalKey();
-
+  bool isFirstTimeLoading = false;
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    Map order = arguments['orderDetails'];
-    activeStatus = arguments['orderDetails']['orderStatus'];
-    if (activeStatus == "new") {
-      nextStatus = "accepted";
-    } else if (activeStatus == "accepted") {
-      nextStatus = "processing";
-    } else if (activeStatus == "processing") {
-      nextStatus = "ready";
-    } else if (activeStatus == "ready" &&
-        order['orderDeliveryType'] == "selfPickUp") {
-      nextStatus = "delivered";
-    } else if (activeStatus == "ready" &&
-        prefModel.userData!.deliveryType == "storeDelivery") {
-      nextStatus = "delivered";
+    if(!isFirstTimeLoading){
+      order = arguments['orderDetails'];
+      activeStatus = arguments['orderDetails']['orderStatus'];
+      if (activeStatus == "new") {
+        nextStatus = "accepted";
+      } else if (activeStatus == "accepted") {
+        nextStatus = "processing";
+      } else if (activeStatus == "processing") {
+        nextStatus = "ready";
+      } else if (activeStatus == "ready" &&
+          order!['orderDeliveryType'] == "selfPickUp") {
+        nextStatus = "delivered";
+      } else if (activeStatus == "ready" &&
+          prefModel.userData!.deliveryType == "storeDelivery") {
+        nextStatus = "delivered";
+      }
+      isFirstTimeLoading = true;
     }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '#${order['orderId']}',
+          '#${order!['orderId']}',
           style: const TextStyle(
             color: AppColors.fontColor,
             fontWeight: FontWeight.w600,
@@ -57,7 +61,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            order['deliveryAddress'] != null
+            order!['deliveryAddress'] != null
                 ? Container(
                     padding: const EdgeInsets.all(20),
                     width: screenSize.width,
@@ -80,7 +84,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                           ),
                         ),
                         Text(
-                          '${order['deliveryAddress']['completeAddress']}',
+                          '${order!['deliveryAddress']['completeAddress']}',
                           style: const TextStyle(
                             color: AppColors.fontColor,
                             fontSize: 14,
@@ -88,7 +92,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                           ),
                         ),
                         Text(
-                          '${order['deliveryAddress']['city']}',
+                          '${order!['deliveryAddress']['city']}',
                           style: const TextStyle(
                             color: AppColors.fontColor,
                             fontSize: 14,
@@ -96,7 +100,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                           ),
                         ),
                         Text(
-                          '${order['deliveryAddress']['state']}',
+                          '${order!['deliveryAddress']['state']}',
                           style: const TextStyle(
                             color: AppColors.fontColor,
                             fontSize: 14,
@@ -108,8 +112,8 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            double latitude = order['deliveryAddress']['lat'];
-                            double longitude = order['deliveryAddress']['lng'];
+                            double latitude = order!['deliveryAddress']['lat'];
+                            double longitude = order!['deliveryAddress']['lng'];
                             MapsLauncher.launchCoordinates(latitude, longitude);
                           },
                           child: Container(
@@ -136,7 +140,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Ordered On : ${order['orderDate']}',
+              'Ordered On : ${order!['orderDate']}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -147,7 +151,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Order Value : ₹${order['orderGrandTotal']}',
+              'Order Value : ₹${order!['orderGrandTotal']}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -158,7 +162,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Delivery Type : ${order['orderDeliveryType']}',
+              'Delivery Type : ${capitalizeWords(order!['orderDeliveryType'])}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -169,7 +173,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Delivery Fee : ₹${order['storeDeliverycharge']}',
+              'Delivery Fee : ₹${order!['storeDeliverycharge']}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -180,7 +184,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Order PickUp Id : ${order['orderPickupId']}',
+              'Order PickUp Id : ${order!['orderPickupId']}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -191,7 +195,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Current Status : $activeStatus',
+              'Current Status : ${capitalizeWords(activeStatus)}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -202,8 +206,8 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              order['paymentDetailsArray']['paymentStatus'] != null
-                  ? 'Payment Status : ${order['paymentDetailsArray']['paymentStatus']}'
+              order!['paymentDetailsArray']['paymentStatus'] != null
+                  ? 'Payment Status : ${capitalizeWords(order!['paymentDetailsArray']['paymentStatus'])}'
                   : "Payment Status : Pending",
               style: const TextStyle(
                 color: AppColors.fontColor,
@@ -211,7 +215,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            (order['paymentDetailsArray']['paymentStatus'] == 'pending' && activeStatus!='rejected' && activeStatus!='new')
+            (order!['paymentDetailsArray']['paymentStatus'] == 'pending' && activeStatus!='rejected' && activeStatus!='new')
                 ? GestureDetector(
                     onTap: () async {
                       showDialog(
@@ -226,7 +230,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                 children: [
                                   const Text("Confirm payment for order"),
                                   Text(
-                                    '#${order['orderId']}',
+                                    '#${order!['orderId']}',
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold),
                                   )
@@ -242,9 +246,9 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                     onPressed: () async {
                                       Navigator.pop(dialogContext);
                                       showLoaderDialog(context);
-                                      UpdatePaymentStatusModel response = await ApiCalls().confirmPayment(order['orderId']);
+                                      UpdatePaymentStatusModel response = await ApiCalls().confirmPayment(order!['orderId']);
                                       if (response.statusCode == 200) {
-                                        Navigator.pop(context);
+                                        order!['paymentDetailsArray']['paymentStatus'] = 'paid';
                                         Navigator.pop(context);
                                         showSuccessToast(
                                             context, response.message!);
@@ -301,7 +305,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
             // (activeStatus != "delivered" && nextStatus != '')?GestureDetector(
             //   onTap: () async {
             //     showLoaderDialog(context);
-            //     OrderStatusUpdateResponseModel res = await ApiCalls().setOrderStatus(nextStatus,order['orderId']);
+            //     OrderStatusUpdateResponseModel res = await ApiCalls().setOrderStatus(nextStatus,order!['orderId']);
             //     Navigator.pop(context);
             //     Navigator.pop(context);
             //     if(res.statusCode==200){
@@ -356,7 +360,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                     onSubmit: () async {
                       showLoaderDialog(context);
                       OrderStatusUpdateResponseModel res = await ApiCalls()
-                          .setOrderStatus(nextStatus, order['orderId']);
+                          .setOrderStatus(nextStatus, order!['orderId']);
                       Navigator.pop(context);
                       Navigator.pop(context);
                       if (res.statusCode == 200) {
@@ -384,7 +388,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                       onSubmit: () async {
                         showLoaderDialog(context);
                         OrderStatusUpdateResponseModel res = await ApiCalls()
-                            .setOrderStatus('rejected', order['orderId']);
+                            .setOrderStatus('rejected', order!['orderId']);
                         Navigator.pop(context);
                         Navigator.pop(context);
                         if (res.statusCode == 200) {
@@ -413,7 +417,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
 
             ListView.separated(
               shrinkWrap: true,
-              itemCount: order['productDetails'].length,
+              itemCount: order!['productDetails'].length,
               scrollDirection: Axis.vertical,
               physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) => Container(
@@ -447,7 +451,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                         SizedBox(
                           width: screenSize.width / 1.7,
                           child: Text(
-                            '${order['productDetails'][index]['productName']}',
+                            '${order!['productDetails'][index]['productName']}',
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 16,
@@ -458,11 +462,38 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                         SizedBox(
                           width: screenSize.width / 1.7,
                           child: Text(
-                            '${order['productDetails'][index]['addedCartQuantity']} ${order['productDetails'][index]['productUom']}',
+                            '${order!['productDetails'][index]['addedCartQuantity']} ${order!['productDetails'][index]['productUom']}',
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 212,
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                const TextSpan(
+                                  text: 'Product Selling Price ',
+                                  style: TextStyle(
+                                    color: Color(0xFF37474F),
+                                    fontSize: 14,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text:
+                                      '₹${order!['productDetails'][index]['sellingPrice']}/${order!['productDetails'][index]['productUom']}',
+                                  style: const TextStyle(
+                                    color: Color(0xFF37474F),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -482,7 +513,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                 ),
                                 TextSpan(
                                   text:
-                                      '₹${order['productDetails'][index]['productGrandTotal']}',
+                                  '₹${order!['productDetails'][index]['productGrandTotal']}',
                                   style: const TextStyle(
                                     color: Color(0xFF37474F),
                                     fontSize: 14,

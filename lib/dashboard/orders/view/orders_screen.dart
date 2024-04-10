@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/dashboard/dashboard_provider.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
+import 'package:samruddhi_store/utils/app_widgets.dart';
 
 import '../../../utils/routes.dart';
 import '../models/order_on_status_response_model.dart';
@@ -394,7 +396,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  '${snapshot.data!.result!.orders![index].orderStatus}',
+                                                  capitalizeWords(snapshot.data!.result!.orders![index].orderStatus!),
                                                   style: const TextStyle(
                                                       color:
                                                           Colors.white),
@@ -464,7 +466,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                               ),
                                               TextSpan(
                                                 text:
-                                                    '${snapshot.data!.result!.orders![index].orderDeliveryType}',
+                                                    capitalizeWords(snapshot.data!.result!.orders![index].orderDeliveryType!),
                                                 style: const TextStyle(
                                                   color:
                                                       Color(0xFF37474F),
@@ -524,7 +526,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                               ),
                                               TextSpan(
                                                 text:
-                                                    '${snapshot.data!.result!.orders![index].orderTime}',
+                                                    '${parseTime(snapshot.data!.result!.orders![index].orderTime!)}',
                                                 style: const TextStyle(
                                                   color:
                                                       Color(0xFF37474F),
@@ -666,7 +668,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                               ),
                                               child: Center(
                                                 child: Text(
-                                                  '${snapshot.data!.result![index].orderStatus}',
+                                                  capitalizeWords(snapshot.data!.result![index].orderStatus!),
                                                   style: const TextStyle(
                                                       color:
                                                           Colors.white),
@@ -736,7 +738,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                               ),
                                               TextSpan(
                                                 text:
-                                                    '${snapshot.data!.result![index].orderDeliveryType}',
+                                                    capitalizeWords(snapshot.data!.result![index].orderDeliveryType!),
                                                 style: const TextStyle(
                                                   color:
                                                       Color(0xFF37474F),
@@ -796,7 +798,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                               ),
                                               TextSpan(
                                                 text:
-                                                    '${snapshot.data!.result![index].orderTime}',
+                                                    '${parseTime(snapshot.data!.result![index].orderTime!)}',
                                                 style: const TextStyle(
                                                   color:
                                                       Color(0xFF37474F),
@@ -845,5 +847,12 @@ class _OrdersScreenState extends State<OrdersScreen>
             });
       },
     );
+  }
+  parseTime(String timeString) {
+    DateFormat inputFormat = DateFormat('HH:mm:ss');
+    DateTime dateTime = inputFormat.parse(timeString);
+    DateFormat outputFormat = DateFormat('hh:mm aa');
+    String formattedTime = outputFormat.format(dateTime);
+    return formattedTime;
   }
 }

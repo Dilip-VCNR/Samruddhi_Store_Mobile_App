@@ -32,27 +32,30 @@ showLoaderDialog(BuildContext context) {
   showDialog(
       barrierDismissible: false,
       context: context,
-      builder: (_) => AlertDialog(
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            backgroundColor: Colors.white,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Lottie.asset('assets/lottie/loading_delivery_boy.json',
-                    height: 150),
-                const Text(
-                  "Loading...",
-                  style: TextStyle(
-                      color: AppColors.primaryColor,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold),
-                )
-              ],
+      builder: (_) => PopScope(
+        canPop: false,
+        child: AlertDialog(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              backgroundColor: Colors.white,
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Lottie.asset('assets/lottie/loading_delivery_boy.json',
+                      height: 150),
+                  const Text(
+                    "Loading...",
+                    style: TextStyle(
+                        color: AppColors.primaryColor,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
             ),
-          ));
+      ));
 }
 
 showProductDetailsModal(
@@ -589,4 +592,12 @@ showProductDetailsModal(
           ),
         );
       });
+}
+
+String capitalizeWords(String input) {
+  List<String> words = input.split(RegExp(r'(?=[A-Z])'));
+  for (int i = 0; i < words.length; i++) {
+    words[i] = words[i][0].toUpperCase() + words[i].substring(1);
+  }
+  return words.join(' ');
 }

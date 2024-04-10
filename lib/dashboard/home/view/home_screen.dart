@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samruddhi_store/dashboard/dashboard_provider.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
 
+import '../../../utils/app_widgets.dart';
 import '../../../utils/routes.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -160,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text(
-                                    "Pending\nOrders",
+                                    "Ongoing\nOrders",
                                     style: TextStyle(
                                       color: AppColors.fontColor,
                                       fontSize: 16,
@@ -289,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               SizedBox(
                                                 width: screenSize.width*0.6,
                                                 child: Text(
-                                                  'Order - #${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderId}',
+                                                  '#${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderId}',
                                                   style: const TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 15,
@@ -313,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 child: Center(
                                                   child: Text(
-                                                    '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderStatus}',
+                                                    capitalizeWords(dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderStatus!),
                                                     style: const TextStyle(
                                                         color:
                                                             Colors.white),
@@ -382,7 +384,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 TextSpan(
                                                   text:
-                                                  '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderDeliveryType}',
+                                                  capitalizeWords(dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderDeliveryType!),
                                                   style: const TextStyle(
                                                     color: Color(0xFF37474F),
                                                     fontSize: 14,
@@ -441,7 +443,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 TextSpan(
                                                   text:
-                                                      '${dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderTime}',
+                                                      '${parseTime(dashboardProvider.homeResponse!.result!.newOrderListArray![index].orderTime!)}',
                                                   style: const TextStyle(
                                                     color:
                                                         Color(0xFF37474F),
@@ -477,4 +479,13 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
+
+  parseTime(String timeString) {
+    DateFormat inputFormat = DateFormat('HH:mm:ss');
+    DateTime dateTime = inputFormat.parse(timeString);
+    DateFormat outputFormat = DateFormat('hh:mm aa');
+    String formattedTime = outputFormat.format(dateTime);
+    return formattedTime;
+  }
+
 }
