@@ -20,13 +20,18 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
   String nextStatus = "";
   Map? order;
   final GlobalKey<SlideActionState> _key = GlobalKey();
+  final GlobalKey<SlideActionState> _key2 = GlobalKey();
   bool isFirstTimeLoading = false;
+  final rejectFormKey = GlobalKey<FormState>();
+
+  TextEditingController rejectReasonController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     final arguments = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    if(!isFirstTimeLoading){
+    if (!isFirstTimeLoading) {
       order = arguments['orderDetails'];
       activeStatus = arguments['orderDetails']['orderStatus'];
       if (activeStatus == "new") {
@@ -215,7 +220,9 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            (order!['paymentDetailsArray']['paymentStatus'] == 'pending' && activeStatus!='rejected' && activeStatus!='new')
+            (order!['paymentDetailsArray']['paymentStatus'] == 'pending' &&
+                    activeStatus != 'rejected' &&
+                    activeStatus != 'new')
                 ? GestureDetector(
                     onTap: () async {
                       showDialog(
@@ -246,9 +253,12 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                     onPressed: () async {
                                       Navigator.pop(dialogContext);
                                       showLoaderDialog(context);
-                                      UpdatePaymentStatusModel response = await ApiCalls().confirmPayment(order!['orderId']);
+                                      UpdatePaymentStatusModel response =
+                                          await ApiCalls().confirmPayment(
+                                              order!['orderId']);
                                       if (response.statusCode == 200) {
-                                        order!['paymentDetailsArray']['paymentStatus'] = 'paid';
+                                        order!['paymentDetailsArray']
+                                            ['paymentStatus'] = 'paid';
                                         Navigator.pop(context);
                                         showSuccessToast(
                                             context, response.message!);
@@ -360,7 +370,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                     onSubmit: () async {
                       showLoaderDialog(context);
                       OrderStatusUpdateResponseModel res = await ApiCalls()
-                          .setOrderStatus(nextStatus, order!['orderId']);
+                          .setOrderStatus(nextStatus, order!['orderId'],"");
                       Navigator.pop(context);
                       Navigator.pop(context);
                       if (res.statusCode == 200) {
@@ -384,20 +394,76 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
-                      // key: _key,
+                      key: _key2,
                       onSubmit: () async {
-                        showLoaderDialog(context);
-                        OrderStatusUpdateResponseModel res = await ApiCalls()
-                            .setOrderStatus('rejected', order!['orderId']);
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        if (res.statusCode == 200) {
-                          activeStatus = nextStatus;
-                          showSuccessToast(context, res.message!);
-                        } else {
-                          showErrorToast(context, res.message!);
-                        }
-                        _key.currentState!.reset();
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext dialogContext) {
+                              return AlertDialog(
+                                title: const Text("Are you sure?"),
+                                content: Form(
+                                  key: rejectFormKey,
+                                  child: TextFormField(
+                                    controller: rejectReasonController,
+                                    validator: (value) {
+                                      if (value!.trim().isEmpty) {
+                                        return 'Please enter product Buying price';
+                                      }
+                                      return null;
+                                    },
+                                    maxLines: 2,
+                                    decoration: InputDecoration(
+                                      labelText: "Reject reason",
+                                      hintText: 'Enter reason to reject',
+                                      counterText: "",
+                                      isCollapsed: true,
+                                      fillColor: AppColors.inputFieldColor,
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 16.0, horizontal: 10),
+                                    ),
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        _key2.currentState!.reset();
+                                        Navigator.pop(dialogContext);
+                                      },
+                                      child: Text("Close")),
+                                  TextButton(
+                                      onPressed: () async {
+                                        if (rejectFormKey.currentState!
+                                            .validate()) {
+                                          Navigator.pop(dialogContext);
+                                          showLoaderDialog(context);
+                                          OrderStatusUpdateResponseModel res =
+                                              await ApiCalls().setOrderStatus(
+                                                  'rejected',
+                                                  order!['orderId'],rejectReasonController.text);
+                                          Navigator.pop(context);
+                                          Navigator.pop(context);
+                                          if (res.statusCode == 200) {
+                                            activeStatus = nextStatus;
+                                            showSuccessToast(
+                                                context, res.message!);
+                                            _key2.currentState!.reset();
+
+                                          } else {
+                                            showErrorToast(
+                                                context, res.message!);
+                                            _key2.currentState!.reset();
+                                          }
+                                        }
+                                      },
+                                      child: Text("Confirm")),
+                                ],
+                              );
+                            });
                       },
                     ),
                   )
@@ -460,7 +526,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                           ),
                         ),
                         SizedBox(
-                          width: screenSize.width / 1.7,
+                          width: screenSize.width-40,
                           child: Text(
                             '${order!['productDetails'][index]['addedCartQuantity']} ${order!['productDetails'][index]['productUom']}',
                             style: const TextStyle(
@@ -471,7 +537,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                           ),
                         ),
                         SizedBox(
-                          width: 212,
+                          width: screenSize.width-40,
                           child: Text.rich(
                             TextSpan(
                               children: [
@@ -498,7 +564,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                           ),
                         ),
                         SizedBox(
-                          width: 212,
+                          width: screenSize.width-40,
                           child: Text.rich(
                             TextSpan(
                               children: [
@@ -513,7 +579,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                 ),
                                 TextSpan(
                                   text:
-                                  '₹${order!['productDetails'][index]['productGrandTotal']}',
+                                      '₹${order!['productDetails'][index]['productGrandTotal']}',
                                   style: const TextStyle(
                                     color: Color(0xFF37474F),
                                     fontSize: 14,

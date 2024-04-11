@@ -328,7 +328,7 @@ class ApiCalls {
   }
 
   Future<OrderStatusUpdateResponseModel> setOrderStatus(
-      String statusType, String orderId) async {
+      String statusType, String orderId,String reason) async {
     if (statusType == "Order accepted") {
       statusType = 'accepted';
     } else if (statusType == "Packing Order") {
@@ -337,7 +337,7 @@ class ApiCalls {
       statusType = 'ready';
     }
     http.Response response = await hitApi(true, UrlConstant.setOrderStatus,
-        jsonEncode({"orderId": orderId, "orderStatus": statusType}));
+        jsonEncode({"orderId": orderId, "orderStatus": statusType,"reason":reason}));
     return OrderStatusUpdateResponseModel.fromJson(json.decode(response.body));
   }
 
