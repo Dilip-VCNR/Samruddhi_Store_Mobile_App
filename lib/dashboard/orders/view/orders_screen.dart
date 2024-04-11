@@ -10,7 +10,7 @@ import '../models/order_on_status_response_model.dart';
 import '../models/payment_pending_orders_response_model.dart';
 
 class OrdersScreen extends StatefulWidget {
-  const OrdersScreen({Key? key}) : super(key: key);
+  const OrdersScreen({super.key});
 
   @override
   State<OrdersScreen> createState() => _OrdersScreenState();
@@ -23,7 +23,7 @@ class _OrdersScreenState extends State<OrdersScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 8, initialIndex: 0, vsync: this);
+    _tabController = TabController(length: 9, initialIndex: 0, vsync: this);
   }
 
   @override
@@ -159,7 +159,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                           ),
                         ],
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -241,7 +241,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                 ),
                 DefaultTabController(
                   initialIndex: 0,
-                  length: 6,
+                  length: 9,
                   child: TabBar(
                     tabAlignment: TabAlignment.start,
                     controller: _tabController,
@@ -264,6 +264,9 @@ class _OrdersScreenState extends State<OrdersScreen>
                       ),
                       Tab(
                         text: "Ready",
+                      ),
+                      Tab(
+                        text: "Picked",
                       ),
                       Tab(
                         text: "Delivered",
@@ -290,6 +293,8 @@ class _OrdersScreenState extends State<OrdersScreen>
                           ordersType: "processing", screenSize: screenSize),
                       ordersListView(
                           ordersType: "ready", screenSize: screenSize),
+                      ordersListView(
+                          ordersType: "picked", screenSize: screenSize),
                       ordersListView(
                           ordersType: "delivered", screenSize: screenSize),
                       paymentPendingOrdersListView(screenSize: screenSize),

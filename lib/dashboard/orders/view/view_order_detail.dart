@@ -40,11 +40,15 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
         nextStatus = "processing";
       } else if (activeStatus == "processing") {
         nextStatus = "ready";
-      } else if (activeStatus == "ready" &&
-          order!['orderDeliveryType'] == "selfPickUp") {
+      } else if (activeStatus == "ready" && order!['orderDeliveryType'] == "selfPickUp") {
         nextStatus = "delivered";
-      } else if (activeStatus == "ready" &&
-          prefModel.userData!.deliveryType == "storeDelivery") {
+      } else if (activeStatus == "ready" && prefModel.userData!.deliveryType == "storeDelivery") {
+        nextStatus = "picked";
+      }
+      else if (activeStatus == "ready" && prefModel.userData!.deliveryType == "hubDelivery") {
+        nextStatus = "picked";
+      }
+      else if (activeStatus == "picked") {
         nextStatus = "delivered";
       }
       isFirstTimeLoading = true;
