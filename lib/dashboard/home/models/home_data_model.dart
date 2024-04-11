@@ -79,7 +79,7 @@ class CategoryCountArray {
 class CounterArray {
   int? allOrderCount;
   int? pendingOrdersCount;
-  int? todaysCollection;
+  double? todaysCollection;
   int? ordersDelivered;
 
   CounterArray({
@@ -92,7 +92,7 @@ class CounterArray {
   factory CounterArray.fromJson(Map<String, dynamic> json) => CounterArray(
     allOrderCount: json["allOrderCount"],
     pendingOrdersCount: json["pendingOrdersCount"],
-    todaysCollection: json["todaysCollection"],
+    todaysCollection: json["todaysCollection"].toDouble(),
     ordersDelivered: json["OrdersDelivered"],
   );
 
