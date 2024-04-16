@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:samruddhi_store/dashboard/orders/models/update_payment_status_model.dart';
 import 'package:samruddhi_store/utils/app_colors.dart';
@@ -149,7 +150,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               height: 10,
             ),
             Text(
-              'Ordered On : ${order!['orderDate']}',
+              'Ordered On : ${parseDate(order!['orderDate'])}',
               style: const TextStyle(
                 color: AppColors.fontColor,
                 fontSize: 16,
@@ -225,7 +226,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
               ),
             ),
             (order!['paymentDetailsArray']['paymentStatus'] == 'pending' &&
-                    activeStatus != 'rejected' &&
+                    activeStatus != 'cancelled' &&
                     activeStatus != 'new')
                 ? GestureDetector(
                     onTap: () async {
@@ -411,7 +412,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                     controller: rejectReasonController,
                                     validator: (value) {
                                       if (value!.trim().isEmpty) {
-                                        return 'Please enter product Buying price';
+                                        return 'Please enter reject reason.';
                                       }
                                       return null;
                                     },
@@ -421,6 +422,9 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                       hintText: 'Enter reason to reject',
                                       counterText: "",
                                       isCollapsed: true,
+                                      errorMaxLines: 3,
+                                      errorStyle: const TextStyle(
+                                          color: AppColors.secondaryColor),
                                       fillColor: AppColors.inputFieldColor,
                                       border: OutlineInputBorder(
                                         borderRadius:
@@ -447,7 +451,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                           showLoaderDialog(context);
                                           OrderStatusUpdateResponseModel res =
                                               await ApiCalls().setOrderStatus(
-                                                  'rejected',
+                                                  'cancelled',
                                                   order!['orderId'],rejectReasonController.text);
                                           Navigator.pop(context);
                                           Navigator.pop(context);
@@ -608,4 +612,13 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
       ),
     );
   }
+
+  parseDate(String dateString) {
+    DateFormat inputFormat = DateFormat('yyyy-MM-dd');
+    DateTime dateTime = inputFormat.parse(dateString);
+    DateFormat outputFormat = DateFormat('dd-MM-yyyy');
+    String formattedDate = outputFormat.format(dateTime);
+    return formattedDate;
+  }
+
 }

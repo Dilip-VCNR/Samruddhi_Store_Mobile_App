@@ -275,7 +275,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                         text: "Payment Pending",
                       ),
                       Tab(
-                        text: "Rejected Orders",
+                        text: "Cancelled Orders",
                       ),
                     ],
                   ),
@@ -298,7 +298,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                       ordersListView(
                           ordersType: "delivered", screenSize: screenSize),
                       paymentPendingOrdersListView(screenSize: screenSize),
-                      ordersListView(ordersType: "rejected", screenSize: screenSize),
+                      ordersListView(ordersType: "cancelled", screenSize: screenSize),
                     ],
                   ),
                 )
