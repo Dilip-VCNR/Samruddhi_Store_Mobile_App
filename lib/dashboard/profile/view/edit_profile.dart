@@ -78,6 +78,7 @@ class _EditProfileState extends State<EditProfile> {
                           },
                           controller: authProvider.editStoreNameController,
                           keyboardType: TextInputType.text,
+                          maxLength: 74,
                           // maxLength: 10,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.store),
@@ -117,7 +118,7 @@ class _EditProfileState extends State<EditProfile> {
                           controller:
                               authProvider.editStoreDisplayNameController,
                           keyboardType: TextInputType.text,
-                          maxLength: 24,
+                          maxLength: 74,
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.store),
                             focusedBorder: OutlineInputBorder(

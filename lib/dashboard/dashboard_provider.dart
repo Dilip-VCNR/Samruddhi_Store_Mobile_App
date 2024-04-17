@@ -32,7 +32,7 @@ class DashboardProvider extends ChangeNotifier{
       pendingPaymentCount = paymentPendingOrdersRes.result!.length;
       allOrdersCount =res.result!.orders!.length;
       for(int i = 0;i<res.result!.orders!.length;i++){
-        if(res.result!.orders![i].orderStatus!="delivered" && res.result!.orders![i].orderStatus!="new"){
+        if(res.result!.orders![i].orderStatus!="delivered" && res.result!.orders![i].orderStatus!="new" && res.result!.orders![i].orderStatus!="cancelled"){
           pendingCount  = pendingCount+1;
         }
         if(res.result!.orders![i].orderStatus=="delivered"){

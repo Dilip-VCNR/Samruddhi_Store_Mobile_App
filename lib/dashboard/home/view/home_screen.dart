@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               textAlign: TextAlign.center,
                             ),
                             Text(
-                              '₹${dashboardProvider.homeResponse!.result!.counterArray![0].todaysCollection}',
+                              '₹${dashboardProvider.homeResponse!.result!.counterArray![0].todaysCollection!.toStringAsFixed(2)}',
                               style: const TextStyle(
                                 color: AppColors.fontColor,
                                 fontSize: 22,

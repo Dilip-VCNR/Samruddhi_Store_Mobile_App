@@ -324,7 +324,6 @@ class ApiCalls {
           "storeUuid": prefModel.userData!.storeUuid!,
           "orderStatus": orderStatus
         }));
-    print(response.body);
     return OrderOnStatusResponseModel.fromJson(json.decode(response.body));
   }
 
