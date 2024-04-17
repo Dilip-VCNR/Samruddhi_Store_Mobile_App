@@ -391,10 +391,10 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
 
             (activeStatus == "new")
                 ? Container(
-                    margin: EdgeInsets.symmetric(vertical: 10),
+                    margin: const EdgeInsets.symmetric(vertical: 10),
                     child: SlideAction(
                       outerColor: Colors.red,
-                      text: "Reject order",
+                      text: "Cancel order",
                       textStyle: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -412,14 +412,14 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                     controller: rejectReasonController,
                                     validator: (value) {
                                       if (value!.trim().isEmpty) {
-                                        return 'Please enter reject reason.';
+                                        return 'Please enter cancel reason.';
                                       }
                                       return null;
                                     },
                                     maxLines: 2,
                                     decoration: InputDecoration(
-                                      labelText: "Reject reason",
-                                      hintText: 'Enter reason to reject',
+                                      labelText: "Cancel reason",
+                                      hintText: 'Enter reason to cancel',
                                       counterText: "",
                                       isCollapsed: true,
                                       errorMaxLines: 3,
@@ -442,7 +442,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                         _key2.currentState!.reset();
                                         Navigator.pop(dialogContext);
                                       },
-                                      child: Text("Close")),
+                                      child: const Text("Close")),
                                   TextButton(
                                       onPressed: () async {
                                         if (rejectFormKey.currentState!
@@ -468,7 +468,7 @@ class _ViewOrderDetailState extends State<ViewOrderDetail> {
                                           }
                                         }
                                       },
-                                      child: Text("Confirm")),
+                                      child: const Text("Confirm")),
                                 ],
                               );
                             });
